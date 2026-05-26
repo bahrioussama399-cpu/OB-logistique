@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>OB Logistique - منصة النقل الذكية</title>
+    <title>OB Logistique - منصة النقل الذكية | نظام العمولات</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
@@ -39,11 +39,9 @@
             --success: #10b981;
             --danger: #ef4444;
             --info: #3b82f6;
-            --whatsapp: #25D366;
-            --telegram: #26A5E4;
-            --instagram: #E4405F;
+            --warning: #f97316;
             --border: #404040;
-            --sidebar-width: 320px;
+            --sidebar-width: 300px;
         }
 
         body {
@@ -54,14 +52,13 @@
             height: 100vh;
         }
 
-        /* ==================== MODERN APP LAYOUT ==================== */
         .app-layout {
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Sidebar - Like Telegram/WhatsApp */
+        /* Sidebar */
         .sidebar-modern {
             width: var(--sidebar-width);
             background: var(--bg-secondary);
@@ -131,15 +128,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s;
         }
 
-        .toggle-btn:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        /* User Profile */
         .user-profile {
             padding: 20px;
             display: flex;
@@ -170,7 +160,6 @@
             color: var(--text-secondary);
         }
 
-        /* Navigation */
         .nav-modern {
             flex: 1;
             padding: 10px;
@@ -196,11 +185,6 @@
             color: var(--bg-primary);
         }
 
-        .nav-item-modern i {
-            width: 24px;
-            font-size: 20px;
-        }
-
         /* Main Content */
         .main-modern {
             flex: 1;
@@ -209,7 +193,6 @@
             padding: 20px;
         }
 
-        /* Top Bar */
         .top-bar-modern {
             display: flex;
             justify-content: space-between;
@@ -224,31 +207,7 @@
             font-weight: 700;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .icon-btn {
-            background: var(--bg-card);
-            border: none;
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-        }
-
-        .icon-btn:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        /* Cards */
+        /* Stats Grid */
         .stats-grid-modern {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -263,13 +222,12 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            transition: 0.3s;
             cursor: pointer;
         }
 
         .stat-card-modern:hover {
-            transform: translateY(-2px);
             background: var(--bg-hover);
+            transform: translateY(-2px);
         }
 
         .stat-icon {
@@ -294,6 +252,7 @@
             color: var(--text-secondary);
         }
 
+        /* Cards */
         .card-modern {
             background: var(--bg-card);
             border-radius: 20px;
@@ -308,11 +267,6 @@
             margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
-        }
-
-        .card-header h3 {
-            font-size: 18px;
-            font-weight: 600;
         }
 
         /* Forms */
@@ -338,7 +292,6 @@
             border-radius: 12px;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            transition: 0.3s;
         }
 
         .form-group-modern input:focus,
@@ -363,21 +316,22 @@
 
         .btn-modern:hover {
             background: var(--accent-dark);
-            transform: translateY(-1px);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
+        .btn-danger {
+            background: var(--danger);
         }
 
-        .btn-outline:hover {
-            background: var(--bg-hover);
-            border-color: var(--accent);
+        .btn-success {
+            background: var(--success);
         }
 
-        /* Data Lists */
+        .grid-2-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
         .data-list-modern {
             max-height: 500px;
             overflow-y: auto;
@@ -393,11 +347,6 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            transition: 0.3s;
-        }
-
-        .data-item-modern:hover {
-            background: rgba(255,183,3,0.1);
         }
 
         .badge {
@@ -410,22 +359,53 @@
         .badge-pending { background: #fef3c7; color: #d97706; }
         .badge-accepted { background: #d1fae5; color: #059669; }
         .badge-transit { background: #dbeafe; color: #2563eb; }
+        .badge-delivered { background: #e0e7ff; color: #4338ca; }
 
-        /* Grid */
-        .grid-2-modern {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
+        .commission-badge {
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: bold;
         }
 
-        /* Map */
+        .toast-modern {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 2000;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .page-modern {
+            display: none;
+        }
+
+        .page-modern.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         #map {
             height: 350px;
             border-radius: 16px;
             margin-top: 16px;
         }
 
-        /* Modal */
         .modal-modern {
             display: none;
             position: fixed;
@@ -446,68 +426,6 @@
             padding: 30px;
             max-width: 500px;
             width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        /* Toast */
-        .toast-modern {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--bg-card);
-            color: var(--text-primary);
-            padding: 12px 24px;
-            border-radius: 50px;
-            z-index: 2000;
-            animation: slideIn 0.3s;
-            border: 1px solid var(--border);
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Page Container */
-        .page-modern {
-            display: none;
-        }
-
-        .page-modern.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Rating Stars */
-        .rating-stars i {
-            font-size: 32px;
-            cursor: pointer;
-            color: #404040;
-            transition: 0.2s;
-        }
-
-        .rating-stars i.active {
-            color: var(--accent);
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-hover);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
@@ -520,7 +438,7 @@
 </head>
 <body>
 <div class="app-layout">
-    <!-- Modern Sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar-modern" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-area">
@@ -534,7 +452,7 @@
             <div class="user-avatar" id="userAvatar">OB</div>
             <div class="user-info sidebar-text">
                 <h4 id="userName">مرحباً بك</h4>
-                <p id="userEmail">user@example.com</p>
+                <p id="userRole" class="badge badge-accepted">تاجر</p>
             </div>
         </div>
 
@@ -546,7 +464,7 @@
             <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">التتبع</span></div>
             <div class="nav-item-modern" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">المدفوعات</span></div>
             <div class="nav-item-modern" data-page="chat"><i class="fas fa-comments"></i><span class="nav-label sidebar-text">الدردشة</span></div>
-            <div class="nav-item-modern" data-page="files"><i class="fas fa-folder"></i><span class="nav-label sidebar-text">الملفات</span></div>
+            <div class="nav-item-modern" data-page="admin"><i class="fas fa-user-shield"></i><span class="nav-label sidebar-text">لوحة المسؤول</span></div>
             <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">الإعدادات</span></div>
         </div>
 
@@ -561,9 +479,7 @@
         <div id="dashboardPage" class="page-modern active">
             <div class="top-bar-modern">
                 <h1 class="page-title">لوحة التحكم</h1>
-                <div class="action-buttons">
-                    <button class="icon-btn" id="refreshBtn"><i class="fas fa-sync-alt"></i></button>
-                </div>
+                <div class="commission-badge">نسبة العمولة: <span id="commissionRate">8</span>%</div>
             </div>
             <div class="stats-grid-modern">
                 <div class="stat-card-modern" onclick="switchPage('orders')">
@@ -572,15 +488,15 @@
                 </div>
                 <div class="stat-card-modern" onclick="switchPage('transporters')">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
-                    <div class="stat-info"><h3 id="statTransporters">0</h3><p>ناقلين</p></div>
-                </div>
-                <div class="stat-card-modern" onclick="switchPage('stock')">
-                    <div class="stat-icon"><i class="fas fa-boxes"></i></div>
-                    <div class="stat-info"><h3 id="statStock">0</h3><p>سلع بالمخزن</p></div>
+                    <div class="stat-info"><h3 id="statTransporters">0</h3><p>ناقلين مسجلين</p></div>
                 </div>
                 <div class="stat-card-modern" onclick="switchPage('payments')">
                     <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                    <div class="stat-info"><h3 id="statProfit">0</h3><p>أرباح</p></div>
+                    <div class="stat-info"><h3 id="statTotalCommission">0</h3><p>إجمالي العمولات</p></div>
+                </div>
+                <div class="stat-card-modern" onclick="switchPage('admin')">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info"><h3 id="statRevenue">0</h3><p>إيرادات المنصة</p></div>
                 </div>
             </div>
             <div class="grid-2-modern">
@@ -589,8 +505,8 @@
                     <div id="recentOrders" class="data-list-modern"></div>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-truck-fast"></i> ناقلين متاحين</h3></div>
-                    <div id="availableTransporters" class="data-list-modern"></div>
+                    <div class="card-header"><h3><i class="fas fa-truck-fast"></i> أحدث الناقلين</h3></div>
+                    <div id="recentTransporters" class="data-list-modern"></div>
                 </div>
             </div>
             <div class="card-modern">
@@ -606,13 +522,14 @@
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-plus-circle"></i> نشر طلب نقل</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-plus-circle"></i> طلب نقل جديد</h3></div>
                     <form id="orderForm">
                         <div class="form-group-modern"><label>📍 من → إلى</label><input type="text" id="route" placeholder="صفاقس → تونس" required></div>
                         <div class="form-group-modern"><label>⚖️ الوزن (كغ)</label><input type="number" id="weight" required></div>
                         <div class="form-group-modern"><label>📦 نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option><option>ملابس</option><option>أدوية</option></select></div>
                         <div class="form-group-modern"><label>📅 وقت النقل</label><input type="text" id="timeSlot" placeholder="اختر التاريخ"></div>
                         <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="phone" required></div>
+                        <div class="form-group-modern"><label>💵 السعر المقترح (دينار)</label><input type="number" id="proposedPrice" placeholder="سيتم حسابه تلقائياً"></div>
                         <div class="form-group-modern"><label>📝 ملاحظات</label><textarea id="notes" rows="2"></textarea></div>
                         <button type="submit" class="btn-modern"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
                     </form>
@@ -624,24 +541,36 @@
             </div>
         </div>
 
-        <!-- Transporters Page -->
+        <!-- Transporters Page (Register Transporters) -->
         <div id="transportersPage" class="page-modern">
             <div class="top-bar-modern">
-                <h1 class="page-title">الناقلين</h1>
+                <h1 class="page-title">تسجيل الناقلين</h1>
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-user-plus"></i> إضافة ناقل جديد</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-user-plus"></i> تسجيل ناقل جديد</h3></div>
                     <form id="transporterForm">
                         <div class="form-group-modern"><label>👤 الاسم الكامل</label><input type="text" id="transporterName" required></div>
                         <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="transporterPhone" required></div>
-                        <div class="form-group-modern"><label>🚛 نوع الشاحنة</label><select id="truckType"><option>شاحنة صغيرة</option><option>شاحنة متوسطة</option><option>شاحنة كبيرة</option><option>شاحنة تبريد</option></select></div>
+                        <div class="form-group-modern"><label>📧 البريد الإلكتروني</label><input type="email" id="transporterEmail" required></div>
+                        <div class="form-group-modern"><label>🆔 رقم البطاقة الوطنية</label><input type="text" id="transporterCin" required></div>
+                        <div class="form-group-modern"><label>🚛 نوع الشاحنة</label>
+                            <select id="truckType">
+                                <option>شاحنة صغيرة (حتى 3.5 طن)</option>
+                                <option>شاحنة متوسطة (حتى 7 طن)</option>
+                                <option>شاحنة كبيرة (حتى 15 طن)</option>
+                                <option>شاحنة تبريد</option>
+                                <option>شاحنة صهريج</option>
+                            </select>
+                        </div>
                         <div class="form-group-modern"><label>📍 المنطقة</label><input type="text" id="transporterRegion" placeholder="صفاقس، تونس، سوسة"></div>
-                        <button type="submit" class="btn-modern"><i class="fas fa-save"></i> إضافة ناقل</button>
+                        <div class="form-group-modern"><label>📄 رخصة السياقة (رقم)</label><input type="text" id="transporterLicense" required></div>
+                        <div class="form-group-modern"><label>📄 وثائق الشاحنة</label><input type="text" id="transporterDocs" placeholder="رقم التسجيل، التأمين..."></div>
+                        <button type="submit" class="btn-modern"><i class="fas fa-save"></i> تسجيل الناقل</button>
                     </form>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-star"></i> قائمة الناقلين</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الناقلين المسجلين</h3></div>
                     <div id="transportersList" class="data-list-modern"></div>
                 </div>
             </div>
@@ -654,13 +583,13 @@
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-box"></i> إضافة سلعة جديدة</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-box"></i> إضافة سلعة</h3></div>
                     <form id="stockForm">
                         <div class="form-group-modern"><label>📦 اسم السلعة</label><input type="text" id="productName" required></div>
                         <div class="form-group-modern"><label>🔢 الكمية</label><input type="number" id="productQuantity" required></div>
-                        <div class="form-group-modern"><label>💰 سعر الشراء (دينار)</label><input type="number" id="productBuyPrice" step="0.01"></div>
-                        <div class="form-group-modern"><label>💰 سعر البيع (دينار)</label><input type="number" id="productSellPrice" step="0.01"></div>
-                        <div class="form-group-modern"><label>📍 موقع التخزين</label><input type="text" id="productLocation" placeholder="المخزن الرئيسي"></div>
+                        <div class="form-group-modern"><label>💰 سعر الشراء</label><input type="number" id="productBuyPrice" step="0.01"></div>
+                        <div class="form-group-modern"><label>💰 سعر البيع</label><input type="number" id="productSellPrice" step="0.01"></div>
+                        <div class="form-group-modern"><label>📍 موقع التخزين</label><input type="text" id="productLocation"></div>
                         <button type="submit" class="btn-modern"><i class="fas fa-plus"></i> إضافة سلعة</button>
                     </form>
                 </div>
@@ -687,27 +616,35 @@
             </div>
         </div>
 
-        <!-- Payments Page -->
+        <!-- Payments Page with Commission -->
         <div id="paymentsPage" class="page-modern">
             <div class="top-bar-modern">
-                <h1 class="page-title">المدفوعات</h1>
+                <h1 class="page-title">المدفوعات والعمولات</h1>
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> الدفع عبر البريد التونسي</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> تأكيد الدفع والخلاص</h3></div>
                     <form id="paymentForm">
                         <div class="form-group-modern"><label>📌 رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
-                        <div class="form-group-modern"><label>💰 المبلغ (دينار)</label><input type="number" id="paymentAmount" required></div>
+                        <div class="form-group-modern"><label>💰 المبلغ الإجمالي (دينار)</label><input type="number" id="paymentAmount" required></div>
                         <div class="form-group-modern"><label>👤 اسم الدافع</label><input type="text" id="payerName" required></div>
                         <div class="form-group-modern"><label>🆔 البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
                         <div class="form-group-modern"><label>🏢 مكتب البريد</label><input type="text" id="postOffice"></div>
-                        <button type="submit" class="btn-modern"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع</button>
+                        <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;">
+                            <label>💸 تفاصيل العمولة</label>
+                            <div id="commissionDetails">المبلغ: 0 دينار | عمولة (8%): 0 دينار | صافي الناقل: 0 دينار</div>
+                        </div>
+                        <button type="submit" class="btn-modern btn-success"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع والخلاص</button>
                     </form>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات والعمولات</h3></div>
                     <div id="paymentsList" class="data-list-modern"></div>
                 </div>
+            </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-chart-pie"></i> إحصائيات العمولات</h3></div>
+                <canvas id="commissionChart" height="100"></canvas>
             </div>
             <div class="card-modern">
                 <div class="card-header"><h3><i class="fas fa-qrcode"></i> رمز الدفع السريع</h3></div>
@@ -736,25 +673,43 @@
             </div>
         </div>
 
-        <!-- Files Page -->
-        <div id="filesPage" class="page-modern">
+        <!-- Admin Page - Commission Management -->
+        <div id="adminPage" class="page-modern">
             <div class="top-bar-modern">
-                <h1 class="page-title">الملفات</h1>
+                <h1 class="page-title">لوحة تحكم المسؤول</h1>
+            </div>
+            <div class="stats-grid-modern">
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-info"><h3 id="adminTotalCommission">0</h3><p>إجمالي العمولات</p></div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                    <div class="stat-info"><h3 id="adminTotalOrders">0</h3><p>إجمالي الطلبات</p></div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info"><h3 id="adminTotalTransporters">0</h3><p>إجمالي الناقلين</p></div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info"><h3 id="adminCompletedOrders">0</h3><p>طلبات مكتملة</p></div>
+                </div>
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-cloud-upload-alt"></i> رفع ملف</h3></div>
-                    <div class="form-group-modern"><label>اختر ملف للرفع</label><input type="file" id="fileInput" accept="image/*,application/pdf"></div>
-                    <button id="uploadFileBtn" class="btn-modern"><i class="fas fa-upload"></i> رفع الملف</button>
-                    <div id="uploadProgress" style="margin-top: 16px; display: none;">
-                        <progress id="progressBar" value="0" max="100" style="width:100%; height:8px; border-radius:10px;"></progress>
-                        <p id="progressText" style="font-size: 12px; margin-top: 8px;">جاري الرفع...</p>
-                    </div>
+                    <div class="card-header"><h3><i class="fas fa-sliders-h"></i> إعدادات العمولة</h3></div>
+                    <div class="form-group-modern"><label>نسبة عمولة المنصة (%)</label><input type="number" id="adminCommissionRate" value="8" step="0.5"></div>
+                    <button id="updateCommissionBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث النسبة</button>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-folder-open"></i> ملفاتي</h3></div>
-                    <div id="filesList" class="data-list-modern"></div>
+                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> تقرير العمولات</h3></div>
+                    <div id="commissionReport" class="data-list-modern"></div>
                 </div>
+            </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-list"></i> جميع المدفوعات</h3></div>
+                <div id="allPaymentsList" class="data-list-modern"></div>
             </div>
         </div>
 
@@ -774,30 +729,10 @@
                 <div class="card-modern">
                     <div class="card-header"><h3><i class="fas fa-bell"></i> الإشعارات</h3></div>
                     <div class="form-group-modern"><label><input type="checkbox" id="notifyOrders"> إشعارات الطلبات الجديدة</label></div>
-                    <div class="form-group-modern"><label><input type="checkbox" id="notifyMessages"> إشعارات الرسائل</label></div>
                     <div class="form-group-modern"><label><input type="checkbox" id="notifyPayments"> إشعارات المدفوعات</label></div>
-                    <button id="saveNotificationsBtn" class="btn-modern"><i class="fas fa-save"></i> حفظ الإعدادات</button>
+                    <button id="saveNotificationsBtn" class="btn-modern"><i class="fas fa-save"></i> حفظ</button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Rating Modal -->
-<div id="ratingModal" class="modal-modern">
-    <div class="modal-content-modern">
-        <h3 style="margin-bottom: 20px;"><i class="fas fa-star"></i> تقييم الناقل</h3>
-        <div class="rating-stars" id="ratingStars" style="display: flex; gap: 8px; margin-bottom: 20px;">
-            <i class="fas fa-star" data-rating="1"></i>
-            <i class="fas fa-star" data-rating="2"></i>
-            <i class="fas fa-star" data-rating="3"></i>
-            <i class="fas fa-star" data-rating="4"></i>
-            <i class="fas fa-star" data-rating="5"></i>
-        </div>
-        <textarea id="ratingComment" placeholder="اكتب تقييمك..." rows="3" style="width:100%; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white; margin-bottom: 20px;"></textarea>
-        <div style="display: flex; gap: 12px;">
-            <button id="submitRatingBtn" class="btn-modern">إرسال التقييم</button>
-            <button id="closeRatingBtn" class="btn-modern btn-outline">إلغاء</button>
         </div>
     </div>
 </div>
@@ -805,13 +740,12 @@
 <!-- Firebase Configuration -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, Timestamp, getDocs, where } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-    import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
-    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
         authDomain: "ob-logistique.firebaseapp.com",
@@ -831,58 +765,66 @@
     const storage = getStorage(app);
 
     let currentUser = null;
-    let allOrders = [], allTransporters = [], allStock = [], allPayments = [], allMessages = [], allFiles = [];
-    let activityChart = null;
+    let currentUserRole = 'merchant';
+    let commissionRate = 8;
+    let allOrders = [], allTransporters = [], allStock = [], allPayments = [], allMessages = [];
+    let activityChart = null, commissionChart = null;
     let map = null;
-    let currentRatingTransporter = null;
     let currentChatWith = null;
-    let unsubscribeOrders, unsubscribeTransporters, unsubscribeStock, unsubscribePayments, unsubscribeMessages;
 
-    // Helper Functions
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
         toast.className = 'toast-modern';
-        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i> ${message}`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i> ${message}`;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
     }
 
-    function logActivity(action, details) {
-        if (!currentUser) return;
-        const activityRef = ref(rtdb, `activities/${currentUser.uid}/${Date.now()}`);
-        set(activityRef, { action, details, timestamp: Date.now(), userEmail: currentUser.email });
+    function calculatePrice(weight) {
+        return Math.floor(45 + (weight * 0.11));
     }
 
-    function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
-    
-    function calculateTotalProfit() {
-        let profit = allStock.reduce((sum, item) => sum + ((item.sellPrice || 0) - (item.buyPrice || 0)) * item.quantity, 0);
-        profit += allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
-        return profit;
+    function calculateCommission(amount) {
+        return (amount * commissionRate) / 100;
+    }
+
+    function calculateNetForTransporter(amount) {
+        return amount - calculateCommission(amount);
     }
 
     function updateStats() {
-        document.getElementById('statOrders').innerText = allOrders.filter(o => o.status === 'pending').length;
+        const pendingOrders = allOrders.filter(o => o.status === 'pending').length;
+        const totalCommission = allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
+        const totalRevenue = allPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+        
+        document.getElementById('statOrders').innerText = pendingOrders;
         document.getElementById('statTransporters').innerText = allTransporters.length;
-        document.getElementById('statStock').innerText = allStock.reduce((s, i) => s + i.quantity, 0);
-        document.getElementById('statProfit').innerText = calculateTotalProfit().toFixed(2);
+        document.getElementById('statTotalCommission').innerText = totalCommission.toFixed(2);
+        document.getElementById('statRevenue').innerText = totalRevenue.toFixed(2);
+        
+        if (document.getElementById('adminTotalCommission')) {
+            document.getElementById('adminTotalCommission').innerText = totalCommission.toFixed(2);
+            document.getElementById('adminTotalOrders').innerText = allOrders.length;
+            document.getElementById('adminTotalTransporters').innerText = allTransporters.length;
+            document.getElementById('adminCompletedOrders').innerText = allOrders.filter(o => o.status === 'delivered').length;
+        }
     }
 
-    // Render Functions
     function renderOrders() {
         const containers = ['recentOrders', 'ordersList'];
         containers.forEach(containerId => {
             const container = document.getElementById(containerId);
             if (!container) return;
-            if (allOrders.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد طلبات</div>'; return; }
+            if (allOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد طلبات</div>'; return; }
             container.innerHTML = allOrders.slice(0, 10).map(order => `
                 <div class="data-item-modern">
-                    <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status}</span></div>
-                    <div>💰 ${calculatePrice(order.weight)} دينار</div>
-                    <div><button class="update-order" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">تحديث</button></div>
+                    <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status}">${order.status === 'pending' ? 'قيد الانتظار' : order.status === 'accepted' ? 'تم القبول' : order.status === 'transit' ? 'قيد التوصيل' : 'تم التوصيل'}</span></div>
+                    <div>💰 ${order.price || calculatePrice(order.weight)} دينار</div>
+                    ${currentUserRole === 'admin' ? `<div><button class="update-order" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">تحديث</button></div>` : ''}
                 </div>
             `).join('');
         });
+        
         document.querySelectorAll('.update-order').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const order = allOrders.find(o => o.id === btn.dataset.id);
@@ -898,19 +840,18 @@
 
     function renderTransporters() {
         const container = document.getElementById('transportersList');
-        const availableContainer = document.getElementById('availableTransporters');
+        const recentContainer = document.getElementById('recentTransporters');
         if (!container) return;
-        if (allTransporters.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا يوجد ناقلين</div>'; return; }
+        if (allTransporters.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا يوجد ناقلين مسجلين</div>'; return; }
         container.innerHTML = allTransporters.map(t => `
             <div class="data-item-modern">
                 <div><strong>${t.name}</strong><br>📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}<br>⭐ ${t.rating || 'جديد'}</div>
-                <div><button class="rate-transporter" data-id="${t.id}" data-name="${t.name}" style="background: var(--accent); border: none; padding: 6px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer;">تقييم</button></div>
                 <div><button class="delete-transporter" data-id="${t.id}" style="background: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">حذف</button></div>
             </div>
         `).join('');
         
-        if (availableContainer) {
-            availableContainer.innerHTML = allTransporters.filter(t => t.available).slice(0, 5).map(t => `
+        if (recentContainer) {
+            recentContainer.innerHTML = allTransporters.slice(0, 5).map(t => `
                 <div class="data-item-modern"><div><strong>${t.name}</strong><br>🚛 ${t.truckType}</div></div>
             `).join('');
         }
@@ -918,18 +859,12 @@
         document.querySelectorAll('.delete-transporter').forEach(btn => {
             btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'transporters', btn.dataset.id)); showToast('تم حذف الناقل'); });
         });
-        document.querySelectorAll('.rate-transporter').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentRatingTransporter = { id: btn.dataset.id, name: btn.dataset.name };
-                document.getElementById('ratingModal').style.display = 'flex';
-            });
-        });
     }
 
     function renderStock() {
         const container = document.getElementById('stockList');
         if (!container) return;
-        if (allStock.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">المخزن فارغ</div>'; return; }
+        if (allStock.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">المخزن فارغ</div>'; return; }
         container.innerHTML = allStock.map(item => `
             <div class="data-item-modern">
                 <div><strong>${item.name}</strong><br>🔢 ${item.quantity} وحدة<br>💰 شراء: ${item.buyPrice || 0} | بيع: ${item.sellPrice || 0}</div>
@@ -943,95 +878,85 @@
 
     function renderPayments() {
         const container = document.getElementById('paymentsList');
+        const allPaymentsContainer = document.getElementById('allPaymentsList');
         if (!container) return;
-        if (allPayments.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد مدفوعات</div>'; return; }
+        if (allPayments.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد مدفوعات</div>'; return; }
         container.innerHTML = allPayments.slice(0, 10).map(p => `
             <div class="data-item-modern">
-                <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>👤 ${p.payerName}</div>
+                <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>💸 عمولة: ${p.commission} دينار<br>👤 ${p.payerName}</div>
             </div>
         `).join('');
+        
+        if (allPaymentsContainer) {
+            allPaymentsContainer.innerHTML = allPayments.map(p => `
+                <div class="data-item-modern">
+                    <div><strong>طلب: ${p.orderId}</strong><br>💰 المبلغ: ${p.amount} دينار | عمولة: ${p.commission} دينار | صافي: ${(p.amount - p.commission).toFixed(2)} دينار<br>👤 ${p.payerName} | 📅 ${new Date(p.date?.toDate()).toLocaleDateString('ar-TN')}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Commission report
+        const reportContainer = document.getElementById('commissionReport');
+        if (reportContainer) {
+            const totalCommission = allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
+            const totalAmount = allPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+            reportContainer.innerHTML = `
+                <div class="data-item-modern"><div>💰 إجمالي المدفوعات: ${totalAmount.toFixed(2)} دينار</div></div>
+                <div class="data-item-modern"><div>💸 إجمالي العمولات: ${totalCommission.toFixed(2)} دينار</div></div>
+                <div class="data-item-modern"><div>📊 نسبة العمولة: ${commissionRate}%</div></div>
+            `;
+        }
     }
 
-    function renderChatList() {
-        const container = document.getElementById('chatList');
-        if (!container) return;
-        const transporters = allTransporters.slice(0, 15);
-        container.innerHTML = transporters.map(t => `
-            <div class="data-item-modern chat-item" data-id="${t.id}" data-name="${t.name}" style="cursor: pointer;">
-                <div><strong>${t.name}</strong><br>🚛 ${t.truckType} | 📍 ${t.region}</div>
-                <div><i class="fas fa-comment"></i></div>
-            </div>
-        `).join('');
-        document.querySelectorAll('.chat-item').forEach(item => {
-            item.addEventListener('click', () => {
-                currentChatWith = item.dataset.id;
-                const transporterName = item.dataset.name;
-                document.getElementById('messagesContainer').innerHTML = `<div style="text-align:center; padding:20px;">💬 دردشة مع ${transporterName}</div>`;
-                showToast(`محادثة مفتوحة مع ${transporterName}`);
-            });
-        });
-    }
-
-    function renderFiles() {
-        const container = document.getElementById('filesList');
-        if (!container) return;
-        if (allFiles.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد ملفات</div>'; return; }
-        container.innerHTML = allFiles.map(f => `
-            <div class="data-item-modern">
-                <div><i class="fas fa-file"></i> ${f.name}<br><small>${(f.size / 1024).toFixed(2)} KB</small></div>
-                <div><a href="${f.url}" target="_blank" style="color: var(--accent);"><i class="fas fa-download"></i> تحميل</a></div>
-            </div>
-        `).join('');
-    }
-
-    function updateChart() {
+    function updateCharts() {
+        // Activity Chart
         if (activityChart) activityChart.destroy();
-        const ctx = document.getElementById('activityChart').getContext('2d');
-        const last7Days = [];
-        for (let i = 6; i >= 0; i--) {
-            const d = new Date();
-            d.setDate(d.getDate() - i);
-            last7Days.push(d.toLocaleDateString('ar-TN'));
+        const ctx = document.getElementById('activityChart')?.getContext('2d');
+        if (ctx) {
+            const last7Days = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                last7Days.push(d.toLocaleDateString('ar-TN'));
+            }
+            const counts = last7Days.map(day => allOrders.filter(o => o.createdAt && new Date(o.createdAt.toDate()).toDateString() === new Date(day).toDateString()).length);
+            activityChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: last7Days, datasets: [{ label: 'الطلبات', data: counts, borderColor: '#ffb703', tension: 0.3, fill: true }] }
+            });
         }
-        const counts = last7Days.map(day => allOrders.filter(o => o.createdAt && new Date(o.createdAt.toDate()).toDateString() === new Date(day).toDateString()).length);
-        activityChart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: last7Days, datasets: [{ label: 'الطلبات', data: counts, borderColor: '#ffb703', backgroundColor: 'rgba(255,183,3,0.1)', tension: 0.3, fill: true }] },
-            options: { responsive: true, maintainAspectRatio: true }
-        });
-    }
-
-    async function trackOrder() {
-        const orderId = document.getElementById('trackingOrderId').value;
-        if (!orderId) { showToast('أدخل رقم الطلب', 'error'); return; }
-        const orderDoc = await getDoc(doc(db, 'orders', orderId));
-        if (!orderDoc.exists()) { showToast('الطلب غير موجود', 'error'); return; }
-        const order = orderDoc.data();
-        if (!map) {
-            map = L.map('map').setView([36.8065, 10.1815], 8);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+        
+        // Commission Chart
+        if (commissionChart) commissionChart.destroy();
+        const commissionCtx = document.getElementById('commissionChart')?.getContext('2d');
+        if (commissionCtx) {
+            const months = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان'];
+            const commissions = months.map(() => allPayments.reduce((sum, p) => sum + (p.commission || 0), 0) / 6);
+            commissionChart = new Chart(commissionCtx, {
+                type: 'bar',
+                data: { labels: months, datasets: [{ label: 'العمولات (دينار)', data: commissions, backgroundColor: '#ffb703', borderRadius: 10 }] }
+            });
         }
-        L.marker([36.8065, 10.1815]).addTo(map).bindPopup(`الطلب: ${order.route}<br>الحالة: ${order.status}`).openPopup();
-        document.getElementById('trackingDetails').style.display = 'block';
-        document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern"><strong>رقم الطلب:</strong> ${orderId}<br><strong>المسار:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status}</div>`;
     }
 
     // CRUD Operations
     async function publishOrder(e) {
         e.preventDefault();
+        const weight = parseFloat(document.getElementById('weight').value);
+        const price = document.getElementById('proposedPrice').value || calculatePrice(weight);
         await addDoc(collection(db, 'orders'), {
             route: document.getElementById('route').value,
-            weight: parseFloat(document.getElementById('weight').value),
+            weight: weight,
             goodsType: document.getElementById('goodsType').value,
             timeSlot: document.getElementById('timeSlot').value,
             phone: document.getElementById('phone').value,
             notes: document.getElementById('notes').value,
+            price: parseFloat(price),
             status: 'pending',
             createdAt: Timestamp.now(),
             userId: currentUser.uid
         });
         showToast('تم نشر الطلب بنجاح');
-        logActivity('publish_order', `نشر طلب: ${document.getElementById('route').value}`);
         document.getElementById('orderForm').reset();
     }
 
@@ -1040,13 +965,18 @@
         await addDoc(collection(db, 'transporters'), {
             name: document.getElementById('transporterName').value,
             phone: document.getElementById('transporterPhone').value,
+            email: document.getElementById('transporterEmail').value,
+            cin: document.getElementById('transporterCin').value,
             truckType: document.getElementById('truckType').value,
             region: document.getElementById('transporterRegion').value,
+            license: document.getElementById('transporterLicense').value,
+            docs: document.getElementById('transporterDocs').value,
             available: true,
             rating: 0,
+            verified: false,
             createdAt: Timestamp.now()
         });
-        showToast('تم إضافة الناقل');
+        showToast('تم تسجيل الناقل بنجاح');
         document.getElementById('transporterForm').reset();
     }
 
@@ -1066,116 +996,97 @@
 
     async function processPayment(e) {
         e.preventDefault();
+        const amount = parseFloat(document.getElementById('paymentAmount').value);
+        const commission = calculateCommission(amount);
         await addDoc(collection(db, 'payments'), {
             orderId: document.getElementById('paymentOrderId').value,
-            amount: parseFloat(document.getElementById('paymentAmount').value),
+            amount: amount,
+            commission: commission,
+            netForTransporter: amount - commission,
             payerName: document.getElementById('payerName').value,
             payerCin: document.getElementById('payerCin').value,
             postOffice: document.getElementById('postOffice').value,
-            commission: parseFloat(document.getElementById('paymentAmount').value) * 0.08,
             status: 'completed',
             date: Timestamp.now(),
             userId: currentUser.uid
         });
-        showToast(`تم تأكيد الدفع بمبلغ ${document.getElementById('paymentAmount').value} دينار`);
+        showToast(`تم تأكيد الدفع: ${amount} دينار | عمولة المنصة: ${commission.toFixed(2)} دينار`);
         document.getElementById('paymentForm').reset();
+        updateCommissionDisplay();
         
         const qrDiv = document.getElementById('qrcode');
         qrDiv.innerHTML = '';
-        new QRCode(qrDiv, { text: `OB Logistique Payment - ${Date.now()}`, width: 150, height: 150 });
+        new QRCode(qrDiv, { text: `OB Logistique - ${amount} TND - Commission: ${commission.toFixed(2)} TND`, width: 150, height: 150 });
     }
 
-    async function sendMessage() {
-        const message = document.getElementById('messageInput').value.trim();
-        if (!message || !currentChatWith) { showToast('اختر محادثة أولاً', 'error'); return; }
-        await addDoc(collection(db, 'messages'), {
-            from: currentUser.uid,
-            to: currentChatWith,
-            senderName: currentUser.displayName || currentUser.email,
-            message: message,
-            timestamp: Timestamp.now()
-        });
-        document.getElementById('messageInput').value = '';
-        showToast('تم إرسال الرسالة');
+    function updateCommissionDisplay() {
+        const amountInput = document.getElementById('paymentAmount');
+        const commissionDiv = document.getElementById('commissionDetails');
+        if (amountInput && commissionDiv) {
+            const amount = parseFloat(amountInput.value) || 0;
+            const commission = calculateCommission(amount);
+            commissionDiv.innerHTML = `المبلغ: ${amount} دينار | عمولة (${commissionRate}%): ${commission.toFixed(2)} دينار | صافي الناقل: ${(amount - commission).toFixed(2)} دينار`;
+        }
     }
 
-    async function uploadFile() {
-        const file = document.getElementById('fileInput').files[0];
-        if (!file) { showToast('اختر ملف أولاً', 'error'); return; }
-        const fileRef = storageRef(storage, `files/${currentUser.uid}/${Date.now()}_${file.name}`);
-        const uploadTask = uploadBytesResumable(fileRef, file);
-        document.getElementById('uploadProgress').style.display = 'block';
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                progressBar.value = progress;
-                progressText.innerText = `جاري الرفع: ${Math.round(progress)}%`;
-            },
-            (error) => { showToast('فشل رفع الملف', 'error'); document.getElementById('uploadProgress').style.display = 'none'; },
-            async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                await addDoc(collection(db, 'files'), {
-                    name: file.name,
-                    url: downloadURL,
-                    size: file.size,
-                    type: file.type,
-                    userId: currentUser.uid,
-                    uploadedAt: Timestamp.now()
-                });
-                showToast('تم رفع الملف بنجاح');
-                document.getElementById('uploadProgress').style.display = 'none';
-                document.getElementById('fileInput').value = '';
-                loadFiles();
-            }
-        );
+    async function trackOrder() {
+        const orderId = document.getElementById('trackingOrderId').value;
+        if (!orderId) { showToast('أدخل رقم الطلب', 'error'); return; }
+        const orderDoc = await getDoc(doc(db, 'orders', orderId));
+        if (!orderDoc.exists()) { showToast('الطلب غير موجود', 'error'); return; }
+        const order = orderDoc.data();
+        if (!map) {
+            map = L.map('map').setView([36.8065, 10.1815], 8);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+        }
+        L.marker([36.8065, 10.1815]).addTo(map).bindPopup(`الطلب: ${order.route}<br>الحالة: ${order.status}`).openPopup();
+        document.getElementById('trackingDetails').style.display = 'block';
+        document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern"><strong>رقم الطلب:</strong> ${orderId}<br><strong>المسار:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status}<br><strong>السعر:</strong> ${order.price} دينار</div>`;
     }
 
-    async function loadFiles() {
-        const filesSnapshot = await getDocs(query(collection(db, 'files'), where('userId', '==', currentUser.uid), orderBy('uploadedAt', 'desc')));
-        allFiles = filesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        renderFiles();
-    }
-
-    async function updateProfileInfo() {
-        const newName = document.getElementById('settingsName').value;
-        if (newName && currentUser) {
-            await updateProfile(currentUser, { displayName: newName });
-            await updateDoc(doc(db, 'users', currentUser.uid), { name: newName });
-            document.getElementById('userName').innerHTML = newName;
-            document.getElementById('userAvatar').innerHTML = newName.substring(0,2).toUpperCase();
-            showToast('تم تحديث الملف الشخصي');
+    async function updateCommissionRate() {
+        const newRate = parseFloat(document.getElementById('adminCommissionRate').value);
+        if (!isNaN(newRate)) {
+            commissionRate = newRate;
+            await set(ref(rtdb, 'settings/commissionRate'), newRate);
+            document.getElementById('commissionRate').innerText = newRate;
+            showToast(`تم تحديث نسبة العمولة إلى ${newRate}%`);
         }
     }
 
     // Firebase Listeners
     function subscribeToFirestore() {
-        unsubscribeOrders = onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
+        onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
             allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderOrders();
             updateStats();
-            updateChart();
+            updateCharts();
         });
-        unsubscribeTransporters = onSnapshot(collection(db, 'transporters'), (snapshot) => {
+        onSnapshot(collection(db, 'transporters'), (snapshot) => {
             allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderTransporters();
             updateStats();
-            renderChatList();
         });
-        unsubscribeStock = onSnapshot(collection(db, 'stock'), (snapshot) => {
+        onSnapshot(collection(db, 'stock'), (snapshot) => {
             allStock = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderStock();
-            updateStats();
         });
-        unsubscribePayments = onSnapshot(collection(db, 'payments'), (snapshot) => {
+        onSnapshot(collection(db, 'payments'), (snapshot) => {
             allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderPayments();
             updateStats();
+            updateCharts();
         });
-        unsubscribeMessages = onSnapshot(collection(db, 'messages'), (snapshot) => {
-            allMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Load commission rate from Realtime DB
+        const commissionRef = ref(rtdb, 'settings/commissionRate');
+        onValue(commissionRef, (snapshot) => {
+            const val = snapshot.val();
+            if (val) {
+                commissionRate = val;
+                document.getElementById('commissionRate').innerText = commissionRate;
+                document.getElementById('adminCommissionRate').value = commissionRate;
+            }
         });
     }
 
@@ -1189,34 +1100,22 @@
             map = L.map('map').setView([36.8065, 10.1815], 8);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
         }
-        if (pageId === 'files') loadFiles();
     };
 
-    function showApp() {
-        document.getElementById('userName').innerHTML = currentUser.displayName || currentUser.email;
-        document.getElementById('userEmail').innerHTML = currentUser.email;
-        document.getElementById('userAvatar').innerHTML = (currentUser.displayName || currentUser.email).substring(0,2).toUpperCase();
-        document.getElementById('settingsName').value = currentUser.displayName || '';
-        document.getElementById('settingsEmail').value = currentUser.email;
-        subscribeToFirestore();
-    }
-
-    // Auth State
+    // Auto login for demo
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
-            showApp();
+            document.getElementById('userName').innerHTML = user.displayName || user.email;
+            document.getElementById('userAvatar').innerHTML = (user.displayName || user.email).substring(0,2).toUpperCase();
+            document.getElementById('settingsName').value = user.displayName || '';
+            document.getElementById('settingsEmail').value = user.email;
+            currentUserRole = 'admin';
+            subscribeToFirestore();
+        } else {
+            signInWithEmailAndPassword(auth, 'merchant@oblogistique.com', 'merchant123').catch(() => {});
         }
     });
-
-    // Demo login for testing (remove in production)
-    if (!localStorage.getItem('demo_login')) {
-        setTimeout(() => {
-            if (!currentUser) {
-                signInWithEmailAndPassword(auth, 'merchant@oblogistique.com', 'merchant123').catch(() => {});
-            }
-        }, 500);
-    }
 
     // Event Listeners
     document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
@@ -1224,54 +1123,17 @@
     document.getElementById('stockForm')?.addEventListener('submit', addStock);
     document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
     document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
-    document.getElementById('sendMsgBtn')?.addEventListener('click', sendMessage);
-    document.getElementById('uploadFileBtn')?.addEventListener('click', uploadFile);
-    document.getElementById('updateProfileBtn')?.addEventListener('click', updateProfileInfo);
+    document.getElementById('updateCommissionBtn')?.addEventListener('click', updateCommissionRate);
+    document.getElementById('paymentAmount')?.addEventListener('input', updateCommissionDisplay);
     document.getElementById('logoutBtn')?.addEventListener('click', () => signOut(auth));
     document.getElementById('toggleSidebar')?.addEventListener('click', () => {
         document.getElementById('sidebar').classList.toggle('collapsed');
     });
-    document.getElementById('refreshBtn')?.addEventListener('click', () => { location.reload(); });
     
     document.querySelectorAll('.nav-item-modern').forEach(nav => {
         if (nav.dataset.page) {
             nav.addEventListener('click', () => window.switchPage(nav.dataset.page));
         }
-    });
-
-    // Rating Modal
-    const stars = document.querySelectorAll('#ratingStars i');
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            const rating = parseInt(star.dataset.rating);
-            stars.forEach((s, i) => { if (i < rating) s.classList.add('active'); else s.classList.remove('active'); });
-        });
-    });
-    document.getElementById('submitRatingBtn')?.addEventListener('click', async () => {
-        if (currentRatingTransporter) {
-            const rating = document.querySelectorAll('#ratingStars i.active').length;
-            const comment = document.getElementById('ratingComment').value;
-            await addDoc(collection(db, 'ratings'), {
-                transporterId: currentRatingTransporter.id,
-                transporterName: currentRatingTransporter.name,
-                rating: rating,
-                comment: comment,
-                userId: currentUser.uid,
-                date: Timestamp.now()
-            });
-            const transporterRatings = await getDocs(query(collection(db, 'ratings'), where('transporterId', '==', currentRatingTransporter.id)));
-            const avgRating = transporterRatings.docs.reduce((sum, d) => sum + d.data().rating, 0) / transporterRatings.size;
-            await updateDoc(doc(db, 'transporters', currentRatingTransporter.id), { rating: avgRating.toFixed(1) });
-            document.getElementById('ratingModal').style.display = 'none';
-            document.getElementById('ratingComment').value = '';
-            stars.forEach(s => s.classList.remove('active'));
-            showToast(`شكراً لتقييمك ${currentRatingTransporter.name}`);
-            currentRatingTransporter = null;
-        }
-    });
-    document.getElementById('closeRatingBtn')?.addEventListener('click', () => {
-        document.getElementById('ratingModal').style.display = 'none';
-        currentRatingTransporter = null;
     });
 
     // Flatpickr
@@ -1280,7 +1142,9 @@
     
     // QR Code
     const qrDiv = document.getElementById('qrcode');
-    if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique - الدفع عبر البريد التونسي", width: 150, height: 150 });
+    if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique - نظام العمولات", width: 150, height: 150 });
+    
+    updateCommissionDisplay();
 </script>
 </body>
 </html>
