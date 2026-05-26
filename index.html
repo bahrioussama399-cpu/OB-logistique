@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>OB Logistique - منصة النقل الذكية | تونس</title>
+    <title>OB Logistique - منصة النقل الذكية</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Leaflet + Map -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Chart.js -->
@@ -28,401 +28,332 @@
         }
 
         :root {
-            --primary: #0a2463;
-            --primary-dark: #051a4a;
-            --primary-light: #1e3a8a;
-            --secondary: #e63946;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #262626;
+            --bg-hover: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
             --accent: #ffb703;
             --accent-dark: #fb8500;
             --success: #10b981;
             --danger: #ef4444;
             --info: #3b82f6;
-            --purple: #8b5cf6;
-            --warning: #f97316;
-            --dark: #1f2937;
-            --gray: #6b7280;
-            --light: #f3f4f6;
-            --white: #ffffff;
-            --sidebar-width: 280px;
+            --whatsapp: #25D366;
+            --telegram: #26A5E4;
+            --instagram: #E4405F;
+            --border: #404040;
+            --sidebar-width: 320px;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--dark);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Toast Notification */
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            z-index: 10000;
-            animation: slideInRight 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Privacy Modal */
-        .privacy-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 20000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .privacy-content {
-            background: white;
-            border-radius: 32px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            text-align: center;
-        }
-
-        /* Login/Register Page Styles */
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        .auth-card {
-            background: rgba(255,255,255,0.98);
-            backdrop-filter: blur(10px);
-            border-radius: 48px;
-            padding: 45px 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.6s ease;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .logo-icon i {
-            font-size: 40px;
-            color: white;
-        }
-
-        .auth-header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: 20px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .btn-auth {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-auth:hover {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: var(--primary);
-        }
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 25px;
-            color: var(--gray);
-        }
-
-        .auth-switch a {
-            color: var(--accent);
-            cursor: pointer;
-        }
-
-        /* Main App */
-        .app-container {
-            display: none;
-        }
-
-        .app-container.active {
-            display: block;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: var(--sidebar-width);
             height: 100vh;
-            background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-            color: white;
-            z-index: 1000;
-            transition: all 0.3s;
-            overflow-y: auto;
         }
 
-        .sidebar.collapsed {
+        /* ==================== MODERN APP LAYOUT ==================== */
+        .app-layout {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar - Like Telegram/WhatsApp */
+        .sidebar-modern {
+            width: var(--sidebar-width);
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-modern.collapsed {
             width: 80px;
         }
 
-        .sidebar.collapsed .sidebar-text,
-        .sidebar.collapsed .nav-label {
+        .sidebar-modern.collapsed .sidebar-text,
+        .sidebar-modern.collapsed .nav-label {
             display: none;
         }
 
-        .toggle-sidebar {
-            position: absolute;
-            left: -12px;
-            top: 20px;
-            background: var(--accent);
-            color: var(--primary);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1001;
+            justify-content: space-between;
         }
 
-        .logo {
-            padding: 25px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-        }
-
-        .logo h2 {
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        .logo h2 span {
-            color: var(--accent);
-        }
-
-        .nav-item {
-            padding: 12px 20px;
-            margin: 5px 10px;
-            border-radius: 12px;
-            cursor: pointer;
+        .logo-area {
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon i {
+            font-size: 22px;
+            color: var(--bg-primary);
+        }
+
+        .logo-text h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        .toggle-btn {
+            background: var(--bg-hover);
+            border: none;
+            color: var(--text-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: 0.3s;
         }
 
-        .nav-item:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .nav-item.active {
+        .toggle-btn:hover {
             background: var(--accent);
-            color: var(--primary);
+            color: var(--bg-primary);
         }
 
-        /* Main Content */
-        .main-content {
-            margin-right: var(--sidebar-width);
+        /* User Profile */
+        .user-profile {
             padding: 20px;
-            transition: 0.3s;
-        }
-
-        .main-content.expanded {
-            margin-right: 80px;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
         }
 
         .user-avatar {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: var(--primary);
+            font-size: 18px;
         }
 
-        .logout-btn {
-            background: rgba(220,38,38,0.1);
-            color: var(--danger);
-            padding: 8px 16px;
+        .user-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav-modern {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .nav-item-modern {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
             border-radius: 12px;
             cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 4px;
         }
 
-        .logout-btn:hover {
-            background: var(--danger);
-            color: white;
+        .nav-item-modern:hover {
+            background: var(--bg-hover);
         }
 
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+        .nav-item-modern.active {
+            background: var(--accent);
+            color: var(--bg-primary);
         }
 
-        .stat-card {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
+        .nav-item-modern i {
+            width: 24px;
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-modern {
+            flex: 1;
+            background: var(--bg-primary);
+            overflow-y: auto;
             padding: 20px;
-            border-radius: 20px;
-            text-align: center;
+        }
+
+        /* Top Bar */
+        .top-bar-modern {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: var(--bg-card);
+            border: none;
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: 0.3s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-card .number {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
+        .icon-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
         }
 
         /* Cards */
-        .card {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 25px;
-            margin-bottom: 25px;
+        .stats-grid-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
         }
 
-        .card h3 {
-            margin-bottom: 20px;
-            border-right: 4px solid var(--accent);
-            padding-right: 15px;
+        .stat-card-modern {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .stat-card-modern:hover {
+            transform: translateY(-2px);
+            background: var(--bg-hover);
         }
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e5e7eb;
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,183,3,0.15);
             border-radius: 16px;
-            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--accent);
         }
 
-        button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
+        .stat-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .card-modern {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Forms */
+        .form-group-modern {
+            margin-bottom: 16px;
+        }
+
+        .form-group-modern label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-group-modern input,
+        .form-group-modern select,
+        .form-group-modern textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+        }
+
+        .form-group-modern input:focus,
+        .form-group-modern select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-modern {
+            background: var(--accent);
+            color: var(--bg-primary);
             border: none;
             padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 700;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
             display: inline-flex;
@@ -430,898 +361,926 @@
             gap: 8px;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: var(--primary);
+        .btn-modern:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
         }
 
-        .data-list {
+        .btn-outline:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent);
+        }
+
+        /* Data Lists */
+        .data-list-modern {
             max-height: 500px;
             overflow-y: auto;
         }
 
-        .data-item {
-            background: rgba(248,250,252,0.9);
+        .data-item-modern {
+            background: var(--bg-hover);
             border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-right: 4px solid var(--accent);
+            padding: 16px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            transition: 0.3s;
         }
 
-        .status {
+        .data-item-modern:hover {
+            background: rgba(255,183,3,0.1);
+        }
+
+        .badge {
             padding: 4px 12px;
-            border-radius: 50px;
+            border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .status-pending { background: #fef3c7; color: #d97706; }
-        .status-accepted { background: #d1fae5; color: #059669; }
-        .status-transit { background: #dbeafe; color: #2563eb; }
+        .badge-pending { background: #fef3c7; color: #d97706; }
+        .badge-accepted { background: #d1fae5; color: #059669; }
+        .badge-transit { background: #dbeafe; color: #2563eb; }
 
-        .page {
-            display: none;
-            animation: fadeIn 0.4s;
+        /* Grid */
+        .grid-2-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
         }
 
-        .page.active-page {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Map */
         #map {
             height: 350px;
             border-radius: 16px;
-            margin-bottom: 15px;
+            margin-top: 16px;
         }
 
-        .modal {
+        /* Modal */
+        .modal-modern {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 5000;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
-        .modal-content {
-            background: white;
+        .modal-content-modern {
+            background: var(--bg-card);
             border-radius: 24px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
+        /* Toast */
+        .toast-modern {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 2000;
+            animation: slideIn 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Page Container */
+        .page-modern {
+            display: none;
+        }
+
+        .page-modern.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Rating Stars */
         .rating-stars i {
-            font-size: 28px;
+            font-size: 32px;
             cursor: pointer;
-            color: #cbd5e1;
+            color: #404040;
+            transition: 0.2s;
         }
 
         .rating-stars i.active {
             color: var(--accent);
         }
 
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-hover);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
         @media (max-width: 768px) {
-            .sidebar { width: 80px; }
-            .main-content { margin-right: 80px; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .auth-card { padding: 30px 25px; }
+            .sidebar-modern { width: 80px; }
+            .sidebar-modern .sidebar-text,
+            .sidebar-modern .nav-label { display: none; }
+            .grid-2-modern { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Privacy Modal -->
-    <div id="privacyModal" class="privacy-modal">
-        <div class="privacy-content">
-            <i class="fas fa-shield-alt" style="font-size: 50px; color: var(--success); margin-bottom: 20px;"></i>
-            <h2>سياسة الخصوصية والأمان</h2>
-            <p style="margin: 20px 0; text-align: right;">
-                نحن في OB Logistique نلتزم بحماية خصوصية بياناتك. يتم تخزين جميع المعلومات بشكل آمن باستخدام Firebase.<br><br>
-                <strong>✓ البيانات مشفرة بالكامل</strong><br>
-                <strong>✓ لا نشارك بياناتك مع أطراف ثالثة</strong><br>
-                <strong>✓ يمكنك طلب حذف بياناتك في أي وقت</strong><br>
-                <strong>✓ نستخدم تقنيات أمان متقدمة</strong>
-            </p>
-            <button id="acceptPrivacyBtn" style="background: var(--success); width: 100%;">موافق والمتابعة</button>
+<div class="app-layout">
+    <!-- Modern Sidebar -->
+    <div class="sidebar-modern" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-truck-fast"></i></div>
+                <div class="logo-text sidebar-text"><h2>OB <span>Logistique</span></h2></div>
+            </div>
+            <button class="toggle-btn" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-avatar" id="userAvatar">OB</div>
+            <div class="user-info sidebar-text">
+                <h4 id="userName">مرحباً بك</h4>
+                <p id="userEmail">user@example.com</p>
+            </div>
+        </div>
+
+        <div class="nav-modern">
+            <div class="nav-item-modern active" data-page="dashboard"><i class="fas fa-chart-line"></i><span class="nav-label sidebar-text">لوحة التحكم</span></div>
+            <div class="nav-item-modern" data-page="orders"><i class="fas fa-box"></i><span class="nav-label sidebar-text">الطلبات</span></div>
+            <div class="nav-item-modern" data-page="transporters"><i class="fas fa-truck"></i><span class="nav-label sidebar-text">الناقلين</span></div>
+            <div class="nav-item-modern" data-page="stock"><i class="fas fa-warehouse"></i><span class="nav-label sidebar-text">المخزون</span></div>
+            <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">التتبع</span></div>
+            <div class="nav-item-modern" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">المدفوعات</span></div>
+            <div class="nav-item-modern" data-page="chat"><i class="fas fa-comments"></i><span class="nav-label sidebar-text">الدردشة</span></div>
+            <div class="nav-item-modern" data-page="files"><i class="fas fa-folder"></i><span class="nav-label sidebar-text">الملفات</span></div>
+            <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">الإعدادات</span></div>
+        </div>
+
+        <div class="nav-modern" style="margin-top: auto;">
+            <div class="nav-item-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span class="nav-label sidebar-text">تسجيل الخروج</span></div>
         </div>
     </div>
 
-    <!-- Login Page -->
-    <div id="loginPage" class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="logo-icon">
-                    <i class="fas fa-truck-fast"></i>
+    <!-- Main Content -->
+    <div class="main-modern" id="mainContent">
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="page-modern active">
+            <div class="top-bar-modern">
+                <h1 class="page-title">لوحة التحكم</h1>
+                <div class="action-buttons">
+                    <button class="icon-btn" id="refreshBtn"><i class="fas fa-sync-alt"></i></button>
                 </div>
-                <h1>OB <span style="color: var(--secondary);">Logistique</span></h1>
-                <p>مرحباً بك في منصة النقل الذكية</p>
             </div>
-            <div id="loginMessage"></div>
-            <form id="loginForm">
-                <div class="input-group">
-                    <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-                    <input type="email" id="loginEmail" placeholder="example@email.com" required>
+            <div class="stats-grid-modern">
+                <div class="stat-card-modern" onclick="switchPage('orders')">
+                    <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                    <div class="stat-info"><h3 id="statOrders">0</h3><p>طلبات نشطة</p></div>
                 </div>
-                <div class="input-group">
-                    <label><i class="fas fa-lock"></i> كلمة المرور</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                <div class="stat-card-modern" onclick="switchPage('transporters')">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info"><h3 id="statTransporters">0</h3><p>ناقلين</p></div>
                 </div>
-                <button type="submit" class="btn-auth"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
-            </form>
-            <div class="auth-switch">
-                ليس لديك حساب؟ <a id="showRegisterBtn">إنشاء حساب جديد</a>
+                <div class="stat-card-modern" onclick="switchPage('stock')">
+                    <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                    <div class="stat-info"><h3 id="statStock">0</h3><p>سلع بالمخزن</p></div>
+                </div>
+                <div class="stat-card-modern" onclick="switchPage('payments')">
+                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                    <div class="stat-info"><h3 id="statProfit">0</h3><p>أرباح</p></div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Register Page -->
-    <div id="registerPage" class="auth-container" style="display: none;">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="logo-icon">
-                    <i class="fas fa-user-plus"></i>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-clock"></i> آخر الطلبات</h3></div>
+                    <div id="recentOrders" class="data-list-modern"></div>
                 </div>
-                <h1>إنشاء حساب</h1>
-                <p>انضم إلى OB Logistique</p>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-truck-fast"></i> ناقلين متاحين</h3></div>
+                    <div id="availableTransporters" class="data-list-modern"></div>
+                </div>
             </div>
-            <div id="registerMessage"></div>
-            <form id="registerForm">
-                <div class="input-group">
-                    <label><i class="fas fa-user"></i> الاسم الكامل</label>
-                    <input type="text" id="registerName" required>
-                </div>
-                <div class="input-group">
-                    <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-                    <input type="email" id="registerEmail" required>
-                </div>
-                <div class="input-group">
-                    <label><i class="fas fa-phone"></i> رقم الهاتف</label>
-                    <input type="tel" id="registerPhone" required>
-                </div>
-                <div class="input-group">
-                    <label><i class="fas fa-user-tag"></i> نوع الحساب</label>
-                    <select id="registerRole">
-                        <option value="merchant">تاجر</option>
-                        <option value="transporter">ناقل</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label><i class="fas fa-lock"></i> كلمة المرور</label>
-                    <input type="password" id="registerPassword" required>
-                </div>
-                <div class="input-group">
-                    <label><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
-                    <input type="password" id="registerConfirmPassword" required>
-                </div>
-                <button type="submit" class="btn-auth"><i class="fas fa-user-plus"></i> إنشاء حساب</button>
-            </form>
-            <div class="auth-switch">
-                لديك حساب؟ <a id="showLoginBtn">تسجيل الدخول</a>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-chart-line"></i> نشاط المنصة</h3></div>
+                <canvas id="activityChart" height="100"></canvas>
             </div>
         </div>
-    </div>
 
-    <!-- Main App -->
-    <div id="appContainer" class="app-container">
-        <div class="sidebar" id="sidebar">
-            <div class="toggle-sidebar" id="toggleSidebar">
-                <i class="fas fa-chevron-left"></i>
+        <!-- Orders Page -->
+        <div id="ordersPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">الطلبات</h1>
             </div>
-            <div class="logo">
-                <h2><i class="fas fa-truck-fast"></i> <span class="sidebar-text">OB <span>Logistique</span></span></h2>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-plus-circle"></i> نشر طلب نقل</h3></div>
+                    <form id="orderForm">
+                        <div class="form-group-modern"><label>📍 من → إلى</label><input type="text" id="route" placeholder="صفاقس → تونس" required></div>
+                        <div class="form-group-modern"><label>⚖️ الوزن (كغ)</label><input type="number" id="weight" required></div>
+                        <div class="form-group-modern"><label>📦 نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option><option>ملابس</option><option>أدوية</option></select></div>
+                        <div class="form-group-modern"><label>📅 وقت النقل</label><input type="text" id="timeSlot" placeholder="اختر التاريخ"></div>
+                        <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="phone" required></div>
+                        <div class="form-group-modern"><label>📝 ملاحظات</label><textarea id="notes" rows="2"></textarea></div>
+                        <button type="submit" class="btn-modern"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
+                    </form>
+                </div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الطلبات</h3></div>
+                    <div id="ordersList" class="data-list-modern"></div>
+                </div>
             </div>
-            <div class="nav-item active" data-page="dashboard"><i class="fas fa-chart-line"></i><span class="nav-label">الرئيسية</span></div>
-            <div class="nav-item" data-page="orders"><i class="fas fa-box"></i><span class="nav-label">الطلبات</span></div>
-            <div class="nav-item" data-page="transporters"><i class="fas fa-truck"></i><span class="nav-label">الناقلين</span></div>
-            <div class="nav-item" data-page="stock"><i class="fas fa-warehouse"></i><span class="nav-label">المخزون</span></div>
-            <div class="nav-item" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label">التتبع</span></div>
-            <div class="nav-item" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label">المدفوعات</span></div>
-            <div class="nav-item" data-page="files"><i class="fas fa-file-upload"></i><span class="nav-label">الملفات</span></div>
-            <div class="nav-item" data-page="privacy"><i class="fas fa-shield-alt"></i><span class="nav-label">الخصوصية</span></div>
-            <div class="nav-item" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label">الإعدادات</span></div>
         </div>
 
-        <div class="main-content" id="mainContent">
-            <div class="top-bar">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">OB</div>
-                    <div><strong id="userName"></strong><br><small id="userEmail"></small></div>
-                </div>
-                <div class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> خروج</div>
+        <!-- Transporters Page -->
+        <div id="transportersPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">الناقلين</h1>
             </div>
-
-            <!-- Dashboard -->
-            <div id="dashboardPage" class="page active-page">
-                <div class="stats-grid">
-                    <div class="stat-card"><i class="fas fa-truck" style="font-size: 35px;"></i><div class="number" id="statOrders">0</div><p>طلبات نشطة</p></div>
-                    <div class="stat-card"><i class="fas fa-users" style="font-size: 35px;"></i><div class="number" id="statTransporters">0</div><p>ناقلين</p></div>
-                    <div class="stat-card"><i class="fas fa-boxes" style="font-size: 35px;"></i><div class="number" id="statStock">0</div><p>سلع بالمخزن</p></div>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-user-plus"></i> إضافة ناقل جديد</h3></div>
+                    <form id="transporterForm">
+                        <div class="form-group-modern"><label>👤 الاسم الكامل</label><input type="text" id="transporterName" required></div>
+                        <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="transporterPhone" required></div>
+                        <div class="form-group-modern"><label>🚛 نوع الشاحنة</label><select id="truckType"><option>شاحنة صغيرة</option><option>شاحنة متوسطة</option><option>شاحنة كبيرة</option><option>شاحنة تبريد</option></select></div>
+                        <div class="form-group-modern"><label>📍 المنطقة</label><input type="text" id="transporterRegion" placeholder="صفاقس، تونس، سوسة"></div>
+                        <button type="submit" class="btn-modern"><i class="fas fa-save"></i> إضافة ناقل</button>
+                    </form>
                 </div>
-                <div class="grid-2">
-                    <div class="card"><h3>آخر الطلبات</h3><div id="recentOrders" class="data-list"></div></div>
-                    <div class="card"><h3>ناقلين متاحين</h3><div id="availableTransporters" class="data-list"></div></div>
-                </div>
-                <div class="card"><h3>نشاط المنصة</h3><canvas id="activityChart" height="100"></canvas></div>
-            </div>
-
-            <!-- Orders -->
-            <div id="ordersPage" class="page">
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>نشر طلب نقل</h3>
-                        <form id="orderForm">
-                            <div class="form-group"><label>من → إلى</label><input type="text" id="route" placeholder="صفاقس → تونس" required></div>
-                            <div class="form-group"><label>الوزن (كغ)</label><input type="number" id="weight" required></div>
-                            <div class="form-group"><label>نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option></select></div>
-                            <div class="form-group"><label>وقت النقل</label><input type="text" id="timeSlot" placeholder="اختر التاريخ"></div>
-                            <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="phone" required></div>
-                            <button type="submit">نشر الطلب</button>
-                        </form>
-                    </div>
-                    <div class="card"><h3>قائمة الطلبات</h3><div id="ordersList" class="data-list"></div></div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-star"></i> قائمة الناقلين</h3></div>
+                    <div id="transportersList" class="data-list-modern"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- Transporters -->
-            <div id="transportersPage" class="page">
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>إضافة ناقل</h3>
-                        <form id="transporterForm">
-                            <div class="form-group"><label>الاسم</label><input type="text" id="transporterName" required></div>
-                            <div class="form-group"><label>الهاتف</label><input type="tel" id="transporterPhone" required></div>
-                            <div class="form-group"><label>نوع الشاحنة</label><select id="truckType"><option>صغيرة</option><option>متوسطة</option><option>كبيرة</option></select></div>
-                            <div class="form-group"><label>المنطقة</label><input type="text" id="transporterRegion"></div>
-                            <button type="submit">إضافة</button>
-                        </form>
-                    </div>
-                    <div class="card"><h3>قائمة الناقلين</h3><div id="transportersList" class="data-list"></div></div>
+        <!-- Stock Page -->
+        <div id="stockPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">المخزون</h1>
+            </div>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-box"></i> إضافة سلعة جديدة</h3></div>
+                    <form id="stockForm">
+                        <div class="form-group-modern"><label>📦 اسم السلعة</label><input type="text" id="productName" required></div>
+                        <div class="form-group-modern"><label>🔢 الكمية</label><input type="number" id="productQuantity" required></div>
+                        <div class="form-group-modern"><label>💰 سعر الشراء (دينار)</label><input type="number" id="productBuyPrice" step="0.01"></div>
+                        <div class="form-group-modern"><label>💰 سعر البيع (دينار)</label><input type="number" id="productSellPrice" step="0.01"></div>
+                        <div class="form-group-modern"><label>📍 موقع التخزين</label><input type="text" id="productLocation" placeholder="المخزن الرئيسي"></div>
+                        <button type="submit" class="btn-modern"><i class="fas fa-plus"></i> إضافة سلعة</button>
+                    </form>
+                </div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> المخزون الحالي</h3></div>
+                    <div id="stockList" class="data-list-modern"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- Stock -->
-            <div id="stockPage" class="page">
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>إضافة سلعة</h3>
-                        <form id="stockForm">
-                            <div class="form-group"><label>اسم السلعة</label><input type="text" id="productName" required></div>
-                            <div class="form-group"><label>الكمية</label><input type="number" id="productQuantity" required></div>
-                            <div class="form-group"><label>سعر الشراء</label><input type="number" id="productBuyPrice" step="0.01"></div>
-                            <div class="form-group"><label>سعر البيع</label><input type="number" id="productSellPrice" step="0.01"></div>
-                            <button type="submit">إضافة</button>
-                        </form>
-                    </div>
-                    <div class="card"><h3>المخزون</h3><div id="stockList" class="data-list"></div></div>
+        <!-- Tracking Page -->
+        <div id="trackingPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">تتبع الشحنة</h1>
+            </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-search"></i> تتبع الطلب</h3></div>
+                <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <input type="text" id="trackingOrderId" placeholder="أدخل رقم الطلب" style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
+                    <button id="trackBtn" class="btn-modern"><i class="fas fa-search"></i> تتبع</button>
+                </div>
+                <div id="map"></div>
+                <div id="trackingDetails" style="display: none; margin-top: 16px;"></div>
+            </div>
+        </div>
+
+        <!-- Payments Page -->
+        <div id="paymentsPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">المدفوعات</h1>
+            </div>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> الدفع عبر البريد التونسي</h3></div>
+                    <form id="paymentForm">
+                        <div class="form-group-modern"><label>📌 رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
+                        <div class="form-group-modern"><label>💰 المبلغ (دينار)</label><input type="number" id="paymentAmount" required></div>
+                        <div class="form-group-modern"><label>👤 اسم الدافع</label><input type="text" id="payerName" required></div>
+                        <div class="form-group-modern"><label>🆔 البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
+                        <div class="form-group-modern"><label>🏢 مكتب البريد</label><input type="text" id="postOffice"></div>
+                        <button type="submit" class="btn-modern"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع</button>
+                    </form>
+                </div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات</h3></div>
+                    <div id="paymentsList" class="data-list-modern"></div>
                 </div>
             </div>
-
-            <!-- Tracking -->
-            <div id="trackingPage" class="page">
-                <div class="card">
-                    <h3>تتبع الشحنة</h3>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="trackingOrderId" placeholder="أدخل رقم الطلب" style="flex:1">
-                        <button id="trackBtn">تتبع</button>
-                    </div>
-                    <div id="map"></div>
-                    <div id="trackingDetails" style="display: none;"></div>
-                </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-qrcode"></i> رمز الدفع السريع</h3></div>
+                <div id="qrcode" style="text-align: center; padding: 20px;"></div>
             </div>
+        </div>
 
-            <!-- Payments -->
-            <div id="paymentsPage" class="page">
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>الدفع عبر البريد التونسي</h3>
-                        <form id="paymentForm">
-                            <div class="form-group"><label>رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
-                            <div class="form-group"><label>المبلغ</label><input type="number" id="paymentAmount" required></div>
-                            <div class="form-group"><label>اسم الدافع</label><input type="text" id="payerName" required></div>
-                            <div class="form-group"><label>البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
-                            <button type="submit">تأكيد الدفع</button>
-                        </form>
-                    </div>
-                    <div class="card"><h3>سجل المدفوعات</h3><div id="paymentsList" class="data-list"></div></div>
-                </div>
-                <div class="card"><h3>رمز الدفع السريع</h3><div id="qrcode" style="text-align: center;"></div></div>
+        <!-- Chat Page -->
+        <div id="chatPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">الدردشة</h1>
             </div>
-
-            <!-- Files Upload -->
-            <div id="filesPage" class="page">
-                <div class="card">
-                    <h3><i class="fas fa-cloud-upload-alt"></i> رفع الملفات إلى السحابة</h3>
-                    <div class="form-group"><label>اختر ملف للرفع</label><input type="file" id="fileInput" accept="image/*,application/pdf"></div>
-                    <button id="uploadFileBtn"><i class="fas fa-upload"></i> رفع الملف</button>
-                    <div id="uploadProgress" style="margin-top: 15px; display: none;">
-                        <progress id="progressBar" value="0" max="100" style="width:100%; height:20px;"></progress>
-                        <p id="progressText">جاري الرفع...</p>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-users"></i> المحادثات</h3></div>
+                    <div id="chatList" class="data-list-modern"></div>
+                </div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-comment-dots"></i> الدردشة</h3></div>
+                    <div id="messagesContainer" style="height: 350px; overflow-y: auto; background: var(--bg-hover); border-radius: 16px; padding: 16px; margin-bottom: 16px;"></div>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="text" id="messageInput" placeholder="اكتب رسالتك..." style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
+                        <button id="sendMsgBtn" class="btn-modern"><i class="fas fa-paper-plane"></i> إرسال</button>
                     </div>
                 </div>
-                <div class="card">
-                    <h3><i class="fas fa-folder-open"></i> الملفات المرفوعة</h3>
-                    <div id="filesList" class="data-list"></div>
-                </div>
             </div>
+        </div>
 
-            <!-- Privacy -->
-            <div id="privacyPage" class="page">
-                <div class="card">
-                    <h3><i class="fas fa-shield-alt"></i> سياسة الخصوصية والأمان</h3>
-                    <div style="line-height: 1.8;">
-                        <p><strong>✓ حماية البيانات:</strong> جميع بياناتك مشفرة بالكامل وتخزن بشكل آمن في Firebase.</p>
-                        <p><strong>✓ الخصوصية:</strong> لا نشارك بياناتك مع أي طرف ثالث دون موافقتك.</p>
-                        <p><strong>✓ حق حذف البيانات:</strong> يمكنك طلب حذف جميع بياناتك في أي وقت.</p>
-                        <p><strong>✓ سجل النشاطات:</strong> نسجل جميع العمليات لضمان الشفافية.</p>
-                        <p><strong>✓ التوثيق:</strong> نستخدم تقنيات التوثيق المتقدمة لحماية حسابك.</p>
+        <!-- Files Page -->
+        <div id="filesPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">الملفات</h1>
+            </div>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-cloud-upload-alt"></i> رفع ملف</h3></div>
+                    <div class="form-group-modern"><label>اختر ملف للرفع</label><input type="file" id="fileInput" accept="image/*,application/pdf"></div>
+                    <button id="uploadFileBtn" class="btn-modern"><i class="fas fa-upload"></i> رفع الملف</button>
+                    <div id="uploadProgress" style="margin-top: 16px; display: none;">
+                        <progress id="progressBar" value="0" max="100" style="width:100%; height:8px; border-radius:10px;"></progress>
+                        <p id="progressText" style="font-size: 12px; margin-top: 8px;">جاري الرفع...</p>
                     </div>
-                    <button id="deleteMyDataBtn" style="background: var(--danger); margin-top: 20px;"><i class="fas fa-trash"></i> طلب حذف جميع بياناتي</button>
                 </div>
-                <div class="card">
-                    <h3><i class="fas fa-history"></i> سجل النشاطات</h3>
-                    <div id="activityLog" class="data-list"></div>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-folder-open"></i> ملفاتي</h3></div>
+                    <div id="filesList" class="data-list-modern"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- Settings -->
-            <div id="settingsPage" class="page">
-                <div class="card">
-                    <h3>إعدادات الحساب</h3>
-                    <div class="form-group"><label>الاسم</label><input type="text" id="settingsName"></div>
-                    <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="settingsPhone"></div>
-                    <button id="updateProfileBtn">تحديث الملف الشخصي</button>
+        <!-- Settings Page -->
+        <div id="settingsPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">الإعدادات</h1>
+            </div>
+            <div class="grid-2-modern">
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-user-cog"></i> الملف الشخصي</h3></div>
+                    <div class="form-group-modern"><label>الاسم الكامل</label><input type="text" id="settingsName"></div>
+                    <div class="form-group-modern"><label>البريد الإلكتروني</label><input type="email" id="settingsEmail" readonly></div>
+                    <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="settingsPhone"></div>
+                    <button id="updateProfileBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث الملف الشخصي</button>
                 </div>
-                <div class="card">
-                    <h3>إعدادات الإشعارات</h3>
-                    <div class="form-group"><label><input type="checkbox" id="notifyOrders"> إشعارات الطلبات الجديدة</label></div>
-                    <div class="form-group"><label><input type="checkbox" id="notifyMessages"> إشعارات الرسائل</label></div>
-                    <button id="saveNotificationsBtn">حفظ الإعدادات</button>
+                <div class="card-modern">
+                    <div class="card-header"><h3><i class="fas fa-bell"></i> الإشعارات</h3></div>
+                    <div class="form-group-modern"><label><input type="checkbox" id="notifyOrders"> إشعارات الطلبات الجديدة</label></div>
+                    <div class="form-group-modern"><label><input type="checkbox" id="notifyMessages"> إشعارات الرسائل</label></div>
+                    <div class="form-group-modern"><label><input type="checkbox" id="notifyPayments"> إشعارات المدفوعات</label></div>
+                    <button id="saveNotificationsBtn" class="btn-modern"><i class="fas fa-save"></i> حفظ الإعدادات</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Rating Modal -->
-    <div id="ratingModal" class="modal">
-        <div class="modal-content">
-            <h3>تقييم الناقل</h3>
-            <div class="rating-stars" id="ratingStars">
-                <i class="fas fa-star" data-rating="1"></i>
-                <i class="fas fa-star" data-rating="2"></i>
-                <i class="fas fa-star" data-rating="3"></i>
-                <i class="fas fa-star" data-rating="4"></i>
-                <i class="fas fa-star" data-rating="5"></i>
-            </div>
-            <textarea id="ratingComment" placeholder="اكتب تقييمك..." rows="3" style="width:100%; margin:15px 0; padding:10px;"></textarea>
-            <button id="submitRatingBtn">إرسال</button>
-            <button id="closeRatingBtn" style="background:#ccc;">إلغاء</button>
+<!-- Rating Modal -->
+<div id="ratingModal" class="modal-modern">
+    <div class="modal-content-modern">
+        <h3 style="margin-bottom: 20px;"><i class="fas fa-star"></i> تقييم الناقل</h3>
+        <div class="rating-stars" id="ratingStars" style="display: flex; gap: 8px; margin-bottom: 20px;">
+            <i class="fas fa-star" data-rating="1"></i>
+            <i class="fas fa-star" data-rating="2"></i>
+            <i class="fas fa-star" data-rating="3"></i>
+            <i class="fas fa-star" data-rating="4"></i>
+            <i class="fas fa-star" data-rating="5"></i>
+        </div>
+        <textarea id="ratingComment" placeholder="اكتب تقييمك..." rows="3" style="width:100%; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white; margin-bottom: 20px;"></textarea>
+        <div style="display: flex; gap: 12px;">
+            <button id="submitRatingBtn" class="btn-modern">إرسال التقييم</button>
+            <button id="closeRatingBtn" class="btn-modern btn-outline">إلغاء</button>
         </div>
     </div>
+</div>
 
-    <!-- Firebase Configuration - All in Background -->
-    <script type="module">
-        // ==================== FIREBASE CONFIGURATION (BACKGROUND) ====================
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, Timestamp, getDocs, where } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-        import { getDatabase, ref, set, onValue, push, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, listAll, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+<!-- Firebase Configuration -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+    import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, Timestamp, getDocs, where } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+    import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 
-        // Firebase Configuration (Hidden/Background)
-        const firebaseConfig = {
-            apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
-            authDomain: "ob-logistique.firebaseapp.com",
-            databaseURL: "https://ob-logistique-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "ob-logistique",
-            storageBucket: "ob-logistique.firebasestorage.app",
-            messagingSenderId: "1019224276320",
-            appId: "1:1019224276320:web:770fd80601476cc6337205",
-            measurementId: "G-JHE00269BM"
-        };
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
+        authDomain: "ob-logistique.firebaseapp.com",
+        databaseURL: "https://ob-logistique-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "ob-logistique",
+        storageBucket: "ob-logistique.firebasestorage.app",
+        messagingSenderId: "1019224276320",
+        appId: "1:1019224276320:web:770fd80601476cc6337205",
+        measurementId: "G-JHE00269BM"
+    };
 
-        // Initialize Firebase (All in Background)
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const rtdb = getDatabase(app);
-        const storage = getStorage(app);
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+    const storage = getStorage(app);
 
-        // Global Variables
-        let currentUser = null;
-        let allOrders = [], allTransporters = [], allStock = [], allPayments = [], allFiles = [];
-        let activityChart = null;
-        let map = null;
-        let currentRatingTransporter = null;
-        let unsubscribeOrders = null, unsubscribeTransporters = null, unsubscribeStock = null, unsubscribePayments = null;
+    let currentUser = null;
+    let allOrders = [], allTransporters = [], allStock = [], allPayments = [], allMessages = [], allFiles = [];
+    let activityChart = null;
+    let map = null;
+    let currentRatingTransporter = null;
+    let currentChatWith = null;
+    let unsubscribeOrders, unsubscribeTransporters, unsubscribeStock, unsubscribePayments, unsubscribeMessages;
 
-        // ==================== HELPER FUNCTIONS ====================
-        function showNotification(title, message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = 'toast-notification';
-            toast.style.background = type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#0a2463';
-            toast.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-triangle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 4000);
-            
-            // Log to analytics
-            logEvent(analytics, 'notification_shown', { title, message, type });
-        }
+    // Helper Functions
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast-modern';
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
 
-        function logActivity(action, details) {
-            if (!currentUser) return;
-            const activityRef = ref(rtdb, `activities/${currentUser.uid}/${Date.now()}`);
-            set(activityRef, {
-                action: action,
-                details: details,
-                timestamp: Date.now(),
-                userEmail: currentUser.email
+    function logActivity(action, details) {
+        if (!currentUser) return;
+        const activityRef = ref(rtdb, `activities/${currentUser.uid}/${Date.now()}`);
+        set(activityRef, { action, details, timestamp: Date.now(), userEmail: currentUser.email });
+    }
+
+    function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
+    
+    function calculateTotalProfit() {
+        let profit = allStock.reduce((sum, item) => sum + ((item.sellPrice || 0) - (item.buyPrice || 0)) * item.quantity, 0);
+        profit += allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
+        return profit;
+    }
+
+    function updateStats() {
+        document.getElementById('statOrders').innerText = allOrders.filter(o => o.status === 'pending').length;
+        document.getElementById('statTransporters').innerText = allTransporters.length;
+        document.getElementById('statStock').innerText = allStock.reduce((s, i) => s + i.quantity, 0);
+        document.getElementById('statProfit').innerText = calculateTotalProfit().toFixed(2);
+    }
+
+    // Render Functions
+    function renderOrders() {
+        const containers = ['recentOrders', 'ordersList'];
+        containers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            if (allOrders.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد طلبات</div>'; return; }
+            container.innerHTML = allOrders.slice(0, 10).map(order => `
+                <div class="data-item-modern">
+                    <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status}</span></div>
+                    <div>💰 ${calculatePrice(order.weight)} دينار</div>
+                    <div><button class="update-order" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">تحديث</button></div>
+                </div>
+            `).join('');
+        });
+        document.querySelectorAll('.update-order').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const order = allOrders.find(o => o.id === btn.dataset.id);
+                if (order) {
+                    const statuses = ['pending', 'accepted', 'transit', 'delivered'];
+                    const nextStatus = statuses[(statuses.indexOf(order.status) + 1) % statuses.length];
+                    await updateDoc(doc(db, 'orders', order.id), { status: nextStatus });
+                    showToast(`تم تحديث الحالة إلى ${nextStatus}`);
+                }
             });
-        }
+        });
+    }
 
-        // ==================== AUTH FUNCTIONS ====================
-        async function login(email, password) {
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                currentUser = userCredential.user;
-                localStorage.setItem('ob_user_uid', currentUser.uid);
-                showNotification('نجاح', 'تم تسجيل الدخول بنجاح', 'success');
-                logActivity('login', 'تسجيل دخول ناجح');
-                showApp();
-                return true;
-            } catch (error) {
-                showNotification('خطأ', error.message, 'error');
-                return false;
-            }
+    function renderTransporters() {
+        const container = document.getElementById('transportersList');
+        const availableContainer = document.getElementById('availableTransporters');
+        if (!container) return;
+        if (allTransporters.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا يوجد ناقلين</div>'; return; }
+        container.innerHTML = allTransporters.map(t => `
+            <div class="data-item-modern">
+                <div><strong>${t.name}</strong><br>📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}<br>⭐ ${t.rating || 'جديد'}</div>
+                <div><button class="rate-transporter" data-id="${t.id}" data-name="${t.name}" style="background: var(--accent); border: none; padding: 6px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer;">تقييم</button></div>
+                <div><button class="delete-transporter" data-id="${t.id}" style="background: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">حذف</button></div>
+            </div>
+        `).join('');
+        
+        if (availableContainer) {
+            availableContainer.innerHTML = allTransporters.filter(t => t.available).slice(0, 5).map(t => `
+                <div class="data-item-modern"><div><strong>${t.name}</strong><br>🚛 ${t.truckType}</div></div>
+            `).join('');
         }
+        
+        document.querySelectorAll('.delete-transporter').forEach(btn => {
+            btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'transporters', btn.dataset.id)); showToast('تم حذف الناقل'); });
+        });
+        document.querySelectorAll('.rate-transporter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentRatingTransporter = { id: btn.dataset.id, name: btn.dataset.name };
+                document.getElementById('ratingModal').style.display = 'flex';
+            });
+        });
+    }
 
-        async function register(name, email, phone, role, password, confirmPassword) {
-            if (password !== confirmPassword) {
-                showNotification('خطأ', 'كلمة المرور غير متطابقة', 'error');
-                return false;
-            }
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                currentUser = userCredential.user;
-                await updateProfile(currentUser, { displayName: name });
-                await addDoc(collection(db, 'users'), {
-                    uid: currentUser.uid,
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    role: role,
-                    createdAt: Timestamp.now()
+    function renderStock() {
+        const container = document.getElementById('stockList');
+        if (!container) return;
+        if (allStock.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">المخزن فارغ</div>'; return; }
+        container.innerHTML = allStock.map(item => `
+            <div class="data-item-modern">
+                <div><strong>${item.name}</strong><br>🔢 ${item.quantity} وحدة<br>💰 شراء: ${item.buyPrice || 0} | بيع: ${item.sellPrice || 0}</div>
+                <div><button class="delete-stock" data-id="${item.id}" style="background: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">حذف</button></div>
+            </div>
+        `).join('');
+        document.querySelectorAll('.delete-stock').forEach(btn => {
+            btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'stock', btn.dataset.id)); showToast('تم حذف السلعة'); });
+        });
+    }
+
+    function renderPayments() {
+        const container = document.getElementById('paymentsList');
+        if (!container) return;
+        if (allPayments.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد مدفوعات</div>'; return; }
+        container.innerHTML = allPayments.slice(0, 10).map(p => `
+            <div class="data-item-modern">
+                <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>👤 ${p.payerName}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderChatList() {
+        const container = document.getElementById('chatList');
+        if (!container) return;
+        const transporters = allTransporters.slice(0, 15);
+        container.innerHTML = transporters.map(t => `
+            <div class="data-item-modern chat-item" data-id="${t.id}" data-name="${t.name}" style="cursor: pointer;">
+                <div><strong>${t.name}</strong><br>🚛 ${t.truckType} | 📍 ${t.region}</div>
+                <div><i class="fas fa-comment"></i></div>
+            </div>
+        `).join('');
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', () => {
+                currentChatWith = item.dataset.id;
+                const transporterName = item.dataset.name;
+                document.getElementById('messagesContainer').innerHTML = `<div style="text-align:center; padding:20px;">💬 دردشة مع ${transporterName}</div>`;
+                showToast(`محادثة مفتوحة مع ${transporterName}`);
+            });
+        });
+    }
+
+    function renderFiles() {
+        const container = document.getElementById('filesList');
+        if (!container) return;
+        if (allFiles.length === 0) { container.innerHTML = '<div class="data-list-modern" style="text-align:center; padding:40px;">لا توجد ملفات</div>'; return; }
+        container.innerHTML = allFiles.map(f => `
+            <div class="data-item-modern">
+                <div><i class="fas fa-file"></i> ${f.name}<br><small>${(f.size / 1024).toFixed(2)} KB</small></div>
+                <div><a href="${f.url}" target="_blank" style="color: var(--accent);"><i class="fas fa-download"></i> تحميل</a></div>
+            </div>
+        `).join('');
+    }
+
+    function updateChart() {
+        if (activityChart) activityChart.destroy();
+        const ctx = document.getElementById('activityChart').getContext('2d');
+        const last7Days = [];
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            last7Days.push(d.toLocaleDateString('ar-TN'));
+        }
+        const counts = last7Days.map(day => allOrders.filter(o => o.createdAt && new Date(o.createdAt.toDate()).toDateString() === new Date(day).toDateString()).length);
+        activityChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: last7Days, datasets: [{ label: 'الطلبات', data: counts, borderColor: '#ffb703', backgroundColor: 'rgba(255,183,3,0.1)', tension: 0.3, fill: true }] },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+    }
+
+    async function trackOrder() {
+        const orderId = document.getElementById('trackingOrderId').value;
+        if (!orderId) { showToast('أدخل رقم الطلب', 'error'); return; }
+        const orderDoc = await getDoc(doc(db, 'orders', orderId));
+        if (!orderDoc.exists()) { showToast('الطلب غير موجود', 'error'); return; }
+        const order = orderDoc.data();
+        if (!map) {
+            map = L.map('map').setView([36.8065, 10.1815], 8);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+        }
+        L.marker([36.8065, 10.1815]).addTo(map).bindPopup(`الطلب: ${order.route}<br>الحالة: ${order.status}`).openPopup();
+        document.getElementById('trackingDetails').style.display = 'block';
+        document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern"><strong>رقم الطلب:</strong> ${orderId}<br><strong>المسار:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status}</div>`;
+    }
+
+    // CRUD Operations
+    async function publishOrder(e) {
+        e.preventDefault();
+        await addDoc(collection(db, 'orders'), {
+            route: document.getElementById('route').value,
+            weight: parseFloat(document.getElementById('weight').value),
+            goodsType: document.getElementById('goodsType').value,
+            timeSlot: document.getElementById('timeSlot').value,
+            phone: document.getElementById('phone').value,
+            notes: document.getElementById('notes').value,
+            status: 'pending',
+            createdAt: Timestamp.now(),
+            userId: currentUser.uid
+        });
+        showToast('تم نشر الطلب بنجاح');
+        logActivity('publish_order', `نشر طلب: ${document.getElementById('route').value}`);
+        document.getElementById('orderForm').reset();
+    }
+
+    async function addTransporter(e) {
+        e.preventDefault();
+        await addDoc(collection(db, 'transporters'), {
+            name: document.getElementById('transporterName').value,
+            phone: document.getElementById('transporterPhone').value,
+            truckType: document.getElementById('truckType').value,
+            region: document.getElementById('transporterRegion').value,
+            available: true,
+            rating: 0,
+            createdAt: Timestamp.now()
+        });
+        showToast('تم إضافة الناقل');
+        document.getElementById('transporterForm').reset();
+    }
+
+    async function addStock(e) {
+        e.preventDefault();
+        await addDoc(collection(db, 'stock'), {
+            name: document.getElementById('productName').value,
+            quantity: parseInt(document.getElementById('productQuantity').value),
+            buyPrice: parseFloat(document.getElementById('productBuyPrice').value) || 0,
+            sellPrice: parseFloat(document.getElementById('productSellPrice').value) || 0,
+            location: document.getElementById('productLocation').value,
+            createdAt: Timestamp.now()
+        });
+        showToast('تم إضافة السلعة');
+        document.getElementById('stockForm').reset();
+    }
+
+    async function processPayment(e) {
+        e.preventDefault();
+        await addDoc(collection(db, 'payments'), {
+            orderId: document.getElementById('paymentOrderId').value,
+            amount: parseFloat(document.getElementById('paymentAmount').value),
+            payerName: document.getElementById('payerName').value,
+            payerCin: document.getElementById('payerCin').value,
+            postOffice: document.getElementById('postOffice').value,
+            commission: parseFloat(document.getElementById('paymentAmount').value) * 0.08,
+            status: 'completed',
+            date: Timestamp.now(),
+            userId: currentUser.uid
+        });
+        showToast(`تم تأكيد الدفع بمبلغ ${document.getElementById('paymentAmount').value} دينار`);
+        document.getElementById('paymentForm').reset();
+        
+        const qrDiv = document.getElementById('qrcode');
+        qrDiv.innerHTML = '';
+        new QRCode(qrDiv, { text: `OB Logistique Payment - ${Date.now()}`, width: 150, height: 150 });
+    }
+
+    async function sendMessage() {
+        const message = document.getElementById('messageInput').value.trim();
+        if (!message || !currentChatWith) { showToast('اختر محادثة أولاً', 'error'); return; }
+        await addDoc(collection(db, 'messages'), {
+            from: currentUser.uid,
+            to: currentChatWith,
+            senderName: currentUser.displayName || currentUser.email,
+            message: message,
+            timestamp: Timestamp.now()
+        });
+        document.getElementById('messageInput').value = '';
+        showToast('تم إرسال الرسالة');
+    }
+
+    async function uploadFile() {
+        const file = document.getElementById('fileInput').files[0];
+        if (!file) { showToast('اختر ملف أولاً', 'error'); return; }
+        const fileRef = storageRef(storage, `files/${currentUser.uid}/${Date.now()}_${file.name}`);
+        const uploadTask = uploadBytesResumable(fileRef, file);
+        document.getElementById('uploadProgress').style.display = 'block';
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progressBar.value = progress;
+                progressText.innerText = `جاري الرفع: ${Math.round(progress)}%`;
+            },
+            (error) => { showToast('فشل رفع الملف', 'error'); document.getElementById('uploadProgress').style.display = 'none'; },
+            async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                await addDoc(collection(db, 'files'), {
+                    name: file.name,
+                    url: downloadURL,
+                    size: file.size,
+                    type: file.type,
+                    userId: currentUser.uid,
+                    uploadedAt: Timestamp.now()
                 });
-                showNotification('نجاح', 'تم إنشاء الحساب بنجاح', 'success');
-                logActivity('register', 'إنشاء حساب جديد');
-                showApp();
-                return true;
-            } catch (error) {
-                showNotification('خطأ', error.message, 'error');
-                return false;
+                showToast('تم رفع الملف بنجاح');
+                document.getElementById('uploadProgress').style.display = 'none';
+                document.getElementById('fileInput').value = '';
+                loadFiles();
             }
-        }
+        );
+    }
 
-        async function logout() {
-            try {
-                await signOut(auth);
-                currentUser = null;
-                localStorage.removeItem('ob_user_uid');
-                if (unsubscribeOrders) unsubscribeOrders();
-                if (unsubscribeTransporters) unsubscribeTransporters();
-                if (unsubscribeStock) unsubscribeStock();
-                if (unsubscribePayments) unsubscribePayments();
-                showNotification('نجاح', 'تم تسجيل الخروج', 'success');
-                showLoginPage();
-            } catch (error) {
-                showNotification('خطأ', error.message, 'error');
+    async function loadFiles() {
+        const filesSnapshot = await getDocs(query(collection(db, 'files'), where('userId', '==', currentUser.uid), orderBy('uploadedAt', 'desc')));
+        allFiles = filesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderFiles();
+    }
+
+    async function updateProfileInfo() {
+        const newName = document.getElementById('settingsName').value;
+        if (newName && currentUser) {
+            await updateProfile(currentUser, { displayName: newName });
+            await updateDoc(doc(db, 'users', currentUser.uid), { name: newName });
+            document.getElementById('userName').innerHTML = newName;
+            document.getElementById('userAvatar').innerHTML = newName.substring(0,2).toUpperCase();
+            showToast('تم تحديث الملف الشخصي');
+        }
+    }
+
+    // Firebase Listeners
+    function subscribeToFirestore() {
+        unsubscribeOrders = onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
+            allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderOrders();
+            updateStats();
+            updateChart();
+        });
+        unsubscribeTransporters = onSnapshot(collection(db, 'transporters'), (snapshot) => {
+            allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderTransporters();
+            updateStats();
+            renderChatList();
+        });
+        unsubscribeStock = onSnapshot(collection(db, 'stock'), (snapshot) => {
+            allStock = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderStock();
+            updateStats();
+        });
+        unsubscribePayments = onSnapshot(collection(db, 'payments'), (snapshot) => {
+            allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderPayments();
+            updateStats();
+        });
+        unsubscribeMessages = onSnapshot(collection(db, 'messages'), (snapshot) => {
+            allMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        });
+    }
+
+    // Navigation
+    window.switchPage = function(pageId) {
+        document.querySelectorAll('.page-modern').forEach(p => p.classList.remove('active'));
+        document.getElementById(`${pageId}Page`).classList.add('active');
+        document.querySelectorAll('.nav-item-modern').forEach(nav => nav.classList.remove('active'));
+        document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+        if (pageId === 'tracking' && !map) {
+            map = L.map('map').setView([36.8065, 10.1815], 8);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+        }
+        if (pageId === 'files') loadFiles();
+    };
+
+    function showApp() {
+        document.getElementById('userName').innerHTML = currentUser.displayName || currentUser.email;
+        document.getElementById('userEmail').innerHTML = currentUser.email;
+        document.getElementById('userAvatar').innerHTML = (currentUser.displayName || currentUser.email).substring(0,2).toUpperCase();
+        document.getElementById('settingsName').value = currentUser.displayName || '';
+        document.getElementById('settingsEmail').value = currentUser.email;
+        subscribeToFirestore();
+    }
+
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            showApp();
+        }
+    });
+
+    // Demo login for testing (remove in production)
+    if (!localStorage.getItem('demo_login')) {
+        setTimeout(() => {
+            if (!currentUser) {
+                signInWithEmailAndPassword(auth, 'merchant@oblogistique.com', 'merchant123').catch(() => {});
             }
-        }
+        }, 500);
+    }
 
-        // ==================== FIRESTORE LISTENERS (Real-time) ====================
-        function subscribeToFirestore() {
-            unsubscribeOrders = onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
-                allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderOrders(allOrders);
-                updateStats();
-                updateChart();
-            });
-            unsubscribeTransporters = onSnapshot(collection(db, 'transporters'), (snapshot) => {
-                allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderTransporters(allTransporters);
-                updateStats();
-            });
-            unsubscribeStock = onSnapshot(collection(db, 'stock'), (snapshot) => {
-                allStock = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderStock(allStock);
-                updateStats();
-            });
-            unsubscribePayments = onSnapshot(collection(db, 'payments'), (snapshot) => {
-                allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderPayments(allPayments);
-            });
+    // Event Listeners
+    document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
+    document.getElementById('transporterForm')?.addEventListener('submit', addTransporter);
+    document.getElementById('stockForm')?.addEventListener('submit', addStock);
+    document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
+    document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
+    document.getElementById('sendMsgBtn')?.addEventListener('click', sendMessage);
+    document.getElementById('uploadFileBtn')?.addEventListener('click', uploadFile);
+    document.getElementById('updateProfileBtn')?.addEventListener('click', updateProfileInfo);
+    document.getElementById('logoutBtn')?.addEventListener('click', () => signOut(auth));
+    document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+    });
+    document.getElementById('refreshBtn')?.addEventListener('click', () => { location.reload(); });
+    
+    document.querySelectorAll('.nav-item-modern').forEach(nav => {
+        if (nav.dataset.page) {
+            nav.addEventListener('click', () => window.switchPage(nav.dataset.page));
         }
+    });
 
-        // ==================== CRUD OPERATIONS ====================
-        async function publishOrder(e) {
-            e.preventDefault();
-            await addDoc(collection(db, 'orders'), {
-                route: document.getElementById('route').value,
-                weight: parseFloat(document.getElementById('weight').value),
-                goodsType: document.getElementById('goodsType').value,
-                timeSlot: document.getElementById('timeSlot').value,
-                phone: document.getElementById('phone').value,
-                status: 'pending',
-                createdAt: Timestamp.now(),
-                userId: currentUser.uid
-            });
-            showNotification('نجاح', 'تم نشر الطلب', 'success');
-            logActivity('publish_order', `نشر طلب: ${document.getElementById('route').value}`);
-            document.getElementById('orderForm').reset();
-        }
-
-        async function addTransporter(e) {
-            e.preventDefault();
-            await addDoc(collection(db, 'transporters'), {
-                name: document.getElementById('transporterName').value,
-                phone: document.getElementById('transporterPhone').value,
-                truckType: document.getElementById('truckType').value,
-                region: document.getElementById('transporterRegion').value,
-                available: true,
-                rating: 0,
-                createdAt: Timestamp.now()
-            });
-            showNotification('نجاح', 'تم إضافة الناقل', 'success');
-            document.getElementById('transporterForm').reset();
-        }
-
-        async function addStock(e) {
-            e.preventDefault();
-            await addDoc(collection(db, 'stock'), {
-                name: document.getElementById('productName').value,
-                quantity: parseInt(document.getElementById('productQuantity').value),
-                buyPrice: parseFloat(document.getElementById('productBuyPrice').value) || 0,
-                sellPrice: parseFloat(document.getElementById('productSellPrice').value) || 0,
-                createdAt: Timestamp.now()
-            });
-            showNotification('نجاح', 'تم إضافة السلعة', 'success');
-            document.getElementById('stockForm').reset();
-        }
-
-        async function processPayment(e) {
-            e.preventDefault();
-            await addDoc(collection(db, 'payments'), {
-                orderId: document.getElementById('paymentOrderId').value,
-                amount: parseFloat(document.getElementById('paymentAmount').value),
-                payerName: document.getElementById('payerName').value,
-                payerCin: document.getElementById('payerCin').value,
-                commission: parseFloat(document.getElementById('paymentAmount').value) * 0.08,
-                status: 'completed',
+    // Rating Modal
+    const stars = document.querySelectorAll('#ratingStars i');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const rating = parseInt(star.dataset.rating);
+            stars.forEach((s, i) => { if (i < rating) s.classList.add('active'); else s.classList.remove('active'); });
+        });
+    });
+    document.getElementById('submitRatingBtn')?.addEventListener('click', async () => {
+        if (currentRatingTransporter) {
+            const rating = document.querySelectorAll('#ratingStars i.active').length;
+            const comment = document.getElementById('ratingComment').value;
+            await addDoc(collection(db, 'ratings'), {
+                transporterId: currentRatingTransporter.id,
+                transporterName: currentRatingTransporter.name,
+                rating: rating,
+                comment: comment,
+                userId: currentUser.uid,
                 date: Timestamp.now()
             });
-            showNotification('نجاح', 'تم تأكيد الدفع', 'success');
-            document.getElementById('paymentForm').reset();
-            
-            // Update QR
-            const qrDiv = document.getElementById('qrcode');
-            qrDiv.innerHTML = '';
-            new QRCode(qrDiv, {
-                text: `Payment: ${document.getElementById('paymentOrderId').value} - ${document.getElementById('paymentAmount').value} TND`,
-                width: 150,
-                height: 150
-            });
+            const transporterRatings = await getDocs(query(collection(db, 'ratings'), where('transporterId', '==', currentRatingTransporter.id)));
+            const avgRating = transporterRatings.docs.reduce((sum, d) => sum + d.data().rating, 0) / transporterRatings.size;
+            await updateDoc(doc(db, 'transporters', currentRatingTransporter.id), { rating: avgRating.toFixed(1) });
+            document.getElementById('ratingModal').style.display = 'none';
+            document.getElementById('ratingComment').value = '';
+            stars.forEach(s => s.classList.remove('active'));
+            showToast(`شكراً لتقييمك ${currentRatingTransporter.name}`);
+            currentRatingTransporter = null;
         }
+    });
+    document.getElementById('closeRatingBtn')?.addEventListener('click', () => {
+        document.getElementById('ratingModal').style.display = 'none';
+        currentRatingTransporter = null;
+    });
 
-        // ==================== FILE UPLOAD (Storage) ====================
-        async function uploadFile(file) {
-            if (!file) return;
-            const fileRef = storageRef(storage, `files/${currentUser.uid}/${Date.now()}_${file.name}`);
-            const uploadTask = uploadBytesResumable(fileRef, file);
-            
-            document.getElementById('uploadProgress').style.display = 'block';
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    progressBar.value = progress;
-                    progressText.innerText = `جاري الرفع: ${Math.round(progress)}%`;
-                },
-                (error) => {
-                    showNotification('خطأ', 'فشل رفع الملف', 'error');
-                    document.getElementById('uploadProgress').style.display = 'none';
-                },
-                async () => {
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    await addDoc(collection(db, 'files'), {
-                        name: file.name,
-                        url: downloadURL,
-                        size: file.size,
-                        type: file.type,
-                        userId: currentUser.uid,
-                        uploadedAt: Timestamp.now()
-                    });
-                    showNotification('نجاح', 'تم رفع الملف بنجاح', 'success');
-                    document.getElementById('uploadProgress').style.display = 'none';
-                    document.getElementById('fileInput').value = '';
-                    loadFiles();
-                }
-            );
-        }
-
-        async function loadFiles() {
-            const filesSnapshot = await getDocs(query(collection(db, 'files'), where('userId', '==', currentUser.uid), orderBy('uploadedAt', 'desc')));
-            allFiles = filesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            const container = document.getElementById('filesList');
-            if (container) {
-                container.innerHTML = allFiles.map(f => `
-                    <div class="data-item">
-                        <div><i class="fas fa-file"></i> ${f.name}<br><small>${(f.size / 1024).toFixed(2)} KB</small></div>
-                        <div><a href="${f.url}" target="_blank" style="color: var(--primary);"><i class="fas fa-download"></i> تحميل</a></div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // ==================== DELETE USER DATA (Privacy) ====================
-        async function deleteUserData() {
-            if (confirm('هل أنت متأكد؟ هذا الإجراء لا يمكن التراجع عنه وسيتم حذف جميع بياناتك نهائياً.')) {
-                try {
-                    // Delete from Firestore
-                    const userOrders = await getDocs(query(collection(db, 'orders'), where('userId', '==', currentUser.uid)));
-                    userOrders.forEach(async (doc) => { await deleteDoc(doc.ref); });
-                    
-                    // Delete from Realtime Database
-                    const activitiesRef = ref(rtdb, `activities/${currentUser.uid}`);
-                    await set(activitiesRef, null);
-                    
-                    showNotification('تم الحذف', 'تم حذف جميع بياناتك بنجاح', 'success');
-                    logActivity('delete_data', 'طلب حذف جميع البيانات');
-                } catch (error) {
-                    showNotification('خطأ', error.message, 'error');
-                }
-            }
-        }
-
-        // ==================== RENDER FUNCTIONS ====================
-        function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
-        
-        function updateStats() {
-            document.getElementById('statOrders').innerText = allOrders.filter(o => o.status === 'pending').length;
-            document.getElementById('statTransporters').innerText = allTransporters.length;
-            document.getElementById('statStock').innerText = allStock.reduce((s, i) => s + i.quantity, 0);
-        }
-
-        function renderOrders(orders) {
-            const containers = ['recentOrders', 'ordersList'];
-            containers.forEach(containerId => {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                if (orders.length === 0) { container.innerHTML = '<div class="empty-msg">لا توجد طلبات</div>'; return; }
-                container.innerHTML = orders.slice(0, 10).map(order => `
-                    <div class="data-item">
-                        <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="status status-${order.status}">${order.status}</span></div>
-                        <div>💰 ${calculatePrice(order.weight)} دينار</div>
-                    </div>
-                `).join('');
-            });
-        }
-
-        function renderTransporters(transporters) {
-            const container = document.getElementById('transportersList');
-            const availableContainer = document.getElementById('availableTransporters');
-            if (!container) return;
-            container.innerHTML = transporters.map(t => `
-                <div class="data-item">
-                    <div><strong>${t.name}</strong><br>📞 ${t.phone} | 🚛 ${t.truckType}<br>⭐ ${t.rating || 'جديد'}</div>
-                    <div><button class="delete-transporter" data-id="${t.id}" style="background:#ef4444; padding:6px 12px;">حذف</button></div>
-                </div>
-            `).join('');
-            if (availableContainer) {
-                availableContainer.innerHTML = transporters.filter(t => t.available).slice(0, 5).map(t => `
-                    <div class="data-item"><div><strong>${t.name}</strong><br>🚛 ${t.truckType}</div></div>
-                `).join('');
-            }
-            document.querySelectorAll('.delete-transporter').forEach(btn => {
-                btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'transporters', btn.dataset.id)); });
-            });
-        }
-
-        function renderStock(stock) {
-            const container = document.getElementById('stockList');
-            if (!container) return;
-            container.innerHTML = stock.map(item => `
-                <div class="data-item">
-                    <div><strong>${item.name}</strong><br>🔢 ${item.quantity} وحدة<br>💰 شراء: ${item.buyPrice || 0} | بيع: ${item.sellPrice || 0}</div>
-                    <div><button class="delete-stock" data-id="${item.id}" style="background:#ef4444; padding:6px 12px;">حذف</button></div>
-                </div>
-            `).join('');
-            document.querySelectorAll('.delete-stock').forEach(btn => {
-                btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'stock', btn.dataset.id)); });
-            });
-        }
-
-        function renderPayments(payments) {
-            const container = document.getElementById('paymentsList');
-            if (!container) return;
-            container.innerHTML = payments.slice(0, 10).map(p => `
-                <div class="data-item">
-                    <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>👤 ${p.payerName}</div>
-                </div>
-            `).join('');
-        }
-
-        function updateChart() {
-            if (activityChart) activityChart.destroy();
-            const ctx = document.getElementById('activityChart').getContext('2d');
-            const last7Days = [];
-            for (let i = 6; i >= 0; i--) {
-                const d = new Date();
-                d.setDate(d.getDate() - i);
-                last7Days.push(d.toLocaleDateString('ar-TN'));
-            }
-            const counts = last7Days.map(day => allOrders.filter(o => o.createdAt && new Date(o.createdAt.toDate()).toDateString() === new Date(day).toDateString()).length);
-            activityChart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: last7Days, datasets: [{ label: 'الطلبات', data: counts, borderColor: '#ffb703', fill: true }] }
-            });
-        }
-
-        async function trackOrder() {
-            const orderId = document.getElementById('trackingOrderId').value;
-            if (!orderId) { showNotification('خطأ', 'أدخل رقم الطلب', 'error'); return; }
-            const orderDoc = await getDoc(doc(db, 'orders', orderId));
-            if (!orderDoc.exists()) { showNotification('خطأ', 'الطلب غير موجود', 'error'); return; }
-            const order = orderDoc.data();
-            if (!map) {
-                map = L.map('map').setView([36.8065, 10.1815], 8);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-            }
-            L.marker([36.8065, 10.1815]).addTo(map).bindPopup(`الطلب: ${order.route}`).openPopup();
-            document.getElementById('trackingDetails').style.display = 'block';
-            document.getElementById('trackingDetails').innerHTML = `<div class="data-item"><strong>الطلب:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status}</div>`;
-        }
-
-        // ==================== NAVIGATION ====================
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(`${pageId}Page`).classList.add('active-page');
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
-            if (pageId === 'tracking' && !map) {
-                map = L.map('map').setView([36.8065, 10.1815], 8);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-            }
-            if (pageId === 'files') loadFiles();
-        }
-
-        function showLoginPage() {
-            document.getElementById('loginPage').style.display = 'flex';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('appContainer').classList.remove('active');
-        }
-
-        function showRegisterPage() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'flex';
-        }
-
-        function showApp() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('appContainer').classList.add('active');
-            document.getElementById('userName').innerHTML = currentUser.displayName || currentUser.email;
-            document.getElementById('userEmail').innerHTML = currentUser.email;
-            document.getElementById('userAvatar').innerHTML = (currentUser.displayName || currentUser.email).substring(0,2).toUpperCase();
-            document.getElementById('settingsName').value = currentUser.displayName || '';
-            subscribeToFirestore();
-        }
-
-        // ==================== UPDATE PROFILE ====================
-        async function updateProfileInfo() {
-            const newName = document.getElementById('settingsName').value;
-            if (newName && currentUser) {
-                await updateProfile(currentUser, { displayName: newName });
-                showNotification('نجاح', 'تم تحديث الملف الشخصي', 'success');
-                document.getElementById('userName').innerHTML = newName;
-            }
-        }
-
-        // ==================== INITIALIZATION ====================
-        function init() {
-            // Privacy Modal
-            if (!localStorage.getItem('privacy_accepted')) {
-                document.getElementById('privacyModal').style.display = 'flex';
-            }
-            document.getElementById('acceptPrivacyBtn').addEventListener('click', () => {
-                localStorage.setItem('privacy_accepted', 'true');
-                document.getElementById('privacyModal').style.display = 'none';
-            });
-
-            // Auth Events
-            document.getElementById('loginForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                login(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
-            });
-            document.getElementById('registerForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                register(
-                    document.getElementById('registerName').value,
-                    document.getElementById('registerEmail').value,
-                    document.getElementById('registerPhone').value,
-                    document.getElementById('registerRole').value,
-                    document.getElementById('registerPassword').value,
-                    document.getElementById('registerConfirmPassword').value
-                );
-            });
-            document.getElementById('showRegisterBtn').addEventListener('click', showRegisterPage);
-            document.getElementById('showLoginBtn').addEventListener('click', showLoginPage);
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            
-            // App Events
-            document.getElementById('orderForm').addEventListener('submit', publishOrder);
-            document.getElementById('transporterForm').addEventListener('submit', addTransporter);
-            document.getElementById('stockForm').addEventListener('submit', addStock);
-            document.getElementById('paymentForm').addEventListener('submit', processPayment);
-            document.getElementById('trackBtn').addEventListener('click', trackOrder);
-            document.getElementById('uploadFileBtn').addEventListener('click', () => {
-                const file = document.getElementById('fileInput').files[0];
-                if (file) uploadFile(file);
-                else showNotification('خطأ', 'اختر ملف أولاً', 'error');
-            });
-            document.getElementById('updateProfileBtn').addEventListener('click', updateProfileInfo);
-            document.getElementById('deleteMyDataBtn').addEventListener('click', deleteUserData);
-            
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.addEventListener('click', () => switchPage(nav.dataset.page));
-            });
-            document.getElementById('toggleSidebar').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.toggle('collapsed');
-                document.getElementById('mainContent').classList.toggle('expanded');
-            });
-            
-            // Flatpickr
-            const timeInput = document.getElementById('timeSlot');
-            if (timeInput) flatpickr(timeInput, { locale: 'ar', enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true });
-            
-            // QR Code
-            const qrDiv = document.getElementById('qrcode');
-            new QRCode(qrDiv, { text: "OB Logistique - الدفع عبر البريد التونسي", width: 150, height: 150 });
-            
-            // Auth State
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    currentUser = user;
-                    showApp();
-                } else {
-                    showLoginPage();
-                }
-            });
-        }
-        
-        init();
-    </script>
+    // Flatpickr
+    const timeInput = document.getElementById('timeSlot');
+    if (timeInput) flatpickr(timeInput, { locale: 'ar', enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, minDate: "today" });
+    
+    // QR Code
+    const qrDiv = document.getElementById('qrcode');
+    if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique - الدفع عبر البريد التونسي", width: 150, height: 150 });
+</script>
 </body>
 </html>
