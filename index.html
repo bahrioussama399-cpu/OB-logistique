@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Na9el - أول منصة رقمية للنقل اللوجستي في تونس، ربط آمن بين التجار والناقلين">
+    <title>Na9el - منصة نقل البضائع في تونس</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Flatpickr for better date picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* header */
+        .header {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
+            transition: all 0.3s;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #fbbf24;
+            text-shadow: 0 0 5px rgba(251,191,36,0.3);
+        }
+        .tagline {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .tab-btn {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 28px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+            backdrop-filter: blur(5px);
+        }
+        .tab-btn i {
+            margin-left: 8px;
+        }
+        .tab-btn.active {
+            background: #fbbf24;
+            color: #0f172a;
+            border-color: #fbbf24;
+            box-shadow: 0 8px 20px rgba(251,191,36,0.3);
+            transform: translateY(-2px);
+        }
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
+        }
+
+        /* cards & forms */
+        .card {
+            background: rgba(255,255,255,0.98);
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            animation: fadeInUp 0.5s ease-out;
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 25px;
+            border-right: 5px solid #fbbf24;
+            padding-right: 18px;
+            color: #0f172a;
+            font-weight: 800;
+        }
+        h2 i {
+            color: #fbbf24;
+            margin-left: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 14px;
+        }
+        label i {
+            margin-left: 6px;
+            color: #fbbf24;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            transition: all 0.25s;
+            background: #fefefe;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251,191,36,0.2);
+            transform: scale(1.01);
+        }
+        button {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(251,191,36,0.3);
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .order-item {
+            background: linear-gradient(135deg, #fffef7, #ffffff);
+            border-radius: 28px;
+            padding: 22px;
+            border-right: 8px solid #fbbf24;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .order-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .order-details p {
+            margin: 8px 0;
+        }
+        .order-details strong {
+            color: #0f172a;
+        }
+        .badge {
+            background: #f1f5f9;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.02);
+        }
+        .delete-btn {
+            background: #dc2626;
+            margin-right: 12px;
+        }
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+        .empty-msg {
+            text-align: center;
+            padding: 50px;
+            background: #f8fafc;
+            border-radius: 28px;
+            color: #64748b;
+            font-size: 18px;
+        }
+        .stats {
+            display: flex;
+            gap: 25px;
+            justify-content: flex-start;
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            border-radius: 24px;
+            padding: 18px 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .stats span {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar input {
+            max-width: 250px;
+        }
+        .price-tag {
+            background: #fef3c7;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #475569;
+            border-top: 1px solid #cbd5e1;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        @media (max-width: 700px) {
+            .header { flex-direction: column; text-align: center; }
+            .order-item { flex-direction: column; align-items: flex-start; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .filter-bar input { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1>Na9el <span>نقـل</span></h1>
+            <div class="tagline">🚚 أول منصة رقمية للنقل اللوجستي في تونس — آمن، سريع، موثوق</div>
+        </div>
+        <div class="tab-buttons">
+            <button class="tab-btn active" id="tabMerchantBtn"><i class="fas fa-store"></i> تاجر (نشر طلب)</button>
+            <button class="tab-btn" id="tabTransporterBtn"><i class="fas fa-truck-moving"></i> ناقل (قبول طلب)</button>
+        </div>
+    </div>
+
+    <!-- قسم التاجر -->
+    <div id="merchantPanel" class="card">
+        <h2><i class="fas fa-plus-circle"></i> نشر طلب نقل بضاعة</h2>
+        <form id="orderForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-map-marked-alt"></i> المدينة (من/إلى)</label>
+                    <input type="text" id="city" placeholder="مثال: صفاقس → تونس" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-weight-hanging"></i> الوزن (كغ)</label>
+                    <input type="number" id="weight" placeholder="مثال: 1200" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-boxes"></i> نوع البضاعة</label>
+                    <select id="goodsType">
+                        <option>مواد غذائية</option>
+                        <option>مواد بناء</option>
+                        <option>إلكترونيات</option>
+                        <option>ملابس</option>
+                        <option>أدوية</option>
+                        <option>أخرى</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-clock"></i> وقت النقل المطلوب</label>
+                    <input type="text" id="timeSlot" placeholder="اختر التاريخ والوقت" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-phone-alt"></i> رقم هاتف التاجر</label>
+                    <input type="tel" id="merchantPhone" placeholder="مثال: 50123456" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-sticky-note"></i> ملاحظات إضافية (اختياري)</label>
+                    <input type="text" id="notes" placeholder="تعليمات خاصة للناقل...">
+                </div>
+            </div>
+            <button type="submit"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
+        </form>
+        <div class="stats">
+            <span><i class="fas fa-truck"></i> طلبات نشطة: <strong id="activeOrdersCount">0</strong></span>
+            <span><i class="fas fa-percent"></i> عمولة المنصة: 8%</span>
+            <span><i class="fas fa-shield-alt"></i> تواصل آمن عبر واتساب</span>
+        </div>
+    </div>
+
+    <!-- قسم الناقل -->
+    <div id="transporterPanel" class="card" style="display: none;">
+        <h2><i class="fas fa-list"></i> الطلبات المتاحة للناقلين</h2>
+        <div class="filter-bar">
+            <input type="text" id="filterCity" placeholder="🔍 فلتر حسب المدينة...">
+            <select id="filterGoods">
+                <option value="">كل أنواع البضائع</option>
+                <option>مواد غذائية</option>
+                <option>مواد بناء</option>
+                <option>إلكترونيات</option>
+                <option>ملابس</option>
+                <option>أدوية</option>
+                <option>أخرى</option>
+            </select>
+        </div>
+        <div id="ordersList" class="order-list">
+            <div class="empty-msg">⚠️ لا توجد طلبات نقل حالياً. تفقد لاحقاً.</div>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-shield-alt"></i> Na9el – ربط آمن بين التجار والناقلين | صفاقس – تونس – سوسة
+        <br><small>جميع الحقوق محفوظة © 2025</small>
+    </footer>
+</div>
+
+<script>
+    const STORAGE_KEY = 'na9el_orders_v2';
+
+    // حساب سعر تقديري ديناميكي
+    function calculatePrice(weight) {
+        let base = 45;
+        let perKg = 0.11;
+        return Math.floor(base + (weight * perKg));
+    }
+
+    // تحميل الطلبات مع دعم النسخة القديمة
+    function loadOrders() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        // ترقية من الإصدار القديم إذا وجد
+        const oldStored = localStorage.getItem('na9el_orders');
+        if (oldStored) {
+            const oldOrders = JSON.parse(oldStored);
+            // إضافة حقل notes إن لم يكن موجوداً
+            const migrated = oldOrders.map(o => ({ ...o, notes: o.notes || '' }));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+            localStorage.removeItem('na9el_orders');
+            return migrated;
+        }
+        // بيانات تجريبية محدثة
+        const demoOrders = [
+            {
+                id: 'ORD-1001',
+                city: 'صفاقس → تونس',
+                weight: '2500',
+                goodsType: 'مواد بناء',
+                timeSlot: '2025-06-15T14:00',
+                merchantPhone: '55123456',
+                notes: 'يرجى الاتصال قبل الوصول بساعة',
+                status: 'available',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'ORD-1002',
+                city: 'سوسة → المهدية',
+                weight: '800',
+                goodsType: 'مواد غذائية',
+                timeSlot: '2025-06-12T09:30',
+                merchantPhone: '98765432',
+                notes: 'بضاعة حساسة للحرارة',
+                status: 'available',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'ORD-1003',
+                city: 'تونس → بنزرت',
+                weight: '1500',
+                goodsType: 'إلكترونيات',
+                timeSlot: '2025-06-14T11:00',
+                merchantPhone: '22334455',
+                notes: '',
+                status: 'available',
+                createdAt: new Date().toISOString()
+            }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(demoOrders));
+        return demoOrders;
+    }
+
+    function saveOrders(orders) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+    }
+
+    function generateId() {
+        return 'ORD-' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+    }
+
+    function showToast(message, isError = false) {
+        const existingToast = document.querySelector('.toast-msg');
+        if (existingToast) existingToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.style.background = isError ? '#b91c1c' : '#0f172a';
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
+    }
+
+    function updateStats(orders) {
+        const active = orders.filter(o => o.status === 'available').length;
+        const activeSpan = document.getElementById('activeOrdersCount');
+        if (activeSpan) activeSpan.innerText = active;
+    }
+
+    // عرض الطلبات مع الفلترة
+    function renderOrdersForTransporter() {
+        let orders = loadOrders();
+        const availableOrders = orders.filter(o => o.status === 'available');
+        
+        const filterCityInput = document.getElementById('filterCity');
+        const filterGoodsSelect = document.getElementById('filterGoods');
+        
+        let filtered = [...availableOrders];
+        if (filterCityInput && filterCityInput.value.trim()) {
+            const cityFilter = filterCityInput.value.trim().toLowerCase();
+            filtered = filtered.filter(o => o.city.toLowerCase().includes(cityFilter));
+        }
+        if (filterGoodsSelect && filterGoodsSelect.value) {
+            filtered = filtered.filter(o => o.goodsType === filterGoodsSelect.value);
+        }
+        
+        const container = document.getElementById('ordersList');
+        if (!container) return;
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="empty-msg">🚛 لا توجد طلبات تطابق الفلتر. حاول مرة أخرى.</div>';
+            updateStats(orders);
+            return;
+        }
+
+        container.innerHTML = '';
+        filtered.forEach(order => {
+            const orderDiv = document.createElement('div');
+            orderDiv.className = 'order-item';
+            let formattedDate = '';
+            if (order.timeSlot) {
+                const dateObj = new Date(order.timeSlot);
+                formattedDate = dateObj.toLocaleString('ar-TN', { hour12: false });
+            }
+            const estimatedPrice = calculatePrice(parseInt(order.weight) || 0);
+            orderDiv.innerHTML = `
+                <div class="order-details" style="flex:2">
+                    <p><strong><i class="fas fa-map-marker-alt"></i> ${escapeHtml(order.city)}</strong></p>
+                    <p>⚖️ ${order.weight} كغ | 📦 ${order.goodsType} | 🕒 ${formattedDate || 'غير محدد'}</p>
+                    <div class="price-tag"><i class="fas fa-dinar-sign"></i> السعر المقترح: ${estimatedPrice} دينار (تقديري)</div>
+                    ${order.notes ? `<p><i class="fas fa-note-sticky"></i> ملاحظة: ${escapeHtml(order.notes)}</p>` : ''}
+                    <p><span class="badge"><i class="fas fa-tag"></i> مرجع: ${order.id}</span></p>
+                </div>
+                <div>
+                    <button class="accept-order" data-id="${order.id}"><i class="fab fa-whatsapp"></i> قبول الطلب والتواصل</button>
+                </div>
+            `;
+            container.appendChild(orderDiv);
+        });
+
+        document.querySelectorAll('.accept-order').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const orderId = btn.getAttribute('data-id');
+                acceptOrder(orderId);
+            });
+        });
+        updateStats(orders);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function acceptOrder(orderId) {
+        let orders = loadOrders();
+        const orderToAccept = orders.find(o => o.id === orderId && o.status === 'available');
+        if (!orderToAccept) {
+            showToast('⚠️ الطلب غير موجود أو تم حجزه مسبقاً.', true);
+            renderOrdersForTransporter();
+            return;
+        }
+
+        const price = calculatePrice(parseInt(orderToAccept.weight) || 0);
+        const message = `مرحباً، أنا ناقل عبر منصة Na9el. أرغب في نقل بضاعتك:%0A📌 المرجع: ${orderToAccept.id}%0A📍 المسار: ${orderToAccept.city}%0A⚖️ الوزن: ${orderToAccept.weight} كغ%0A📦 النوع: ${orderToAccept.goodsType}%0A🕒 الوقت المطلوب: ${orderToAccept.timeSlot}%0A💰 السعر المقترح: ${price} دينار%0A📝 ملاحظات: ${orderToAccept.notes || 'لا توجد'}`;
+        const phone = orderToAccept.merchantPhone.replace(/\s/g, '');
+        const whatsappUrl = `https://wa.me/216${phone}?text=${message}`;
+
+        // حذف الطلب بعد القبول
+        const updatedOrders = orders.filter(o => o.id !== orderId);
+        saveOrders(updatedOrders);
+        renderOrdersForTransporter();
+        window.open(whatsappUrl, '_blank');
+        showToast(`✅ تم قبول الطلب! سيتم فتح واتساب للتواصل مع التاجر ${orderToAccept.merchantPhone}`);
+    }
+
+    // نشر طلب جديد
+    function publishOrder(event) {
+        event.preventDefault();
+        const city = document.getElementById('city').value.trim();
+        const weight = document.getElementById('weight').value;
+        const goodsType = document.getElementById('goodsType').value;
+        const timeSlotRaw = document.getElementById('timeSlot').value;
+        const merchantPhone = document.getElementById('merchantPhone').value.trim();
+        const notes = document.getElementById('notes').value.trim();
+
+        if (!city || !weight || !merchantPhone || !timeSlotRaw) {
+            showToast('❌ الرجاء ملء جميع الحقول المطلوبة (المدينة، الوزن، الوقت، رقم الهاتف).', true);
+            return;
+        }
+        if (merchantPhone.length < 6 || isNaN(parseInt(merchantPhone))) {
+            showToast('📞 رقم الهاتف يجب أن يكون صحيحاً (أرقام فقط).', true);
+            return;
+        }
+        if (parseInt(weight) <= 0) {
+            showToast('⚖️ الوزن يجب أن يكون أكبر من 0.', true);
+            return;
+        }
+
+        // تحويل الوقت إلى ISO صالح
+        let timeSlotISO = timeSlotRaw;
+        try {
+            const testDate = new Date(timeSlotRaw);
+            if (!isNaN(testDate.getTime())) timeSlotISO = testDate.toISOString();
+        } catch(e) {}
+
+        const newOrder = {
+            id: generateId(),
+            city: city,
+            weight: weight,
+            goodsType: goodsType,
+            timeSlot: timeSlotISO,
+            merchantPhone: merchantPhone,
+            notes: notes,
+            status: 'available',
+            createdAt: new Date().toISOString()
+        };
+
+        let orders = loadOrders();
+        orders.unshift(newOrder);
+        saveOrders(orders);
+        document.getElementById('orderForm').reset();
+        // reset flatpickr
+        if (flatpickrInstance) flatpickrInstance.clear();
+        
+        showToast(`🎉 تم نشر طلبك بنجاح! رقم الطلب: ${newOrder.id}. سيراه الناقلون فوراً.`);
+        
+        if (document.getElementById('transporterPanel').style.display !== 'none') {
+            renderOrdersForTransporter();
+        }
+        updateStats(loadOrders());
+    }
+
+    let flatpickrInstance = null;
+
+    // تبديل التبويبات
+    function switchTab(tab) {
+        const merchantPanel = document.getElementById('merchantPanel');
+        const transporterPanel = document.getElementById('transporterPanel');
+        const tabMerchant = document.getElementById('tabMerchantBtn');
+        const tabTrans = document.getElementById('tabTransporterBtn');
+
+        if (tab === 'merchant') {
+            merchantPanel.style.display = 'block';
+            transporterPanel.style.display = 'none';
+            tabMerchant.classList.add('active');
+            tabTrans.classList.remove('active');
+        } else {
+            merchantPanel.style.display = 'none';
+            transporterPanel.style.display = 'block';
+            tabTrans.classList.add('active');
+            tabMerchant.classList.remove('active');
+            renderOrdersForTransporter();
+        }
+    }
+
+    // تهيئة التاريخ باستخدام flatpickr
+    function initDatePicker() {
+        const timeInput = document.getElementById('timeSlot');
+        if (timeInput && typeof flatpickr !== 'undefined') {
+            flatpickrInstance = flatpickr(timeInput, {
+                locale: 'ar',
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: true,
+                minDate: "today",
+                placeholder: "اختر التاريخ والوقت",
+                allowInput: true
+            });
+        }
+    }
+
+    function init() {
+        loadOrders();
+        updateStats(loadOrders());
+        initDatePicker();
+
+        const form = document.getElementById('orderForm');
+        if (form) form.addEventListener('submit', publishOrder);
+
+        document.getElementById('tabMerchantBtn').addEventListener('click', () => switchTab('merchant'));
+        document.getElementById('tabTransporterBtn').addEventListener('click', () => switchTab('transporter'));
+
+        const filterCity = document.getElementById('filterCity');
+        const filterGoods = document.getElementById('filterGoods');
+        if (filterCity) filterCity.addEventListener('input', () => renderOrdersForTransporter());
+        if (filterGoods) filterGoods.addEventListener('change', () => renderOrdersForTransporter());
+
+        switchTab('merchant');
+    }
+
+    init();
+</script>
+</body>
+</html>
