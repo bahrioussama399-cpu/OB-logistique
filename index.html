@@ -4,29 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>OB Logistique - منصة النقل الذكية | نظام العمولات</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
-    <!-- QR Code -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #1a1a1a;
@@ -43,402 +32,83 @@
             --border: #404040;
             --sidebar-width: 300px;
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            height: 100vh;
-        }
-
-        .app-layout {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); height: 100vh; overflow: hidden; }
+        .app-layout { display: flex; height: 100vh; overflow: hidden; }
+        
         /* Sidebar */
-        .sidebar-modern {
-            width: var(--sidebar-width);
-            background: var(--bg-secondary);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            transition: all 0.3s;
-            z-index: 100;
-        }
-
-        .sidebar-modern.collapsed {
-            width: 80px;
-        }
-
-        .sidebar-modern.collapsed .sidebar-text,
-        .sidebar-modern.collapsed .nav-label {
-            display: none;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-icon i {
-            font-size: 22px;
-            color: var(--bg-primary);
-        }
-
-        .logo-text h2 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--accent);
-        }
-
-        .toggle-btn {
-            background: var(--bg-hover);
-            border: none;
-            color: var(--text-primary);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .user-profile {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .user-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .user-info p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .nav-modern {
-            flex: 1;
-            padding: 10px;
-        }
-
-        .nav-item-modern {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 4px;
-        }
-
-        .nav-item-modern:hover {
-            background: var(--bg-hover);
-        }
-
-        .nav-item-modern.active {
-            background: var(--accent);
-            color: var(--bg-primary);
-        }
-
+        .sidebar-modern { width: var(--sidebar-width); background: var(--bg-secondary); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; transition: all 0.3s; z-index: 100; }
+        .sidebar-modern.collapsed { width: 80px; }
+        .sidebar-modern.collapsed .sidebar-text, .sidebar-modern.collapsed .nav-label { display: none; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon i { font-size: 22px; color: var(--bg-primary); }
+        .logo-text h2 { font-size: 20px; font-weight: 700; }
+        .logo-text span { color: var(--accent); }
+        .toggle-btn { background: var(--bg-hover); border: none; color: var(--text-primary); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
+        .user-profile { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .user-avatar { width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+        .user-info h4 { font-size: 16px; margin-bottom: 4px; }
+        .user-info p { font-size: 12px; color: var(--text-secondary); }
+        .nav-modern { flex: 1; padding: 10px; }
+        .nav-item-modern { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 4px; }
+        .nav-item-modern:hover { background: var(--bg-hover); }
+        .nav-item-modern.active { background: var(--accent); color: var(--bg-primary); }
+        
         /* Main Content */
-        .main-modern {
-            flex: 1;
-            background: var(--bg-primary);
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .top-bar-modern {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
+        .main-modern { flex: 1; background: var(--bg-primary); overflow-y: auto; padding: 20px; }
+        .top-bar-modern { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .page-title { font-size: 24px; font-weight: 700; }
+        .commission-badge { background: var(--accent); color: var(--bg-primary); padding: 8px 16px; border-radius: 12px; font-weight: bold; }
+        
         /* Stats Grid */
-        .stats-grid-modern {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card-modern {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-        }
-
-        .stat-card-modern:hover {
-            background: var(--bg-hover);
-            transform: translateY(-2px);
-        }
-
-        .stat-icon {
-            width: 55px;
-            height: 55px;
-            background: rgba(255,183,3,0.15);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: var(--accent);
-        }
-
-        .stat-info h3 {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .stat-info p {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
+        .stats-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 24px; }
+        .stat-card-modern { background: var(--bg-card); border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: 0.3s; }
+        .stat-card-modern:hover { background: var(--bg-hover); transform: translateY(-2px); }
+        .stat-icon { width: 55px; height: 55px; background: rgba(255,183,3,0.15); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent); }
+        .stat-info h3 { font-size: 28px; font-weight: 700; }
+        .stat-info p { font-size: 14px; color: var(--text-secondary); }
+        
         /* Cards */
-        .card-modern {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* Forms */
-        .form-group-modern {
-            margin-bottom: 16px;
-        }
-
-        .form-group-modern label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .form-group-modern input,
-        .form-group-modern select,
-        .form-group-modern textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--bg-hover);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group-modern input:focus,
-        .form-group-modern select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .btn-modern {
-            background: var(--accent);
-            color: var(--bg-primary);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-modern:hover {
-            background: var(--accent-dark);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-        }
-
-        .btn-success {
-            background: var(--success);
-        }
-
-        .grid-2-modern {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-        }
-
-        .data-list-modern {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .data-item-modern {
-            background: var(--bg-hover);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
+        .card-modern { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .form-group-modern { margin-bottom: 16px; }
+        .form-group-modern label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+        .form-group-modern input, .form-group-modern select, .form-group-modern textarea { width: 100%; padding: 12px 16px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-family: 'Inter', sans-serif; }
+        .form-group-modern input:focus { outline: none; border-color: var(--accent); }
+        .btn-modern { background: var(--accent); color: var(--bg-primary); border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-modern:hover { background: var(--accent-dark); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); }
+        .btn-warning { background: var(--warning); }
+        .grid-2-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+        .data-list-modern { max-height: 500px; overflow-y: auto; }
+        .data-item-modern { background: var(--bg-hover); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; transition: 0.3s; }
+        .data-item-modern:hover { background: rgba(255,183,3,0.1); }
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .badge-pending { background: #fef3c7; color: #d97706; }
         .badge-accepted { background: #d1fae5; color: #059669; }
         .badge-transit { background: #dbeafe; color: #2563eb; }
         .badge-delivered { background: #e0e7ff; color: #4338ca; }
-
-        .commission-badge {
-            background: var(--accent);
-            color: var(--bg-primary);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-weight: bold;
-        }
-
-        .toast-modern {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--bg-card);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            z-index: 2000;
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .page-modern {
-            display: none;
-        }
-
-        .page-modern.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        #map {
-            height: 350px;
-            border-radius: 16px;
-            margin-top: 16px;
-        }
-
-        .modal-modern {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content-modern {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar-modern { width: 80px; }
-            .sidebar-modern .sidebar-text,
-            .sidebar-modern .nav-label { display: none; }
-            .grid-2-modern { grid-template-columns: 1fr; }
-        }
+        
+        /* Map */
+        #map { height: 350px; border-radius: 16px; margin-top: 16px; }
+        
+        /* Modal */
+        .modal-modern { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content-modern { background: var(--bg-card); border-radius: 24px; padding: 30px; max-width: 500px; width: 90%; }
+        
+        .toast-modern { position: fixed; bottom: 30px; right: 30px; background: var(--bg-card); color: white; padding: 12px 24px; border-radius: 50px; z-index: 2000; animation: slideIn 0.3s; }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .page-modern { display: none; }
+        .page-modern.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 768px) { .sidebar-modern { width: 80px; } .sidebar-modern .sidebar-text, .sidebar-modern .nav-label { display: none; } .grid-2-modern { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 <div class="app-layout">
-    <!-- Sidebar -->
     <div class="sidebar-modern" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-area">
@@ -447,33 +117,28 @@
             </div>
             <button class="toggle-btn" id="toggleSidebar"><i class="fas fa-bars"></i></button>
         </div>
-
         <div class="user-profile">
             <div class="user-avatar" id="userAvatar">OB</div>
             <div class="user-info sidebar-text">
                 <h4 id="userName">مرحباً بك</h4>
-                <p id="userRole" class="badge badge-accepted">تاجر</p>
+                <p id="userRole" class="badge badge-accepted">مدير</p>
             </div>
         </div>
-
         <div class="nav-modern">
             <div class="nav-item-modern active" data-page="dashboard"><i class="fas fa-chart-line"></i><span class="nav-label sidebar-text">لوحة التحكم</span></div>
             <div class="nav-item-modern" data-page="orders"><i class="fas fa-box"></i><span class="nav-label sidebar-text">الطلبات</span></div>
             <div class="nav-item-modern" data-page="transporters"><i class="fas fa-truck"></i><span class="nav-label sidebar-text">الناقلين</span></div>
-            <div class="nav-item-modern" data-page="stock"><i class="fas fa-warehouse"></i><span class="nav-label sidebar-text">المخزون</span></div>
-            <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">التتبع</span></div>
+            <div class="nav-item-modern" data-page="shipments"><i class="fas fa-ship"></i><span class="nav-label sidebar-text">النقلات النشطة</span></div>
             <div class="nav-item-modern" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">المدفوعات</span></div>
-            <div class="nav-item-modern" data-page="chat"><i class="fas fa-comments"></i><span class="nav-label sidebar-text">الدردشة</span></div>
+            <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">التتبع</span></div>
             <div class="nav-item-modern" data-page="admin"><i class="fas fa-user-shield"></i><span class="nav-label sidebar-text">لوحة المسؤول</span></div>
             <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">الإعدادات</span></div>
         </div>
-
         <div class="nav-modern" style="margin-top: auto;">
             <div class="nav-item-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span class="nav-label sidebar-text">تسجيل الخروج</span></div>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-modern" id="mainContent">
         <!-- Dashboard Page -->
         <div id="dashboardPage" class="page-modern active">
@@ -490,23 +155,23 @@
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
                     <div class="stat-info"><h3 id="statTransporters">0</h3><p>ناقلين مسجلين</p></div>
                 </div>
+                <div class="stat-card-modern" onclick="switchPage('shipments')">
+                    <div class="stat-icon"><i class="fas fa-ship"></i></div>
+                    <div class="stat-info"><h3 id="statActiveShipments">0</h3><p>نقلات نشطة</p></div>
+                </div>
                 <div class="stat-card-modern" onclick="switchPage('payments')">
                     <div class="stat-icon"><i class="fas fa-coins"></i></div>
                     <div class="stat-info"><h3 id="statTotalCommission">0</h3><p>إجمالي العمولات</p></div>
                 </div>
-                <div class="stat-card-modern" onclick="switchPage('admin')">
-                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="stat-info"><h3 id="statRevenue">0</h3><p>إيرادات المنصة</p></div>
-                </div>
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-clock"></i> آخر الطلبات</h3></div>
+                    <div class="card-header"><h3><i class="fas fa-clock"></i> الطلبات الجديدة</h3></div>
                     <div id="recentOrders" class="data-list-modern"></div>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-truck-fast"></i> أحدث الناقلين</h3></div>
-                    <div id="recentTransporters" class="data-list-modern"></div>
+                    <div class="card-header"><h3><i class="fas fa-truck-fast"></i> النقلات قيد التنفيذ</h3></div>
+                    <div id="activeShipmentsList" class="data-list-modern"></div>
                 </div>
             </div>
             <div class="card-modern">
@@ -519,94 +184,78 @@
         <div id="ordersPage" class="page-modern">
             <div class="top-bar-modern">
                 <h1 class="page-title">الطلبات</h1>
+                <button class="btn-modern" id="showNewOrderModal"><i class="fas fa-plus"></i> طلب جديد</button>
             </div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-plus-circle"></i> طلب نقل جديد</h3></div>
-                    <form id="orderForm">
-                        <div class="form-group-modern"><label>📍 من → إلى</label><input type="text" id="route" placeholder="صفاقس → تونس" required></div>
-                        <div class="form-group-modern"><label>⚖️ الوزن (كغ)</label><input type="number" id="weight" required></div>
-                        <div class="form-group-modern"><label>📦 نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option><option>ملابس</option><option>أدوية</option></select></div>
-                        <div class="form-group-modern"><label>📅 وقت النقل</label><input type="text" id="timeSlot" placeholder="اختر التاريخ"></div>
-                        <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="phone" required></div>
-                        <div class="form-group-modern"><label>💵 السعر المقترح (دينار)</label><input type="number" id="proposedPrice" placeholder="سيتم حسابه تلقائياً"></div>
-                        <div class="form-group-modern"><label>📝 ملاحظات</label><textarea id="notes" rows="2"></textarea></div>
-                        <button type="submit" class="btn-modern"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
-                    </form>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الطلبات</h3></div>
-                    <div id="ordersList" class="data-list-modern"></div>
-                </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الطلبات</h3></div>
+                <div id="ordersList" class="data-list-modern"></div>
             </div>
         </div>
 
-        <!-- Transporters Page (Register Transporters) -->
+        <!-- Transporters Page -->
         <div id="transportersPage" class="page-modern">
             <div class="top-bar-modern">
-                <h1 class="page-title">تسجيل الناقلين</h1>
+                <h1 class="page-title">الناقلين</h1>
+                <button class="btn-modern" id="showNewTransporterModal"><i class="fas fa-user-plus"></i> ناقل جديد</button>
             </div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-user-plus"></i> تسجيل ناقل جديد</h3></div>
-                    <form id="transporterForm">
-                        <div class="form-group-modern"><label>👤 الاسم الكامل</label><input type="text" id="transporterName" required></div>
-                        <div class="form-group-modern"><label>📞 رقم الهاتف</label><input type="tel" id="transporterPhone" required></div>
-                        <div class="form-group-modern"><label>📧 البريد الإلكتروني</label><input type="email" id="transporterEmail" required></div>
-                        <div class="form-group-modern"><label>🆔 رقم البطاقة الوطنية</label><input type="text" id="transporterCin" required></div>
-                        <div class="form-group-modern"><label>🚛 نوع الشاحنة</label>
-                            <select id="truckType">
-                                <option>شاحنة صغيرة (حتى 3.5 طن)</option>
-                                <option>شاحنة متوسطة (حتى 7 طن)</option>
-                                <option>شاحنة كبيرة (حتى 15 طن)</option>
-                                <option>شاحنة تبريد</option>
-                                <option>شاحنة صهريج</option>
-                            </select>
-                        </div>
-                        <div class="form-group-modern"><label>📍 المنطقة</label><input type="text" id="transporterRegion" placeholder="صفاقس، تونس، سوسة"></div>
-                        <div class="form-group-modern"><label>📄 رخصة السياقة (رقم)</label><input type="text" id="transporterLicense" required></div>
-                        <div class="form-group-modern"><label>📄 وثائق الشاحنة</label><input type="text" id="transporterDocs" placeholder="رقم التسجيل، التأمين..."></div>
-                        <button type="submit" class="btn-modern"><i class="fas fa-save"></i> تسجيل الناقل</button>
-                    </form>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الناقلين المسجلين</h3></div>
-                    <div id="transportersList" class="data-list-modern"></div>
-                </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-list"></i> قائمة الناقلين</h3></div>
+                <div id="transportersList" class="data-list-modern"></div>
             </div>
         </div>
 
-        <!-- Stock Page -->
-        <div id="stockPage" class="page-modern">
+        <!-- Shipments Page (Active Transports) -->
+        <div id="shipmentsPage" class="page-modern">
             <div class="top-bar-modern">
-                <h1 class="page-title">المخزون</h1>
+                <h1 class="page-title">النقلات النشطة</h1>
+            </div>
+            <div class="stats-grid-modern">
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-play-circle"></i></div>
+                    <div class="stat-info"><h3 id="activeCount">0</h3><p>قيد التنفيذ</p></div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info"><h3 id="completedCount">0</h3><p>مكتملة</p></div>
+                </div>
+            </div>
+            <div class="card-modern">
+                <div class="card-header"><h3><i class="fas fa-ship"></i> النقلات النشطة</h3></div>
+                <div id="allShipmentsList" class="data-list-modern"></div>
+            </div>
+        </div>
+
+        <!-- Payments Page -->
+        <div id="paymentsPage" class="page-modern">
+            <div class="top-bar-modern">
+                <h1 class="page-title">المدفوعات والعمولات</h1>
             </div>
             <div class="grid-2-modern">
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-box"></i> إضافة سلعة</h3></div>
-                    <form id="stockForm">
-                        <div class="form-group-modern"><label>📦 اسم السلعة</label><input type="text" id="productName" required></div>
-                        <div class="form-group-modern"><label>🔢 الكمية</label><input type="number" id="productQuantity" required></div>
-                        <div class="form-group-modern"><label>💰 سعر الشراء</label><input type="number" id="productBuyPrice" step="0.01"></div>
-                        <div class="form-group-modern"><label>💰 سعر البيع</label><input type="number" id="productSellPrice" step="0.01"></div>
-                        <div class="form-group-modern"><label>📍 موقع التخزين</label><input type="text" id="productLocation"></div>
-                        <button type="submit" class="btn-modern"><i class="fas fa-plus"></i> إضافة سلعة</button>
+                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> تأكيد الدفع</h3></div>
+                    <form id="paymentForm">
+                        <div class="form-group-modern"><label>رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
+                        <div class="form-group-modern"><label>المبلغ الإجمالي</label><input type="number" id="paymentAmount" required oninput="updateCommissionDisplay()"></div>
+                        <div class="form-group-modern"><label>اسم الدافع</label><input type="text" id="payerName" required></div>
+                        <div class="form-group-modern"><label>البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
+                        <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;">
+                            <div id="commissionDetails">المبلغ: 0 دينار | عمولة: 0 دينار | صافي الناقل: 0 دينار</div>
+                        </div>
+                        <button type="submit" class="btn-modern btn-success"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع</button>
                     </form>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> المخزون الحالي</h3></div>
-                    <div id="stockList" class="data-list-modern"></div>
+                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات</h3></div>
+                    <div id="paymentsList" class="data-list-modern"></div>
                 </div>
             </div>
+            <div class="card-modern"><div id="qrcode" style="text-align: center; padding: 20px;"></div></div>
         </div>
 
         <!-- Tracking Page -->
         <div id="trackingPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">تتبع الشحنة</h1>
-            </div>
+            <div class="top-bar-modern"><h1 class="page-title">تتبع الشحنة</h1></div>
             <div class="card-modern">
-                <div class="card-header"><h3><i class="fas fa-search"></i> تتبع الطلب</h3></div>
                 <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                     <input type="text" id="trackingOrderId" placeholder="أدخل رقم الطلب" style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
                     <button id="trackBtn" class="btn-modern"><i class="fas fa-search"></i> تتبع</button>
@@ -616,135 +265,74 @@
             </div>
         </div>
 
-        <!-- Payments Page with Commission -->
-        <div id="paymentsPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">المدفوعات والعمولات</h1>
-            </div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> تأكيد الدفع والخلاص</h3></div>
-                    <form id="paymentForm">
-                        <div class="form-group-modern"><label>📌 رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
-                        <div class="form-group-modern"><label>💰 المبلغ الإجمالي (دينار)</label><input type="number" id="paymentAmount" required></div>
-                        <div class="form-group-modern"><label>👤 اسم الدافع</label><input type="text" id="payerName" required></div>
-                        <div class="form-group-modern"><label>🆔 البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
-                        <div class="form-group-modern"><label>🏢 مكتب البريد</label><input type="text" id="postOffice"></div>
-                        <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;">
-                            <label>💸 تفاصيل العمولة</label>
-                            <div id="commissionDetails">المبلغ: 0 دينار | عمولة (8%): 0 دينار | صافي الناقل: 0 دينار</div>
-                        </div>
-                        <button type="submit" class="btn-modern btn-success"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع والخلاص</button>
-                    </form>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات والعمولات</h3></div>
-                    <div id="paymentsList" class="data-list-modern"></div>
-                </div>
-            </div>
-            <div class="card-modern">
-                <div class="card-header"><h3><i class="fas fa-chart-pie"></i> إحصائيات العمولات</h3></div>
-                <canvas id="commissionChart" height="100"></canvas>
-            </div>
-            <div class="card-modern">
-                <div class="card-header"><h3><i class="fas fa-qrcode"></i> رمز الدفع السريع</h3></div>
-                <div id="qrcode" style="text-align: center; padding: 20px;"></div>
-            </div>
-        </div>
-
-        <!-- Chat Page -->
-        <div id="chatPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">الدردشة</h1>
-            </div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-users"></i> المحادثات</h3></div>
-                    <div id="chatList" class="data-list-modern"></div>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-comment-dots"></i> الدردشة</h3></div>
-                    <div id="messagesContainer" style="height: 350px; overflow-y: auto; background: var(--bg-hover); border-radius: 16px; padding: 16px; margin-bottom: 16px;"></div>
-                    <div style="display: flex; gap: 12px;">
-                        <input type="text" id="messageInput" placeholder="اكتب رسالتك..." style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
-                        <button id="sendMsgBtn" class="btn-modern"><i class="fas fa-paper-plane"></i> إرسال</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Page - Commission Management -->
+        <!-- Admin Page -->
         <div id="adminPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">لوحة تحكم المسؤول</h1>
-            </div>
-            <div class="stats-grid-modern">
-                <div class="stat-card-modern">
-                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="stat-info"><h3 id="adminTotalCommission">0</h3><p>إجمالي العمولات</p></div>
-                </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon"><i class="fas fa-truck"></i></div>
-                    <div class="stat-info"><h3 id="adminTotalOrders">0</h3><p>إجمالي الطلبات</p></div>
-                </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon"><i class="fas fa-users"></i></div>
-                    <div class="stat-info"><h3 id="adminTotalTransporters">0</h3><p>إجمالي الناقلين</p></div>
-                </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="stat-info"><h3 id="adminCompletedOrders">0</h3><p>طلبات مكتملة</p></div>
-                </div>
-            </div>
+            <div class="top-bar-modern"><h1 class="page-title">لوحة المسؤول</h1></div>
             <div class="grid-2-modern">
                 <div class="card-modern">
                     <div class="card-header"><h3><i class="fas fa-sliders-h"></i> إعدادات العمولة</h3></div>
-                    <div class="form-group-modern"><label>نسبة عمولة المنصة (%)</label><input type="number" id="adminCommissionRate" value="8" step="0.5"></div>
-                    <button id="updateCommissionBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث النسبة</button>
+                    <div class="form-group-modern"><label>نسبة العمولة (%)</label><input type="number" id="adminCommissionRate" value="8" step="0.5"></div>
+                    <button id="updateCommissionBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث</button>
                 </div>
                 <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> تقرير العمولات</h3></div>
-                    <div id="commissionReport" class="data-list-modern"></div>
+                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> إحصائيات</h3></div>
+                    <div id="adminStats"></div>
                 </div>
-            </div>
-            <div class="card-modern">
-                <div class="card-header"><h3><i class="fas fa-list"></i> جميع المدفوعات</h3></div>
-                <div id="allPaymentsList" class="data-list-modern"></div>
             </div>
         </div>
 
         <!-- Settings Page -->
         <div id="settingsPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">الإعدادات</h1>
-            </div>
+            <div class="top-bar-modern"><h1 class="page-title">الإعدادات</h1></div>
             <div class="grid-2-modern">
                 <div class="card-modern">
                     <div class="card-header"><h3><i class="fas fa-user-cog"></i> الملف الشخصي</h3></div>
-                    <div class="form-group-modern"><label>الاسم الكامل</label><input type="text" id="settingsName"></div>
-                    <div class="form-group-modern"><label>البريد الإلكتروني</label><input type="email" id="settingsEmail" readonly></div>
-                    <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="settingsPhone"></div>
-                    <button id="updateProfileBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث الملف الشخصي</button>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-bell"></i> الإشعارات</h3></div>
-                    <div class="form-group-modern"><label><input type="checkbox" id="notifyOrders"> إشعارات الطلبات الجديدة</label></div>
-                    <div class="form-group-modern"><label><input type="checkbox" id="notifyPayments"> إشعارات المدفوعات</label></div>
-                    <button id="saveNotificationsBtn" class="btn-modern"><i class="fas fa-save"></i> حفظ</button>
+                    <div class="form-group-modern"><label>الاسم</label><input type="text" id="settingsName"></div>
+                    <div class="form-group-modern"><label>البريد</label><input type="email" id="settingsEmail" readonly></div>
+                    <button id="updateProfileBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Firebase Configuration -->
+<!-- Modals -->
+<div id="newOrderModal" class="modal-modern">
+    <div class="modal-content-modern">
+        <h3 style="margin-bottom: 20px;"><i class="fas fa-plus-circle"></i> طلب نقل جديد</h3>
+        <form id="orderForm">
+            <div class="form-group-modern"><label>من → إلى</label><input type="text" id="route" required></div>
+            <div class="form-group-modern"><label>الوزن (كغ)</label><input type="number" id="weight" required></div>
+            <div class="form-group-modern"><label>نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option></select></div>
+            <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="phone" required></div>
+            <div class="form-group-modern"><label>السعر المقترح</label><input type="number" id="proposedPrice"></div>
+            <button type="submit" class="btn-modern">نشر الطلب</button>
+            <button type="button" class="btn-modern" style="background:#404040;" onclick="closeModal('newOrderModal')">إلغاء</button>
+        </form>
+    </div>
+</div>
+
+<div id="newTransporterModal" class="modal-modern">
+    <div class="modal-content-modern">
+        <h3 style="margin-bottom: 20px;"><i class="fas fa-user-plus"></i> تسجيل ناقل جديد</h3>
+        <form id="transporterForm">
+            <div class="form-group-modern"><label>الاسم الكامل</label><input type="text" id="transporterName" required></div>
+            <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="transporterPhone" required></div>
+            <div class="form-group-modern"><label>نوع الشاحنة</label><select id="truckType"><option>صغيرة</option><option>متوسطة</option><option>كبيرة</option></select></div>
+            <div class="form-group-modern"><label>المنطقة</label><input type="text" id="transporterRegion" required></div>
+            <button type="submit" class="btn-modern">تسجيل</button>
+            <button type="button" class="btn-modern" style="background:#404040;" onclick="closeModal('newTransporterModal')">إلغاء</button>
+        </form>
+    </div>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, Timestamp, getDocs, where } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, orderBy, Timestamp, getDoc, where, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
     import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
-    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
@@ -762,15 +350,12 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const rtdb = getDatabase(app);
-    const storage = getStorage(app);
 
     let currentUser = null;
-    let currentUserRole = 'merchant';
     let commissionRate = 8;
-    let allOrders = [], allTransporters = [], allStock = [], allPayments = [], allMessages = [];
-    let activityChart = null, commissionChart = null;
+    let allOrders = [], allTransporters = [], allPayments = [];
+    let activityChart = null;
     let map = null;
-    let currentChatWith = null;
 
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
@@ -780,33 +365,28 @@
         setTimeout(() => toast.remove(), 3000);
     }
 
-    function calculatePrice(weight) {
-        return Math.floor(45 + (weight * 0.11));
-    }
-
-    function calculateCommission(amount) {
-        return (amount * commissionRate) / 100;
-    }
-
-    function calculateNetForTransporter(amount) {
-        return amount - calculateCommission(amount);
-    }
+    function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
+    function calculateCommission(amount) { return (amount * commissionRate) / 100; }
 
     function updateStats() {
         const pendingOrders = allOrders.filter(o => o.status === 'pending').length;
+        const activeShipments = allOrders.filter(o => o.status === 'accepted' || o.status === 'transit').length;
         const totalCommission = allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
-        const totalRevenue = allPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
         
         document.getElementById('statOrders').innerText = pendingOrders;
         document.getElementById('statTransporters').innerText = allTransporters.length;
+        document.getElementById('statActiveShipments').innerText = activeShipments;
         document.getElementById('statTotalCommission').innerText = totalCommission.toFixed(2);
-        document.getElementById('statRevenue').innerText = totalRevenue.toFixed(2);
+        document.getElementById('activeCount').innerText = activeShipments;
+        document.getElementById('completedCount').innerText = allOrders.filter(o => o.status === 'delivered').length;
         
-        if (document.getElementById('adminTotalCommission')) {
-            document.getElementById('adminTotalCommission').innerText = totalCommission.toFixed(2);
-            document.getElementById('adminTotalOrders').innerText = allOrders.length;
-            document.getElementById('adminTotalTransporters').innerText = allTransporters.length;
-            document.getElementById('adminCompletedOrders').innerText = allOrders.filter(o => o.status === 'delivered').length;
+        if (document.getElementById('adminStats')) {
+            document.getElementById('adminStats').innerHTML = `
+                <div class="data-item-modern">📦 إجمالي الطلبات: ${allOrders.length}</div>
+                <div class="data-item-modern">🚚 الناقلين: ${allTransporters.length}</div>
+                <div class="data-item-modern">💰 إجمالي العمولات: ${totalCommission.toFixed(2)} دينار</div>
+                <div class="data-item-modern">✅ الطلبات المكتملة: ${allOrders.filter(o => o.status === 'delivered').length}</div>
+            `;
         }
     }
 
@@ -816,100 +396,122 @@
             const container = document.getElementById(containerId);
             if (!container) return;
             if (allOrders.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد طلبات</div>'; return; }
-            container.innerHTML = allOrders.slice(0, 10).map(order => `
+            container.innerHTML = allOrders.map(order => `
                 <div class="data-item-modern">
-                    <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status}">${order.status === 'pending' ? 'قيد الانتظار' : order.status === 'accepted' ? 'تم القبول' : order.status === 'transit' ? 'قيد التوصيل' : 'تم التوصيل'}</span></div>
+                    <div>
+                        <strong>${order.route}</strong><br>
+                        ${order.weight} كغ | ${order.goodsType}<br>
+                        <span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}">
+                            ${order.status === 'pending' ? '⏳ قيد الانتظار' : order.status === 'accepted' ? '✅ تم القبول' : order.status === 'transit' ? '🚚 قيد النقل' : '📦 تم التوصيل'}
+                        </span>
+                    </div>
                     <div>💰 ${order.price || calculatePrice(order.weight)} دينار</div>
-                    ${currentUserRole === 'admin' ? `<div><button class="update-order" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">تحديث</button></div>` : ''}
+                    <div>
+                        <select class="update-status" data-id="${order.id}" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; padding: 6px; color: white;">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ قيد الانتظار</option>
+                            <option value="accepted" ${order.status === 'accepted' ? 'selected' : ''}>✅ تم القبول</option>
+                            <option value="transit" ${order.status === 'transit' ? 'selected' : ''}>🚚 قيد النقل</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>📦 تم التوصيل</option>
+                        </select>
+                    </div>
                 </div>
             `).join('');
         });
         
-        document.querySelectorAll('.update-order').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const order = allOrders.find(o => o.id === btn.dataset.id);
-                if (order) {
-                    const statuses = ['pending', 'accepted', 'transit', 'delivered'];
-                    const nextStatus = statuses[(statuses.indexOf(order.status) + 1) % statuses.length];
-                    await updateDoc(doc(db, 'orders', order.id), { status: nextStatus });
-                    showToast(`تم تحديث الحالة إلى ${nextStatus}`);
-                }
+        document.querySelectorAll('.update-status').forEach(select => {
+            select.addEventListener('change', async () => {
+                const orderId = select.dataset.id;
+                const newStatus = select.value;
+                await updateDoc(doc(db, 'orders', orderId), { status: newStatus });
+                showToast(`تم تحديث حالة الطلب إلى ${newStatus === 'pending' ? 'قيد الانتظار' : newStatus === 'accepted' ? 'تم القبول' : newStatus === 'transit' ? 'قيد النقل' : 'تم التوصيل'}`);
+                updateStats();
+            });
+        });
+    }
+
+    function renderActiveShipments() {
+        const container = document.getElementById('activeShipmentsList');
+        const allContainer = document.getElementById('allShipmentsList');
+        const activeShipments = allOrders.filter(o => o.status === 'accepted' || o.status === 'transit');
+        
+        if (container) {
+            if (activeShipments.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد نقلات نشطة</div>';
+            } else {
+                container.innerHTML = activeShipments.map(order => `
+                    <div class="data-item-modern">
+                        <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status === 'accepted' ? 'تم القبول' : 'قيد النقل'}</span></div>
+                        <div>🚚 ناقل: ${order.transporterName || 'لم يتم تعيين'}</div>
+                        <div><button class="track-shipment" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;"><i class="fas fa-map-marker-alt"></i> تتبع</button></div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        if (allContainer) {
+            allContainer.innerHTML = activeShipments.map(order => `
+                <div class="data-item-modern">
+                    <div><strong>${order.route}</strong><br>${order.weight} كغ | ${order.goodsType}<br><span class="badge badge-${order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status === 'accepted' ? 'تم القبول' : 'قيد النقل'}</span></div>
+                    <div>💰 ${order.price || calculatePrice(order.weight)} دينار</div>
+                    <div><button class="track-shipment" data-id="${order.id}" style="background: var(--info); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;"><i class="fas fa-map-marker-alt"></i> تتبع</button></div>
+                </div>
+            `).join('');
+        }
+        
+        document.querySelectorAll('.track-shipment').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('trackingOrderId').value = btn.dataset.id;
+                window.switchPage('tracking');
+                setTimeout(() => document.getElementById('trackBtn').click(), 500);
             });
         });
     }
 
     function renderTransporters() {
         const container = document.getElementById('transportersList');
-        const recentContainer = document.getElementById('recentTransporters');
         if (!container) return;
-        if (allTransporters.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا يوجد ناقلين مسجلين</div>'; return; }
+        if (allTransporters.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا يوجد ناقلين</div>'; return; }
         container.innerHTML = allTransporters.map(t => `
             <div class="data-item-modern">
-                <div><strong>${t.name}</strong><br>📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}<br>⭐ ${t.rating || 'جديد'}</div>
+                <div><strong>${t.name}</strong><br>📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}</div>
+                <div><button class="assign-transporter" data-id="${t.id}" data-name="${t.name}" style="background: var(--accent); border: none; padding: 6px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer;">تعيين لطلب</button></div>
                 <div><button class="delete-transporter" data-id="${t.id}" style="background: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">حذف</button></div>
             </div>
         `).join('');
         
-        if (recentContainer) {
-            recentContainer.innerHTML = allTransporters.slice(0, 5).map(t => `
-                <div class="data-item-modern"><div><strong>${t.name}</strong><br>🚛 ${t.truckType}</div></div>
-            `).join('');
-        }
+        document.querySelectorAll('.assign-transporter').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const pendingOrders = allOrders.filter(o => o.status === 'pending');
+                if (pendingOrders.length === 0) { showToast('لا توجد طلبات معلقة لتعيين ناقل', 'error'); return; }
+                const order = pendingOrders[0];
+                await updateDoc(doc(db, 'orders', order.id), { 
+                    status: 'accepted', 
+                    transporterId: btn.dataset.id, 
+                    transporterName: btn.dataset.name,
+                    acceptedAt: Timestamp.now()
+                });
+                showToast(`تم تعيين الناقل ${btn.dataset.name} للطلب ${order.route}`);
+                updateStats();
+            });
+        });
         
         document.querySelectorAll('.delete-transporter').forEach(btn => {
             btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'transporters', btn.dataset.id)); showToast('تم حذف الناقل'); });
         });
     }
 
-    function renderStock() {
-        const container = document.getElementById('stockList');
-        if (!container) return;
-        if (allStock.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">المخزن فارغ</div>'; return; }
-        container.innerHTML = allStock.map(item => `
-            <div class="data-item-modern">
-                <div><strong>${item.name}</strong><br>🔢 ${item.quantity} وحدة<br>💰 شراء: ${item.buyPrice || 0} | بيع: ${item.sellPrice || 0}</div>
-                <div><button class="delete-stock" data-id="${item.id}" style="background: var(--danger); border: none; padding: 6px 12px; border-radius: 8px; color: white; cursor: pointer;">حذف</button></div>
-            </div>
-        `).join('');
-        document.querySelectorAll('.delete-stock').forEach(btn => {
-            btn.addEventListener('click', async () => { await deleteDoc(doc(db, 'stock', btn.dataset.id)); showToast('تم حذف السلعة'); });
-        });
-    }
-
     function renderPayments() {
         const container = document.getElementById('paymentsList');
-        const allPaymentsContainer = document.getElementById('allPaymentsList');
         if (!container) return;
         if (allPayments.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px;">لا توجد مدفوعات</div>'; return; }
         container.innerHTML = allPayments.slice(0, 10).map(p => `
             <div class="data-item-modern">
-                <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>💸 عمولة: ${p.commission} دينار<br>👤 ${p.payerName}</div>
+                <div><strong>طلب: ${p.orderId}</strong><br>💰 ${p.amount} دينار<br>💸 عمولة: ${p.commission} دينار</div>
             </div>
         `).join('');
-        
-        if (allPaymentsContainer) {
-            allPaymentsContainer.innerHTML = allPayments.map(p => `
-                <div class="data-item-modern">
-                    <div><strong>طلب: ${p.orderId}</strong><br>💰 المبلغ: ${p.amount} دينار | عمولة: ${p.commission} دينار | صافي: ${(p.amount - p.commission).toFixed(2)} دينار<br>👤 ${p.payerName} | 📅 ${new Date(p.date?.toDate()).toLocaleDateString('ar-TN')}</div>
-                </div>
-            `).join('');
-        }
-        
-        // Commission report
-        const reportContainer = document.getElementById('commissionReport');
-        if (reportContainer) {
-            const totalCommission = allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
-            const totalAmount = allPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
-            reportContainer.innerHTML = `
-                <div class="data-item-modern"><div>💰 إجمالي المدفوعات: ${totalAmount.toFixed(2)} دينار</div></div>
-                <div class="data-item-modern"><div>💸 إجمالي العمولات: ${totalCommission.toFixed(2)} دينار</div></div>
-                <div class="data-item-modern"><div>📊 نسبة العمولة: ${commissionRate}%</div></div>
-            `;
-        }
     }
 
-    function updateCharts() {
-        // Activity Chart
+    function updateChart() {
         if (activityChart) activityChart.destroy();
         const ctx = document.getElementById('activityChart')?.getContext('2d');
         if (ctx) {
@@ -925,18 +527,6 @@
                 data: { labels: last7Days, datasets: [{ label: 'الطلبات', data: counts, borderColor: '#ffb703', tension: 0.3, fill: true }] }
             });
         }
-        
-        // Commission Chart
-        if (commissionChart) commissionChart.destroy();
-        const commissionCtx = document.getElementById('commissionChart')?.getContext('2d');
-        if (commissionCtx) {
-            const months = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان'];
-            const commissions = months.map(() => allPayments.reduce((sum, p) => sum + (p.commission || 0), 0) / 6);
-            commissionChart = new Chart(commissionCtx, {
-                type: 'bar',
-                data: { labels: months, datasets: [{ label: 'العمولات (دينار)', data: commissions, backgroundColor: '#ffb703', borderRadius: 10 }] }
-            });
-        }
     }
 
     // CRUD Operations
@@ -948,15 +538,14 @@
             route: document.getElementById('route').value,
             weight: weight,
             goodsType: document.getElementById('goodsType').value,
-            timeSlot: document.getElementById('timeSlot').value,
             phone: document.getElementById('phone').value,
-            notes: document.getElementById('notes').value,
             price: parseFloat(price),
             status: 'pending',
             createdAt: Timestamp.now(),
-            userId: currentUser.uid
+            userId: currentUser?.uid
         });
         showToast('تم نشر الطلب بنجاح');
+        closeModal('newOrderModal');
         document.getElementById('orderForm').reset();
     }
 
@@ -965,33 +554,15 @@
         await addDoc(collection(db, 'transporters'), {
             name: document.getElementById('transporterName').value,
             phone: document.getElementById('transporterPhone').value,
-            email: document.getElementById('transporterEmail').value,
-            cin: document.getElementById('transporterCin').value,
             truckType: document.getElementById('truckType').value,
             region: document.getElementById('transporterRegion').value,
-            license: document.getElementById('transporterLicense').value,
-            docs: document.getElementById('transporterDocs').value,
             available: true,
             rating: 0,
-            verified: false,
             createdAt: Timestamp.now()
         });
         showToast('تم تسجيل الناقل بنجاح');
+        closeModal('newTransporterModal');
         document.getElementById('transporterForm').reset();
-    }
-
-    async function addStock(e) {
-        e.preventDefault();
-        await addDoc(collection(db, 'stock'), {
-            name: document.getElementById('productName').value,
-            quantity: parseInt(document.getElementById('productQuantity').value),
-            buyPrice: parseFloat(document.getElementById('productBuyPrice').value) || 0,
-            sellPrice: parseFloat(document.getElementById('productSellPrice').value) || 0,
-            location: document.getElementById('productLocation').value,
-            createdAt: Timestamp.now()
-        });
-        showToast('تم إضافة السلعة');
-        document.getElementById('stockForm').reset();
     }
 
     async function processPayment(e) {
@@ -1002,31 +573,16 @@
             orderId: document.getElementById('paymentOrderId').value,
             amount: amount,
             commission: commission,
-            netForTransporter: amount - commission,
             payerName: document.getElementById('payerName').value,
             payerCin: document.getElementById('payerCin').value,
-            postOffice: document.getElementById('postOffice').value,
-            status: 'completed',
-            date: Timestamp.now(),
-            userId: currentUser.uid
+            date: Timestamp.now()
         });
-        showToast(`تم تأكيد الدفع: ${amount} دينار | عمولة المنصة: ${commission.toFixed(2)} دينار`);
+        showToast(`تم تأكيد الدفع: ${amount} دينار | عمولة: ${commission.toFixed(2)} دينار`);
         document.getElementById('paymentForm').reset();
         updateCommissionDisplay();
-        
         const qrDiv = document.getElementById('qrcode');
         qrDiv.innerHTML = '';
-        new QRCode(qrDiv, { text: `OB Logistique - ${amount} TND - Commission: ${commission.toFixed(2)} TND`, width: 150, height: 150 });
-    }
-
-    function updateCommissionDisplay() {
-        const amountInput = document.getElementById('paymentAmount');
-        const commissionDiv = document.getElementById('commissionDetails');
-        if (amountInput && commissionDiv) {
-            const amount = parseFloat(amountInput.value) || 0;
-            const commission = calculateCommission(amount);
-            commissionDiv.innerHTML = `المبلغ: ${amount} دينار | عمولة (${commissionRate}%): ${commission.toFixed(2)} دينار | صافي الناقل: ${(amount - commission).toFixed(2)} دينار`;
-        }
+        new QRCode(qrDiv, { text: `OB Logistique - ${amount} TND`, width: 150, height: 150 });
     }
 
     async function trackOrder() {
@@ -1039,9 +595,13 @@
             map = L.map('map').setView([36.8065, 10.1815], 8);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
         }
-        L.marker([36.8065, 10.1815]).addTo(map).bindPopup(`الطلب: ${order.route}<br>الحالة: ${order.status}`).openPopup();
+        const lat = 36.8065 + (Math.random() - 0.5) * 0.5;
+        const lng = 10.1815 + (Math.random() - 0.5) * 0.5;
+        if (window.currentMarker) map.removeLayer(window.currentMarker);
+        window.currentMarker = L.marker([lat, lng]).addTo(map).bindPopup(`الطلب: ${order.route}<br>الحالة: ${order.status}`).openPopup();
+        map.setView([lat, lng], 10);
         document.getElementById('trackingDetails').style.display = 'block';
-        document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern"><strong>رقم الطلب:</strong> ${orderId}<br><strong>المسار:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status}<br><strong>السعر:</strong> ${order.price} دينار</div>`;
+        document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern"><strong>رقم الطلب:</strong> ${orderId}<br><strong>المسار:</strong> ${order.route}<br><strong>الحالة:</strong> ${order.status === 'pending' ? '⏳ قيد الانتظار' : order.status === 'accepted' ? '✅ تم القبول' : order.status === 'transit' ? '🚚 قيد النقل' : '📦 تم التوصيل'}<br><strong>السعر:</strong> ${order.price} دينار</div>`;
     }
 
     async function updateCommissionRate() {
@@ -1054,43 +614,40 @@
         }
     }
 
+    function updateCommissionDisplay() {
+        const amount = parseFloat(document.getElementById('paymentAmount')?.value) || 0;
+        const commission = calculateCommission(amount);
+        const details = document.getElementById('commissionDetails');
+        if (details) details.innerHTML = `المبلغ: ${amount} دينار | عمولة (${commissionRate}%): ${commission.toFixed(2)} دينار | صافي الناقل: ${(amount - commission).toFixed(2)} دينار`;
+    }
+
     // Firebase Listeners
     function subscribeToFirestore() {
         onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
             allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderOrders();
+            renderActiveShipments();
             updateStats();
-            updateCharts();
+            updateChart();
         });
         onSnapshot(collection(db, 'transporters'), (snapshot) => {
             allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderTransporters();
             updateStats();
         });
-        onSnapshot(collection(db, 'stock'), (snapshot) => {
-            allStock = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderStock();
-        });
         onSnapshot(collection(db, 'payments'), (snapshot) => {
             allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderPayments();
             updateStats();
-            updateCharts();
         });
         
-        // Load commission rate from Realtime DB
         const commissionRef = ref(rtdb, 'settings/commissionRate');
         onValue(commissionRef, (snapshot) => {
             const val = snapshot.val();
-            if (val) {
-                commissionRate = val;
-                document.getElementById('commissionRate').innerText = commissionRate;
-                document.getElementById('adminCommissionRate').value = commissionRate;
-            }
+            if (val) { commissionRate = val; document.getElementById('commissionRate').innerText = commissionRate; document.getElementById('adminCommissionRate').value = commissionRate; }
         });
     }
 
-    // Navigation
     window.switchPage = function(pageId) {
         document.querySelectorAll('.page-modern').forEach(p => p.classList.remove('active'));
         document.getElementById(`${pageId}Page`).classList.add('active');
@@ -1102,7 +659,9 @@
         }
     };
 
-    // Auto login for demo
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+    // Auth
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
@@ -1110,7 +669,6 @@
             document.getElementById('userAvatar').innerHTML = (user.displayName || user.email).substring(0,2).toUpperCase();
             document.getElementById('settingsName').value = user.displayName || '';
             document.getElementById('settingsEmail').value = user.email;
-            currentUserRole = 'admin';
             subscribeToFirestore();
         } else {
             signInWithEmailAndPassword(auth, 'merchant@oblogistique.com', 'merchant123').catch(() => {});
@@ -1120,29 +678,25 @@
     // Event Listeners
     document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
     document.getElementById('transporterForm')?.addEventListener('submit', addTransporter);
-    document.getElementById('stockForm')?.addEventListener('submit', addStock);
     document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
     document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
     document.getElementById('updateCommissionBtn')?.addEventListener('click', updateCommissionRate);
     document.getElementById('paymentAmount')?.addEventListener('input', updateCommissionDisplay);
     document.getElementById('logoutBtn')?.addEventListener('click', () => signOut(auth));
-    document.getElementById('toggleSidebar')?.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('toggleSidebar')?.addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('collapsed'); });
+    document.getElementById('showNewOrderModal')?.addEventListener('click', () => { document.getElementById('newOrderModal').style.display = 'flex'; });
+    document.getElementById('showNewTransporterModal')?.addEventListener('click', () => { document.getElementById('newTransporterModal').style.display = 'flex'; });
+    document.getElementById('updateProfileBtn')?.addEventListener('click', async () => {
+        if (currentUser) { await updateProfile(currentUser, { displayName: document.getElementById('settingsName').value }); showToast('تم تحديث الملف الشخصي'); }
     });
     
     document.querySelectorAll('.nav-item-modern').forEach(nav => {
-        if (nav.dataset.page) {
-            nav.addEventListener('click', () => window.switchPage(nav.dataset.page));
-        }
+        if (nav.dataset.page) nav.addEventListener('click', () => window.switchPage(nav.dataset.page));
     });
-
-    // Flatpickr
-    const timeInput = document.getElementById('timeSlot');
-    if (timeInput) flatpickr(timeInput, { locale: 'ar', enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, minDate: "today" });
     
     // QR Code
     const qrDiv = document.getElementById('qrcode');
-    if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique - نظام العمولات", width: 150, height: 150 });
+    if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique", width: 150, height: 150 });
     
     updateCommissionDisplay();
 </script>
