@@ -89,11 +89,12 @@
         .form-group-modern input, .form-group-modern select, .form-group-modern textarea { width: 100%; padding: 12px 16px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-family: 'Inter', sans-serif; transition: 0.3s; }
         .form-group-modern input:focus, .form-group-modern select:focus { outline: none; border-color: var(--accent); }
         .btn-modern { background: var(--accent); color: var(--bg-primary); border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center;}
-        .btn-modern:hover { background: var(--accent-dark); transform: translateY(-2px); }
+        .btn-modern:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-2px); }
+        .btn-modern:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
         .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: var(--success-dark); }
+        .btn-success:hover:not(:disabled) { background: var(--success-dark); }
         .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: var(--danger-dark); }
+        .btn-danger:hover:not(:disabled) { background: var(--danger-dark); }
         .grid-2-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .data-list-modern { max-height: 500px; overflow-y: auto; }
         .data-item-modern { background: var(--bg-hover); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; transition: 0.3s; }
@@ -153,7 +154,7 @@
 </head>
 <body>
 <div class="app-layout">
-    <!-- Barre de navigation (Menu latéral ou en bas sur mobile) -->
+    <!-- Barre de navigation -->
     <div class="sidebar-modern" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-area">
@@ -179,7 +180,7 @@
             <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">Paramètres</span></div>
         </div>
         <div class="nav-modern" style="margin-top: auto;">
-            <!-- Bouton PWA masqué par défaut -->
+            <!-- Bouton PWA -->
             <div class="nav-item-modern" id="installAppBtn" style="display: none; background: rgba(255, 183, 3, 0.1); color: var(--accent);">
                 <i class="fas fa-download"></i><span class="nav-label sidebar-text">Installer l'App</span>
             </div>
@@ -254,7 +255,7 @@
                         <div class="form-group-modern"><label>Nom du payeur</label><input type="text" id="payerName" required></div>
                         <div class="form-group-modern"><label>CIN (Carte d'identité)</label><input type="text" id="payerCin" required></div>
                         <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;"><div id="commissionDetails">Montant: 0 | Commission: 0 | Net Livreur: 0</div></div>
-                        <button type="submit" class="btn-modern btn-success" style="width: 100%;"><i class="fas fa-money-bill-wave"></i> Confirmer le paiement</button>
+                        <button type="submit" class="btn-modern btn-success" style="width: 100%;" id="paymentSubmitBtn"><i class="fas fa-money-bill-wave"></i> Confirmer le paiement</button>
                     </form>
                 </div>
                 <div class="card-modern">
@@ -309,7 +310,7 @@
             <div class="form-group-modern"><label>Téléphone Client</label><input type="tel" id="phone" required></div>
             <div class="form-group-modern"><label>Prix Proposé (TND)</label><input type="number" id="proposedPrice" placeholder="Automatique si vide"></div>
             <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-modern" style="flex:1"><i class="fas fa-paper-plane"></i> Publier</button>
+                <button type="submit" class="btn-modern" style="flex:1" id="publishOrderBtn"><i class="fas fa-paper-plane"></i> Publier</button>
                 <button type="button" class="btn-modern" style="background:#404040;" onclick="window.closeModal('newOrderModal')">Annuler</button>
             </div>
         </form>
@@ -325,7 +326,7 @@
             <div class="form-group-modern"><label>Type de Véhicule</label><select id="truckType"><option>Camionnette</option><option>Camion Moyen</option><option>Poids Lourd</option></select></div>
             <div class="form-group-modern"><label>Région (Gouvernorat)</label><input type="text" id="transporterRegion" required></div>
             <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-modern" style="flex:1"><i class="fas fa-save"></i> Enregistrer</button>
+                <button type="submit" class="btn-modern" style="flex:1" id="saveTransporterBtn"><i class="fas fa-save"></i> Enregistrer</button>
                 <button type="button" class="btn-modern" style="background:#404040;" onclick="window.closeModal('newTransporterModal')">Annuler</button>
             </div>
         </form>
@@ -351,9 +352,13 @@
     import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, updateDoc, query, orderBy, Timestamp, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
+    // Utilise EXACTEMENT votre configuration d'origine pour GitHub
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
         apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
+        authDomain: "ob-logistique.firebaseapp.com",
         projectId: "ob-logistique",
+        storageBucket: "ob-logistique.firebasestorage.app",
+        messagingSenderId: "1019224276320",
         appId: "1:1019224276320:web:770fd80601476cc6337205"
     };
 
@@ -361,10 +366,12 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const appIdStr = typeof __app_id !== 'undefined' ? __app_id : 'default-ob-app';
+    // Résolution sécurisée du chemin pour fonctionner parfaitement sur GitHub
     const getPath = (colName) => {
-        if (typeof __app_id !== 'undefined') return `artifacts/${appIdStr}/public/data/${colName}`;
-        return colName;
+        if (typeof __firebase_config !== 'undefined' && typeof __app_id !== 'undefined') {
+            return `artifacts/${__app_id}/public/data/${colName}`;
+        }
+        return colName; // Important: Retourne le chemin racine (ex: 'transporters') sur GitHub
     };
 
     let currentUser = null;
@@ -390,7 +397,7 @@
         if (pageId === 'tracking') {
             setTimeout(() => {
                 if (!map) {
-                    map = L.map('map').setView([36.8065, 10.1815], 7); // Center Tunisia
+                    map = L.map('map').setView([36.8065, 10.1815], 7); 
                     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
                 } else { map.invalidateSize(); }
             }, 100);
@@ -476,7 +483,10 @@
                 try {
                     await updateDoc(doc(db, getPath('orders'), orderId), { status: newStatus });
                     showToast('✅ Mise à jour', `Statut mis à jour avec succès`, 'success');
-                } catch (error) { showToast('❌ Erreur', 'Échec de la mise à jour', 'error'); }
+                } catch (error) { 
+                    console.error(error);
+                    showToast('❌ Erreur', 'Échec de la mise à jour', 'error'); 
+                }
             });
         });
     }
@@ -510,7 +520,10 @@
                 try {
                     await updateDoc(doc(db, getPath('orders'), order.id), { status: 'accepted', transporterId: btnElem.dataset.id, transporterName: btnElem.dataset.name, acceptedAt: Timestamp.now() });
                     showToast('✅ Assignation réussie', `Le livreur ${btnElem.dataset.name} a été assigné à la commande ${order.route}`, 'success');
-                } catch (error) { showToast('❌ Erreur', 'Impossible d\'assigner le livreur', 'error'); }
+                } catch (error) { 
+                    console.error(error);
+                    showToast('❌ Erreur', 'Impossible d\'assigner le livreur', 'error'); 
+                }
             });
         });
         
@@ -606,40 +619,84 @@
     // ==================== ACTIONS ====================
     async function publishOrder(e) {
         e.preventDefault();
+        const btn = document.getElementById('publishOrderBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
+        btn.disabled = true;
+
         const weight = parseFloat(document.getElementById('weight').value);
         let priceVal = document.getElementById('proposedPrice').value;
         const price = priceVal ? parseFloat(priceVal) : calculatePrice(weight);
+        
         try {
             await addDoc(collection(db, getPath('orders')), { route: document.getElementById('route').value, weight: weight, goodsType: document.getElementById('goodsType').value, phone: document.getElementById('phone').value, price: price, status: 'pending', createdAt: Timestamp.now(), userId: currentUser?.uid || 'anonymous' });
             showToast('✅ Publiée', 'Commande publiée avec succès !', 'success');
             window.closeModal('newOrderModal');
             document.getElementById('orderForm').reset();
-        } catch (error) { showToast('❌ Erreur', 'Impossible de publier la commande.', 'error'); }
+        } catch (error) { 
+            console.error(error);
+            showToast('❌ Erreur', 'Impossible de publier : ' + error.message, 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 
     async function addTransporter(e) {
-        e.preventDefault();
+        e.preventDefault(); // Empêche le rafraîchissement de la page
+        const btn = document.getElementById('saveTransporterBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+        btn.disabled = true;
+
         try {
-            await addDoc(collection(db, getPath('transporters')), { name: document.getElementById('transporterName').value, phone: document.getElementById('transporterPhone').value, truckType: document.getElementById('truckType').value, region: document.getElementById('transporterRegion').value, available: true, createdAt: Timestamp.now() });
+            const nouveauLivreur = { 
+                name: document.getElementById('transporterName').value, 
+                phone: document.getElementById('transporterPhone').value, 
+                truckType: document.getElementById('truckType').value, 
+                region: document.getElementById('transporterRegion').value, 
+                available: true,
+                rating: 0, // Correction: Ajouté pour respecter d'éventuelles règles strictes Firebase
+                createdAt: Timestamp.now() 
+            };
+            await addDoc(collection(db, getPath('transporters')), nouveauLivreur);
+            
             showToast('✅ Inscrit', `Le livreur a été inscrit avec succès`, 'success');
             window.closeModal('newTransporterModal');
             document.getElementById('transporterForm').reset();
-        } catch (error) { showToast('❌ Erreur', 'Erreur lors de l\'inscription', 'error'); }
+        } catch (error) { 
+            console.error("Firebase Error: ", error);
+            showToast('❌ Erreur Firebase', 'Vérifiez vos permissions : ' + error.message, 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 
     async function processPayment(e) {
         e.preventDefault();
+        const btn = document.getElementById('paymentSubmitBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validation...';
+        btn.disabled = true;
+
         const amount = parseFloat(document.getElementById('paymentAmount').value);
         const commission = calculateCommission(amount);
         try {
             await addDoc(collection(db, getPath('payments')), { orderId: document.getElementById('paymentOrderId').value, amount: amount, commission: commission, payerName: document.getElementById('payerName').value, payerCin: document.getElementById('payerCin').value, date: Timestamp.now() });
-            showToast('💰 Paiement Valide', `Paiement confirmé: ${amount} TND | Commission: ${commission.toFixed(2)} TND`, 'success');
+            showToast('💰 Paiement Valide', `Paiement confirmé: ${amount} TND`, 'success');
             document.getElementById('paymentForm').reset();
             updateCommissionDisplay();
             const qrDiv = document.getElementById('qrcode');
             qrDiv.innerHTML = '';
             new QRCode(qrDiv, { text: `OB-PAY-${Date.now()}-TND${amount}`, width: 150, height: 150, colorDark : "#0a0a0a", colorLight : "#ffffff" });
-        } catch (error) { showToast('❌ Erreur', 'Échec de la validation', 'error'); }
+        } catch (error) { 
+            console.error(error);
+            showToast('❌ Erreur', 'Échec de la validation', 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 
     async function trackOrder() {
@@ -699,11 +756,13 @@
         unsubscribes.forEach(unsub => unsub());
         unsubscribes = [];
         try {
-            unsubscribes.push(onSnapshot(query(collection(db, getPath('orders')), orderBy('createdAt', 'desc')), (snapshot) => { allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderOrders(); renderActiveShipments(); updateStats(); updateChart(); }, (error) => {} ));
-            unsubscribes.push(onSnapshot(collection(db, getPath('transporters')), (snapshot) => { allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderTransporters(); updateStats(); }, (error) => {} ));
-            unsubscribes.push(onSnapshot(query(collection(db, getPath('payments')), orderBy('date', 'desc')), (snapshot) => { allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderPayments(); updateStats(); }, (error) => {} ));
+            unsubscribes.push(onSnapshot(query(collection(db, getPath('orders')), orderBy('createdAt', 'desc')), (snapshot) => { allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderOrders(); renderActiveShipments(); updateStats(); updateChart(); }, (error) => { console.error(error); } ));
+            unsubscribes.push(onSnapshot(collection(db, getPath('transporters')), (snapshot) => { allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderTransporters(); updateStats(); }, (error) => { console.error("Firebase read error for transporters", error); } ));
+            unsubscribes.push(onSnapshot(query(collection(db, getPath('payments')), orderBy('date', 'desc')), (snapshot) => { allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderPayments(); updateStats(); }, (error) => { console.error(error); } ));
             unsubscribes.push(onSnapshot(doc(db, getPath('settings'), 'global'), (docSnap) => { if (docSnap.exists() && docSnap.data().commissionRate !== undefined) { commissionRate = docSnap.data().commissionRate; document.getElementById('commissionRateDisplay').innerText = commissionRate; document.getElementById('adminCommissionRate').value = commissionRate; updateCommissionDisplay(); } }, (error) => {} ));
-        } catch (err) {}
+        } catch (err) {
+            console.error("Subscription Error:", err);
+        }
     }
 
     // ==================== APP INIT & PWA ====================
@@ -713,10 +772,11 @@
             else await signInAnonymously(auth);
         } catch (e) { try { await signInAnonymously(auth); } catch(err){} }
 
-        // Form Events
+        // Ajout sécurisé des événements de formulaires (Prévient le rechargement forcé de la page)
         document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
         document.getElementById('transporterForm')?.addEventListener('submit', addTransporter);
         document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
+        
         document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
         document.getElementById('updateCommissionBtn')?.addEventListener('click', updateCommissionSettings);
         document.getElementById('updateProfileBtn')?.addEventListener('click', updateUserProfileSettings);
