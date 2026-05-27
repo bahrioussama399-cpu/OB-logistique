@@ -1,1001 +1,239 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>OB Logistique - منصة النقل الذكية</title>
-    <!-- Styles & Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Leaflet (Map) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- QRCode -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --bg-card: #262626;
-            --bg-hover: #2d2d2d;
-            --text-primary: #ffffff;
-            --text-secondary: #a3a3a3;
+            --bg-color: #0a0a0a;
+            --text-color: #ffffff;
             --accent: #ffb703;
-            --accent-dark: #fb8500;
-            --success: #10b981;
-            --success-dark: #059669;
-            --danger: #ef4444;
-            --danger-dark: #dc2626;
-            --warning: #f97316;
-            --info: #3b82f6;
-            --border: #404040;
-            --sidebar-width: 300px;
+            --card-bg: #1a1a1a;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); height: 100vh; overflow: hidden; }
-        .app-layout { display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar */
-        .sidebar-modern { width: var(--sidebar-width); background: var(--bg-secondary); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; transition: all 0.3s; z-index: 100; }
-        .sidebar-modern.collapsed { width: 80px; }
-        .sidebar-modern.collapsed .sidebar-text, .sidebar-modern.collapsed .nav-label { display: none; }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .logo-icon i { font-size: 22px; color: var(--bg-primary); }
-        .logo-text h2 { font-size: 20px; font-weight: 700; }
-        .logo-text span { color: var(--accent); }
-        .toggle-btn { background: var(--bg-hover); border: none; color: var(--text-primary); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-        .toggle-btn:hover { background: var(--accent); color: var(--bg-primary); }
-        .user-profile { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
-        .user-avatar { width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
-        .user-info h4 { font-size: 16px; margin-bottom: 4px; }
-        .user-info p { font-size: 12px; color: var(--text-secondary); }
-        .nav-modern { flex: 1; padding: 10px; }
-        .nav-item-modern { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 4px; }
-        .nav-item-modern:hover { background: var(--bg-hover); transform: translateX(-5px); }
-        .nav-item-modern.active { background: var(--accent); color: var(--bg-primary); }
-        
-        /* Main Content */
-        .main-modern { flex: 1; background: var(--bg-primary); overflow-y: auto; padding: 20px; }
-        .top-bar-modern { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-        .page-title { font-size: 24px; font-weight: 700; }
-        .commission-badge { background: var(--accent); color: var(--bg-primary); padding: 8px 16px; border-radius: 12px; font-weight: bold; }
-        
-        /* Stats Grid */
-        .stats-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 24px; }
-        .stat-card-modern { background: var(--bg-card); border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: 0.3s; }
-        .stat-card-modern:hover { background: var(--bg-hover); transform: translateY(-2px); }
-        .stat-icon { width: 55px; height: 55px; background: rgba(255,183,3,0.15); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent); }
-        .stat-info h3 { font-size: 28px; font-weight: 700; }
-        .stat-info p { font-size: 14px; color: var(--text-secondary); }
-        
-        /* Cards */
-        .card-modern { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-        .form-group-modern { margin-bottom: 16px; }
-        .form-group-modern label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
-        .form-group-modern input, .form-group-modern select, .form-group-modern textarea { width: 100%; padding: 12px 16px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-family: 'Inter', sans-serif; transition: 0.3s; }
-        .form-group-modern input:focus, .form-group-modern select:focus { outline: none; border-color: var(--accent); }
-        .btn-modern { background: var(--accent); color: var(--bg-primary); border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center;}
-        .btn-modern:hover { background: var(--accent-dark); transform: translateY(-2px); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: var(--success-dark); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: var(--danger-dark); }
-        .grid-2-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
-        .data-list-modern { max-height: 500px; overflow-y: auto; }
-        .data-item-modern { background: var(--bg-hover); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; transition: 0.3s; }
-        .data-item-modern:hover { background: rgba(255,183,3,0.1); transform: translateX(-5px); }
-        .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .badge-pending { background: #fef3c7; color: #d97706; }
-        .badge-accepted { background: #d1fae5; color: #059669; }
-        .badge-transit { background: #dbeafe; color: #2563eb; }
-        .badge-delivered { background: #e0e7ff; color: #4338ca; }
-        
-        /* Map */
-        #map { height: 350px; border-radius: 16px; margin-top: 16px; width: 100%; position: relative; z-index: 1;}
-        
-        /* Modal */
-        .modal-modern { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content-modern { background: var(--bg-card); border-radius: 24px; padding: 30px; max-width: 500px; width: 90%; }
-        
-        /* Toast Notifications */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 12px; }
-        .toast-modern { min-width: 300px; max-width: 400px; background: var(--bg-card); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: slideInRight 0.3s ease; border-right: 4px solid; }
-        .toast-modern.success { border-right-color: var(--success); }
-        .toast-modern.error { border-right-color: var(--danger); }
-        .toast-modern.warning { border-right-color: var(--warning); }
-        .toast-modern.info { border-right-color: var(--info); }
-        .toast-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .toast-icon.success { background: var(--success); color: white; }
-        .toast-icon.error { background: var(--danger); color: white; }
-        .toast-icon.warning { background: var(--warning); color: white; }
-        .toast-icon.info { background: var(--info); color: white; }
-        .toast-content { flex: 1; }
-        .toast-title { font-weight: 700; margin-bottom: 4px; }
-        .toast-message { font-size: 13px; color: var(--text-secondary); }
-        .toast-close { cursor: pointer; opacity: 0.6; transition: 0.3s; }
-        .toast-close:hover { opacity: 1; }
-        
-        @keyframes slideInRight { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100px); opacity: 0; } }
-        
-        .page-modern { display: none; }
-        .page-modern.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        @media (max-width: 768px) { .sidebar-modern { width: 80px; } .sidebar-modern .sidebar-text, .sidebar-modern .nav-label { display: none; } .grid-2-modern { grid-template-columns: 1fr; } }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .nav-modern {
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+
+        .nav-item-modern {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .nav-item-modern:hover {
+            color: var(--accent);
+        }
+
+        .nav-item-modern i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+        }
+
+        #installAppBtn {
+            display: none; /* Masqué par défaut, s'affiche si le téléphone le permet */
+            background: rgba(255, 183, 3, 0.1);
+            color: var(--accent);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
-<div class="app-layout">
-    <!-- Sidebar -->
-    <div class="sidebar-modern" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-area">
-                <div class="logo-icon"><i class="fas fa-truck-fast"></i></div>
-                <div class="logo-text sidebar-text"><h2>OB <span>Logistique</span></h2></div>
-            </div>
-            <button class="toggle-btn" id="toggleSidebar"><i class="fas fa-bars"></i></button>
-        </div>
-        <div class="user-profile">
-            <div class="user-avatar" id="userAvatar">OB</div>
-            <div class="user-info sidebar-text">
-                <h4 id="userName">مرحباً بك</h4>
-                <p id="userRole" class="badge badge-accepted">مدير</p>
-            </div>
-        </div>
-        <div class="nav-modern">
-            <div class="nav-item-modern active" data-page="dashboard"><i class="fas fa-chart-line"></i><span class="nav-label sidebar-text">لوحة التحكم</span></div>
-            <div class="nav-item-modern" data-page="orders"><i class="fas fa-box"></i><span class="nav-label sidebar-text">الطلبات</span></div>
-            <div class="nav-item-modern" data-page="transporters"><i class="fas fa-truck"></i><span class="nav-label sidebar-text">الناقلين</span></div>
-            <div class="nav-item-modern" data-page="shipments"><i class="fas fa-ship"></i><span class="nav-label sidebar-text">النقلات النشطة</span></div>
-            <div class="nav-item-modern" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">المدفوعات</span></div>
-            <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">التتبع</span></div>
-            <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">الإعدادات</span></div>
-        </div>
-        <div class="nav-modern" style="margin-top: auto;">
-            <div class="nav-item-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span class="nav-label sidebar-text">تسجيل الخروج</span></div>
+
+    <header>
+        <h1>OB Logistique</h1>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>مرحباً بك (Bienvenue)</h2>
+            <p>منصة النقل الذكية الخاصة بك</p>
+            <div id="qrcode"></div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-modern" id="mainContent">
-        <!-- Dashboard Page -->
-        <div id="dashboardPage" class="page-modern active">
-            <div class="top-bar-modern">
-                <h1 class="page-title">لوحة التحكم</h1>
-                <div class="commission-badge">نسبة العمولة: <span id="commissionRateDisplay">8</span>%</div>
-            </div>
-            <div class="stats-grid-modern">
-                <div class="stat-card-modern" onclick="window.switchPage('orders')"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-info"><h3 id="statOrders">0</h3><p>طلبات نشطة</p></div></div>
-                <div class="stat-card-modern" onclick="window.switchPage('transporters')"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="statTransporters">0</h3><p>ناقلين مسجلين</p></div></div>
-                <div class="stat-card-modern" onclick="window.switchPage('shipments')"><div class="stat-icon"><i class="fas fa-ship"></i></div><div class="stat-info"><h3 id="statActiveShipments">0</h3><p>نقلات نشطة</p></div></div>
-                <div class="stat-card-modern" onclick="window.switchPage('payments')"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-info"><h3 id="statTotalCommission">0</h3><p>إجمالي العمولات</p></div></div>
-            </div>
-            <div class="grid-2-modern">
-                <div class="card-modern"><div class="card-header"><h3><i class="fas fa-clock"></i> الطلبات الجديدة</h3></div><div id="recentOrders" class="data-list-modern"></div></div>
-                <div class="card-modern"><div class="card-header"><h3><i class="fas fa-truck-fast"></i> النقلات قيد التنفيذ</h3></div><div id="activeShipmentsList" class="data-list-modern"></div></div>
-            </div>
-            <div class="card-modern"><div class="card-header"><h3><i class="fas fa-chart-line"></i> نشاط المنصة</h3></div>
-                <div style="position: relative; height:200px; width:100%">
-                    <canvas id="activityChart"></canvas>
-                </div>
-            </div>
+    <div class="nav-modern">
+        <div class="nav-item-modern" onclick="alert('Accueil')">
+            <i class="fas fa-home"></i>
+            <span class="nav-label">الرئيسية</span>
         </div>
-
-        <!-- Orders Page -->
-        <div id="ordersPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">الطلبات</h1>
-                <button class="btn-modern" id="showNewOrderModal"><i class="fas fa-plus"></i> طلب جديد</button>
-            </div>
-            <div class="card-modern"><div class="card-header"><h3><i class="fas fa-list"></i> قائمة الطلبات</h3></div><div id="ordersList" class="data-list-modern"></div></div>
+        
+        <div class="nav-item-modern" id="installAppBtn">
+            <i class="fas fa-download"></i>
+            <span class="nav-label">تثبيت التطبيق</span>
         </div>
-
-        <!-- Transporters Page -->
-        <div id="transportersPage" class="page-modern">
-            <div class="top-bar-modern">
-                <h1 class="page-title">الناقلين</h1>
-                <button class="btn-modern" id="showNewTransporterModal"><i class="fas fa-user-plus"></i> ناقل جديد</button>
-            </div>
-            <div class="card-modern"><div class="card-header"><h3><i class="fas fa-list"></i> قائمة الناقلين</h3></div><div id="transportersList" class="data-list-modern"></div></div>
-        </div>
-
-        <!-- Shipments Page -->
-        <div id="shipmentsPage" class="page-modern">
-            <div class="top-bar-modern"><h1 class="page-title">النقلات النشطة</h1></div>
-            <div class="stats-grid-modern">
-                <div class="stat-card-modern"><div class="stat-icon"><i class="fas fa-play-circle"></i></div><div class="stat-info"><h3 id="activeCount">0</h3><p>قيد التنفيذ</p></div></div>
-                <div class="stat-card-modern"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3 id="completedCount">0</h3><p>مكتملة</p></div></div>
-            </div>
-            <div class="card-modern"><div class="card-header"><h3><i class="fas fa-ship"></i> جميع النقلات</h3></div><div id="allShipmentsList" class="data-list-modern"></div></div>
-        </div>
-
-        <!-- Payments Page -->
-        <div id="paymentsPage" class="page-modern">
-            <div class="top-bar-modern"><h1 class="page-title">المدفوعات والعمولات</h1></div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-credit-card"></i> تأكيد الدفع</h3></div>
-                    <form id="paymentForm">
-                        <div class="form-group-modern"><label>رقم الطلب</label><input type="text" id="paymentOrderId" required></div>
-                        <div class="form-group-modern"><label>المبلغ الإجمالي</label><input type="number" id="paymentAmount" required></div>
-                        <div class="form-group-modern"><label>اسم الدافع</label><input type="text" id="payerName" required></div>
-                        <div class="form-group-modern"><label>البطاقة الوطنية</label><input type="text" id="payerCin" required></div>
-                        <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;"><div id="commissionDetails">المبلغ: 0 دينار | عمولة: 0 دينار | صافي الناقل: 0 دينار</div></div>
-                        <button type="submit" class="btn-modern btn-success" style="width: 100%;"><i class="fas fa-money-bill-wave"></i> تأكيد الدفع</button>
-                    </form>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-receipt"></i> سجل المدفوعات</h3></div>
-                    <div id="paymentsList" class="data-list-modern"></div>
-                    <div id="qrcode" style="display: flex; justify-content: center; padding: 20px; margin-top: 10px; background: white; border-radius: 12px; width: fit-content; margin-left: auto; margin-right: auto;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tracking Page -->
-        <div id="trackingPage" class="page-modern">
-            <div class="top-bar-modern"><h1 class="page-title">تتبع الشحنة</h1></div>
-            <div class="card-modern">
-                <div style="display: flex; gap: 12px; margin-bottom: 20px;">
-                    <input type="text" id="trackingOrderId" placeholder="أدخل رقم الطلب" style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
-                    <button id="trackBtn" class="btn-modern"><i class="fas fa-search"></i> تتبع</button>
-                </div>
-                <div id="map"></div>
-                <div id="trackingDetails" style="display: none; margin-top: 16px;"></div>
-            </div>
-        </div>
-
-        <!-- Settings Page -->
-        <div id="settingsPage" class="page-modern">
-            <div class="top-bar-modern"><h1 class="page-title">الإعدادات</h1></div>
-            <div class="grid-2-modern">
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-user-cog"></i> الملف الشخصي</h3></div>
-                    <div class="form-group-modern"><label>الاسم</label><input type="text" id="settingsName"></div>
-                    <div class="form-group-modern"><label>البريد</label><input type="email" id="settingsEmail" readonly></div>
-                    <button id="updateProfileBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث</button>
-                </div>
-                <div class="card-modern">
-                    <div class="card-header"><h3><i class="fas fa-sliders-h"></i> إعدادات العمولة</h3></div>
-                    <div class="form-group-modern"><label>نسبة العمولة (%)</label><input type="number" id="adminCommissionRate" value="8" step="0.5"></div>
-                    <button id="updateCommissionBtn" class="btn-modern"><i class="fas fa-save"></i> تحديث النسبة</button>
-                </div>
-            </div>
+        
+        <div class="nav-item-modern" onclick="alert('Déconnexion')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-label">خروج</span>
         </div>
     </div>
-</div>
 
-<!-- Modals -->
-<!-- Modal: New Order -->
-<div id="newOrderModal" class="modal-modern">
-    <div class="modal-content-modern">
-        <h3 style="margin-bottom: 20px;"><i class="fas fa-plus-circle"></i> طلب نقل جديد</h3>
-        <form id="orderForm">
-            <div class="form-group-modern"><label>من → إلى</label><input type="text" id="route" required placeholder="صفاقس → تونس"></div>
-            <div class="form-group-modern"><label>الوزن (كغ)</label><input type="number" id="weight" required></div>
-            <div class="form-group-modern"><label>نوع البضاعة</label><select id="goodsType"><option>مواد غذائية</option><option>مواد بناء</option><option>إلكترونيات</option></select></div>
-            <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="phone" required></div>
-            <div class="form-group-modern"><label>السعر المقترح (دينار)</label><input type="number" id="proposedPrice" placeholder="سيتم حسابه تلقائياً"></div>
-            <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-modern" style="flex:1"><i class="fas fa-paper-plane"></i> نشر الطلب</button>
-                <button type="button" class="btn-modern" style="background:#404040;" onclick="window.closeModal('newOrderModal')">إلغاء</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <div id="toast" class="toast">تم تثبيت التطبيق بنجاح</div>
 
-<!-- Modal: New Transporter -->
-<div id="newTransporterModal" class="modal-modern">
-    <div class="modal-content-modern">
-        <h3 style="margin-bottom: 20px;"><i class="fas fa-user-plus"></i> تسجيل ناقل جديد</h3>
-        <form id="transporterForm">
-            <div class="form-group-modern"><label>الاسم الكامل</label><input type="text" id="transporterName" required></div>
-            <div class="form-group-modern"><label>رقم الهاتف</label><input type="tel" id="transporterPhone" required></div>
-            <div class="form-group-modern"><label>نوع الشاحنة</label><select id="truckType"><option>شاحنة صغيرة</option><option>شاحنة متوسطة</option><option>شاحنة كبيرة</option></select></div>
-            <div class="form-group-modern"><label>المنطقة</label><input type="text" id="transporterRegion" required></div>
-            <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-modern" style="flex:1"><i class="fas fa-save"></i> تسجيل الناقل</button>
-                <button type="button" class="btn-modern" style="background:#404040;" onclick="window.closeModal('newTransporterModal')">إلغاء</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal: Confirm Delete -->
-<div id="confirmModal" class="modal-modern">
-    <div class="modal-content-modern" style="max-width: 350px; text-align: center;">
-        <h3 style="margin-bottom: 20px;"><i class="fas fa-exclamation-triangle" style="color: var(--warning); font-size: 32px;"></i><br><br>تأكيد الإجراء</h3>
-        <p style="margin-bottom: 24px; color: var(--text-secondary);">هل أنت متأكد من رغبتك في الاستمرار؟ لا يمكن التراجع عن هذه الخطوة.</p>
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button id="confirmYesBtn" class="btn-modern btn-danger"><i class="fas fa-check"></i> نعم، متأكد</button>
-            <button class="btn-modern" style="background:#404040;" onclick="window.closeModal('confirmModal')"><i class="fas fa-times"></i> إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<div class="toast-container" id="toastContainer"></div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-    import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, updateDoc, query, orderBy, Timestamp, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-    // Standardized Firebase Config to work in local environment or Canvas
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-        apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
-        projectId: "ob-logistique",
-        appId: "1:1019224276320:web:770fd80601476cc6337205"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Canvas environment rules compatibility
-    const appIdStr = typeof __app_id !== 'undefined' ? __app_id : 'default-ob-app';
-    const getPath = (colName) => {
-        if (typeof __app_id !== 'undefined') {
-            return `artifacts/${appIdStr}/public/data/${colName}`;
-        }
-        return colName;
-    };
-
-    let currentUser = null;
-    let commissionRate = 8;
-    let allOrders = [], allTransporters = [], allPayments = [];
-    let activityChart = null;
-    let map = null;
-    let confirmActionCallback = null;
-    let unsubscribes = [];
-
-    // ==================== GLOBAL EXPORTS ====================
-    // Expose functions to window so inline onclick handlers work
-    window.closeModal = function(modalId) { 
-        document.getElementById(modalId).style.display = 'none'; 
-    };
-
-    window.showConfirm = function(action) {
-        confirmActionCallback = action;
-        document.getElementById('confirmModal').style.display = 'flex';
-    };
-
-    window.switchPage = function(pageId) {
-        document.querySelectorAll('.page-modern').forEach(p => p.classList.remove('active'));
-        document.getElementById(`${pageId}Page`).classList.add('active');
-        document.querySelectorAll('.nav-item-modern').forEach(nav => nav.classList.remove('active'));
-        const activeNav = document.querySelector(`[data-page="${pageId}"]`);
-        if(activeNav) activeNav.classList.add('active');
-        
-        // Map requires invalidation when its container becomes visible
-        if (pageId === 'tracking') {
-            setTimeout(() => {
-                if (!map) {
-                    map = L.map('map').setView([36.8065, 10.1815], 8);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-                } else {
-                    map.invalidateSize();
-                }
-            }, 100);
-        }
-    };
-
-    // ==================== UI HELPERS ====================
-    function showToast(title, message, type = 'success') {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast-modern ${type}`;
-        
-        let iconClass = 'fa-info-circle', iconBg = 'info';
-        if (type === 'success') { iconClass = 'fa-check-circle'; iconBg = 'success'; }
-        else if (type === 'error') { iconClass = 'fa-exclamation-triangle'; iconBg = 'error'; }
-        else if (type === 'warning') { iconClass = 'fa-exclamation-circle'; iconBg = 'warning'; }
-        
-        toast.innerHTML = `
-            <div class="toast-icon ${iconBg}"><i class="fas ${iconClass}"></i></div>
-            <div class="toast-content">
-                <div class="toast-title">${title}</div>
-                <div class="toast-message">${message}</div>
-            </div>
-            <div class="toast-close"><i class="fas fa-times"></i></div>
-        `;
-        
-        container.appendChild(toast);
-        
-        toast.querySelector('.toast-close').addEventListener('click', () => {
-            toast.style.animation = 'slideOutRight 0.3s ease forwards';
-            setTimeout(() => toast.remove(), 300);
-        });
-        
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.style.animation = 'slideOutRight 0.3s ease forwards';
-                setTimeout(() => toast.remove(), 300);
-            }
-        }, 5000);
-    }
-
-    function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
-    function calculateCommission(amount) { return (amount * commissionRate) / 100; }
-
-    function updateStats() {
-        const pendingOrders = allOrders.filter(o => o.status === 'pending').length;
-        const activeShipments = allOrders.filter(o => o.status === 'accepted' || o.status === 'transit').length;
-        const totalCommission = allPayments.reduce((sum, p) => sum + (p.commission || 0), 0);
-        
-        document.getElementById('statOrders').innerText = pendingOrders;
-        document.getElementById('statTransporters').innerText = allTransporters.length;
-        document.getElementById('statActiveShipments').innerText = activeShipments;
-        document.getElementById('statTotalCommission').innerText = totalCommission.toFixed(2);
-        document.getElementById('activeCount').innerText = activeShipments;
-        document.getElementById('completedCount').innerText = allOrders.filter(o => o.status === 'delivered').length;
-    }
-
-    // ==================== RENDERING ====================
-    function renderOrders() {
-        const containers = ['recentOrders', 'ordersList'];
-        containers.forEach(containerId => {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            if (allOrders.length === 0) { 
-                container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">📭 لا توجد طلبات حالياً</div>'; 
-                return; 
-            }
-            container.innerHTML = allOrders.map(order => `
-                <div class="data-item-modern">
-                    <div>
-                        <strong>${order.route}</strong><br>
-                        <span style="color:var(--text-secondary); font-size: 13px;">${order.weight} كغ | ${order.goodsType}</span><br>
-                        <span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}">
-                            ${order.status === 'pending' ? '⏳ قيد الانتظار' : order.status === 'accepted' ? '✅ تم القبول' : order.status === 'transit' ? '🚚 قيد النقل' : '📦 تم التوصيل'}
-                        </span>
-                    </div>
-                    <div style="font-weight:bold; color:var(--accent);">💰 ${order.price || calculatePrice(order.weight)} د.ت</div>
-                    <div>
-                        <select class="update-status" data-id="${order.id}" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; padding: 6px; color: white;">
-                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ قيد الانتظار</option>
-                            <option value="accepted" ${order.status === 'accepted' ? 'selected' : ''}>✅ تم القبول</option>
-                            <option value="transit" ${order.status === 'transit' ? 'selected' : ''}>🚚 قيد النقل</option>
-                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>📦 تم التوصيل</option>
-                        </select>
-                    </div>
-                </div>
-            `).join('');
-        });
-        
-        document.querySelectorAll('.update-status').forEach(select => {
-            select.addEventListener('change', async (e) => {
-                const orderId = e.target.dataset.id;
-                const newStatus = e.target.value;
-                try {
-                    await updateDoc(doc(db, getPath('orders'), orderId), { status: newStatus });
-                    const statusNames = { pending: 'قيد الانتظار', accepted: 'تم القبول', transit: 'قيد النقل', delivered: 'تم التوصيل' };
-                    showToast('✅ تم التحديث', `تم تغيير حالة الطلب إلى ${statusNames[newStatus]}`, 'success');
-                } catch (error) {
-                    console.error("Update Status Error:", error);
-                    showToast('❌ خطأ', 'حدث خطأ أثناء تحديث الحالة', 'error');
-                }
-            });
-        });
-    }
-
-    function renderTransporters() {
-        const container = document.getElementById('transportersList');
-        if (!container) return;
-        if (allTransporters.length === 0) { 
-            container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚛 لا يوجد ناقلين مسجلين</div>'; 
-            return; 
-        }
-        container.innerHTML = allTransporters.map(t => `
-            <div class="data-item-modern">
-                <div>
-                    <strong>${t.name}</strong><br>
-                    <span style="color:var(--text-secondary); font-size: 13px;">📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}</span>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="assign-transporter" data-id="${t.id}" data-name="${t.name}" style="background: var(--accent); border: none; padding: 8px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer; font-weight:600;"><i class="fas fa-check"></i> تعيين لطلب</button>
-                    <button class="delete-transporter" data-id="${t.id}" style="background: var(--bg-card); border: 1px solid var(--danger); padding: 8px 12px; border-radius: 8px; color: var(--danger); cursor: pointer;"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
-        `).join('');
-        
-        document.querySelectorAll('.assign-transporter').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const btnElem = e.currentTarget;
-                const pendingOrders = allOrders.filter(o => o.status === 'pending');
-                if (pendingOrders.length === 0) {
-                    showToast('⚠️ تنبيه', 'لا توجد طلبات معلقة لتعيين ناقل', 'warning');
-                    return;
-                }
-                const order = pendingOrders[0]; // Assign to oldest pending by default
-                try {
-                    await updateDoc(doc(db, getPath('orders'), order.id), { 
-                        status: 'accepted', 
-                        transporterId: btnElem.dataset.id, 
-                        transporterName: btnElem.dataset.name, 
-                        acceptedAt: Timestamp.now() 
-                    });
-                    showToast('✅ تم التعيين', `تم تعيين الناقل ${btnElem.dataset.name} للطلب ${order.route}`, 'success');
-                } catch (error) {
-                    console.error("Assign Error:", error);
-                    showToast('❌ خطأ', 'حدث خطأ أثناء تعيين الناقل', 'error');
-                }
-            });
-        });
-        
-        document.querySelectorAll('.delete-transporter').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idToDelete = e.currentTarget.dataset.id;
-                window.showConfirm(async () => {
-                    try {
-                        await deleteDoc(doc(db, getPath('transporters'), idToDelete));
-                        showToast('✅ تم الحذف', 'تم حذف الناقل بنجاح', 'success');
-                    } catch (error) {
-                        showToast('❌ خطأ', 'حدث خطأ أثناء الحذف', 'error');
-                    }
-                });
-            });
-        });
-    }
-
-    function renderActiveShipments() {
-        const container = document.getElementById('activeShipmentsList');
-        const allContainer = document.getElementById('allShipmentsList');
-        const activeShipments = allOrders.filter(o => o.status === 'accepted' || o.status === 'transit');
-        
-        const renderItem = (order, extraDetails = false) => `
-            <div class="data-item-modern">
-                <div>
-                    <strong>${order.route}</strong><br>
-                    <span style="color:var(--text-secondary); font-size: 13px;">${order.weight} كغ | ${order.goodsType}</span><br>
-                    <span class="badge badge-${order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status === 'accepted' ? 'تم القبول' : 'قيد النقل'}</span>
-                </div>
-                <div>
-                    ${extraDetails ? `<div style="font-weight:bold; color:var(--accent); margin-bottom:4px;">💰 ${order.price || calculatePrice(order.weight)} د.ت</div>` : `<div>🚛 ناقل: ${order.transporterName || 'لم يتم تعيين'}</div>`}
-                </div>
-                <div>
-                    <button class="track-shipment" data-id="${order.id}" style="background: var(--info); border: none; padding: 8px 16px; border-radius: 8px; color: white; cursor: pointer; font-weight:600;"><i class="fas fa-map-marker-alt"></i> تتبع</button>
-                </div>
-            </div>
-        `;
-
-        if (container) {
-            container.innerHTML = activeShipments.length === 0 
-                ? '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚚 لا توجد نقلات نشطة</div>'
-                : activeShipments.map(o => renderItem(o, false)).join('');
-        }
-        
-        if (allContainer) {
-            allContainer.innerHTML = activeShipments.length === 0
-                ? '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚚 لا توجد نقلات نشطة</div>'
-                : activeShipments.map(o => renderItem(o, true)).join('');
-        }
-        
-        document.querySelectorAll('.track-shipment').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.getElementById('trackingOrderId').value = e.currentTarget.dataset.id;
-                window.switchPage('tracking');
-                setTimeout(() => document.getElementById('trackBtn').click(), 500);
-            });
-        });
-    }
-
-    function renderPayments() {
-        const container = document.getElementById('paymentsList');
-        if (!container) return;
-        if (allPayments.length === 0) { 
-            container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">💰 لا توجد مدفوعات مسجلة</div>'; 
-            return; 
-        }
-        container.innerHTML = allPayments.slice(0, 10).map(p => `
-            <div class="data-item-modern">
-                <div>
-                    <strong>طلب: ${p.orderId}</strong><br>
-                    <span style="color:var(--text-secondary); font-size: 13px;"><i class="fas fa-user"></i> ${p.payerName} | CIN: ${p.payerCin}</span>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-weight:bold; color:var(--success);">💰 ${p.amount} د.ت</div>
-                    <div style="font-size: 12px; color: var(--accent);">💸 عمولة: ${p.commission.toFixed(2)} د.ت</div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function updateChart() {
-        const ctxElem = document.getElementById('activityChart');
-        if (!ctxElem) return;
-        const ctx = ctxElem.getContext('2d');
-        
-        if (activityChart) activityChart.destroy();
-        
-        const last7Days = [];
-        for (let i = 6; i >= 0; i--) {
-            const d = new Date();
-            d.setDate(d.getDate() - i);
-            last7Days.push(d.toLocaleDateString('ar-TN', { month: 'short', day: 'numeric' }));
-        }
-        
-        // Match dates, fallback for missing timestamps
-        const counts = last7Days.map(dayStr => {
-            return allOrders.filter(o => {
-                const dateObj = o.createdAt ? new Date(o.createdAt.toDate()) : new Date();
-                return dateObj.toLocaleDateString('ar-TN', { month: 'short', day: 'numeric' }) === dayStr;
-            }).length;
-        });
-
-        activityChart = new Chart(ctx, {
-            type: 'line',
-            data: { 
-                labels: last7Days, 
-                datasets: [{ 
-                    label: 'الطلبات المنشورة', 
-                    data: counts, 
-                    borderColor: '#ffb703', 
-                    backgroundColor: 'rgba(255, 183, 3, 0.1)',
-                    tension: 0.4, 
-                    fill: true,
-                    borderWidth: 2,
-                    pointBackgroundColor: '#fb8500'
-                }] 
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#404040' }, ticks: { stepSize: 1, color: '#a3a3a3' } },
-                    x: { grid: { display: false }, ticks: { color: '#a3a3a3' } }
-                }
-            }
-        });
-    }
-
-    function updateCommissionDisplay() {
-        const amount = parseFloat(document.getElementById('paymentAmount')?.value) || 0;
-        const commission = calculateCommission(amount);
-        const details = document.getElementById('commissionDetails');
-        if (details) {
-            details.innerHTML = `<span style="color:var(--text-primary)">💰 المبلغ: ${amount} د.ت</span> | <span style="color:var(--accent)">💸 عمولة (${commissionRate}%): ${commission.toFixed(2)} د.ت</span> | <span style="color:var(--success)">🚚 صافي الناقل: ${(amount - commission).toFixed(2)} د.ت</span>`;
-        }
-    }
-
-    // ==================== ACTIONS ====================
-    async function publishOrder(e) {
-        e.preventDefault();
-        const weight = parseFloat(document.getElementById('weight').value);
-        let priceVal = document.getElementById('proposedPrice').value;
-        const price = priceVal ? parseFloat(priceVal) : calculatePrice(weight);
-        
-        try {
-            await addDoc(collection(db, getPath('orders')), {
-                route: document.getElementById('route').value,
-                weight: weight,
-                goodsType: document.getElementById('goodsType').value,
-                phone: document.getElementById('phone').value,
-                price: price,
-                status: 'pending',
-                createdAt: Timestamp.now(),
-                userId: currentUser?.uid || 'anonymous'
-            });
-            showToast('✅ تم النشر', 'تم نشر طلب النقل بنجاح! سيشاهده الناقلون قريباً', 'success');
-            window.closeModal('newOrderModal');
-            document.getElementById('orderForm').reset();
-        } catch (error) {
-            console.error("Publish Error:", error);
-            showToast('❌ خطأ', 'حدث خطأ أثناء نشر الطلب.', 'error');
-        }
-    }
-
-    async function addTransporter(e) {
-        e.preventDefault();
-        try {
-            await addDoc(collection(db, getPath('transporters')), {
-                name: document.getElementById('transporterName').value,
-                phone: document.getElementById('transporterPhone').value,
-                truckType: document.getElementById('truckType').value,
-                region: document.getElementById('transporterRegion').value,
-                available: true,
-                createdAt: Timestamp.now()
-            });
-            showToast('✅ تم التسجيل', `تم تسجيل الناقل ${document.getElementById('transporterName').value} بنجاح`, 'success');
-            window.closeModal('newTransporterModal');
-            document.getElementById('transporterForm').reset();
-        } catch (error) {
-            console.error("Transporter Add Error:", error);
-            showToast('❌ خطأ', 'حدث خطأ أثناء تسجيل الناقل', 'error');
-        }
-    }
-
-    async function processPayment(e) {
-        e.preventDefault();
-        const amount = parseFloat(document.getElementById('paymentAmount').value);
-        const commission = calculateCommission(amount);
-        try {
-            await addDoc(collection(db, getPath('payments')), {
-                orderId: document.getElementById('paymentOrderId').value,
-                amount: amount,
-                commission: commission,
-                payerName: document.getElementById('payerName').value,
-                payerCin: document.getElementById('payerCin').value,
-                date: Timestamp.now()
-            });
-            showToast('💰 تم الدفع', `تم تأكيد الدفع بمبلغ ${amount} د.ت | العمولة: ${commission.toFixed(2)} د.ت`, 'success');
-            document.getElementById('paymentForm').reset();
-            updateCommissionDisplay();
-            
-            // Generate QR code safely
-            const qrDiv = document.getElementById('qrcode');
-            qrDiv.innerHTML = '';
-            new QRCode(qrDiv, { 
-                text: `OB-PAY-${Date.now()}-TND${amount}`, 
-                width: 150, 
-                height: 150,
-                colorDark : "#0a0a0a",
-                colorLight : "#ffffff",
-            });
-        } catch (error) {
-            console.error("Payment Error:", error);
-            showToast('❌ خطأ', 'حدث خطأ أثناء تأكيد الدفع', 'error');
-        }
-    }
-
-    async function trackOrder() {
-        const orderId = document.getElementById('trackingOrderId').value.trim();
-        if (!orderId) { 
-            showToast('⚠️ تنبيه', 'الرجاء إدخال رقم الطلب', 'warning'); 
-            return; 
-        }
-        
-        try {
-            const orderDoc = await getDoc(doc(db, getPath('orders'), orderId));
-            if (!orderDoc.exists()) { 
-                showToast('❌ خطأ', 'الطلب غير موجود. يرجى التحقق من الرقم.', 'error'); 
-                return; 
-            }
-            
-            const order = orderDoc.data();
-            
-            if (!map) {
-                map = L.map('map').setView([36.8065, 10.1815], 8);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-            }
-            
-            // Mock Location near Tunisia
-            const lat = 36.8065 + (Math.random() - 0.5) * 1.5;
-            const lng = 10.1815 + (Math.random() - 0.5) * 1.5;
-            
-            if (window.currentMarker) map.removeLayer(window.currentMarker);
-            
-            // Icon
-            const truckIcon = L.divIcon({
-                html: '<div style="background:var(--accent); color:#000; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 0 5px rgba(0,0,0,0.5);"><i class="fas fa-truck"></i></div>',
-                className: 'custom-div-icon',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
-
-            window.currentMarker = L.marker([lat, lng], {icon: truckIcon}).addTo(map)
-                .bindPopup(`<b style="color:black;">مسار: ${order.route}</b><br><span style="color:gray">الحالة: ${order.status}</span>`)
-                .openPopup();
-            
-            map.setView([lat, lng], 10);
-            setTimeout(() => map.invalidateSize(), 200); // Fix for grey map issue
-            
-            document.getElementById('trackingDetails').style.display = 'block';
-            document.getElementById('trackingDetails').innerHTML = `
-                <div class="data-item-modern" style="background:var(--bg-card); border: 1px solid var(--border);">
-                    <div>
-                        <strong style="color:var(--accent)">معلومات الشحنة</strong><br><br>
-                        <strong>رقم الطلب:</strong> ${orderId}<br>
-                        <strong>المسار:</strong> ${order.route}<br>
-                        <strong>السعر:</strong> ${order.price} د.ت
-                    </div>
-                    <div style="text-align:left;">
-                        <strong>حالة الشحنة:</strong><br>
-                        <span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}" style="font-size:14px; margin-top:8px; display:inline-block;">
-                            ${order.status === 'pending' ? '⏳ قيد الانتظار' : order.status === 'accepted' ? '✅ تم القبول' : order.status === 'transit' ? '🚚 قيد النقل' : '📦 تم التوصيل'}
-                        </span>
-                    </div>
-                </div>`;
-            
-            showToast('📍 موقع الشحنة', 'تم تحديث موقع الشحنة على الخريطة', 'success');
-        } catch (error) {
-            console.error("Tracking Error:", error);
-            showToast('❌ خطأ', 'حدث خطأ أثناء تتبع الطلب', 'error');
-        }
-    }
-
-    async function updateCommissionSettings() {
-        const newRate = parseFloat(document.getElementById('adminCommissionRate').value);
-        if (!isNaN(newRate) && newRate >= 0) {
-            try {
-                // Save settings in firestore securely
-                await setDoc(doc(db, getPath('settings'), 'global'), { commissionRate: newRate }, { merge: true });
-                showToast('⚙️ تم التحديث', `تم تغيير نسبة العمولة إلى ${newRate}%`, 'success');
-            } catch (err) {
-                console.error("Settings error:", err);
-                // Local fallback logic
-                commissionRate = newRate;
-                document.getElementById('commissionRateDisplay').innerText = newRate;
-                showToast('⚙️ تم التحديث (محلي)', `تم تغيير النسبة إلى ${newRate}%`, 'info');
-                updateCommissionDisplay();
-            }
-        }
-    }
-
-    async function updateUserProfileSettings() {
-        const newName = document.getElementById('settingsName').value.trim();
-        if (newName && currentUser) {
-            try {
-                await updateProfile(currentUser, { displayName: newName });
-                document.getElementById('userName').innerHTML = newName;
-                document.getElementById('userAvatar').innerHTML = newName.substring(0,2).toUpperCase();
-                showToast('✅ تم التحديث', 'تم تحديث الملف الشخصي بنجاح', 'success');
-            } catch (error) {
-                console.error("Profile update error:", error);
-                showToast('❌ خطأ', 'حدث خطأ أثناء تحديث الملف الشخصي', 'error');
-            }
-        }
-    }
-
-    // ==================== SUBSCRIPTIONS ====================
-    function subscribeToData() {
-        // Clear old subscriptions
-        unsubscribes.forEach(unsub => unsub());
-        unsubscribes = [];
-
-        try {
-            unsubscribes.push(onSnapshot(query(collection(db, getPath('orders')), orderBy('createdAt', 'desc')), 
-                (snapshot) => {
-                    allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderOrders();
-                    renderActiveShipments();
-                    updateStats();
-                    updateChart();
-                },
-                (error) => console.error("Orders sync error:", error)
-            ));
-
-            unsubscribes.push(onSnapshot(collection(db, getPath('transporters')), 
-                (snapshot) => {
-                    allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderTransporters();
-                    updateStats();
-                },
-                (error) => console.error("Transporters sync error:", error)
-            ));
-
-            unsubscribes.push(onSnapshot(query(collection(db, getPath('payments')), orderBy('date', 'desc')), 
-                (snapshot) => {
-                    allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderPayments();
-                    updateStats();
-                },
-                (error) => console.error("Payments sync error:", error)
-            ));
-
-            unsubscribes.push(onSnapshot(doc(db, getPath('settings'), 'global'), 
-                (docSnap) => {
-                    if (docSnap.exists() && docSnap.data().commissionRate !== undefined) {
-                        commissionRate = docSnap.data().commissionRate;
-                        document.getElementById('commissionRateDisplay').innerText = commissionRate;
-                        document.getElementById('adminCommissionRate').value = commissionRate;
-                        updateCommissionDisplay();
-                    }
-                },
-                (error) => console.error("Settings sync error", error)
-            ));
-        } catch (err) {
-            console.error("Subscription initialization error:", err);
-            showToast("تحذير", "حدثت مشكلة في المزامنة المباشرة. قد تحتاج إلى إعادة تحميل الصفحة.", "warning");
-        }
-    }
-
-    // ==================== INITIALIZATION & AUTH ====================
-    const initializeAppFlow = async () => {
-        try {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
-            }
-        } catch (error) {
-            console.error("Auth init error:", error);
-            // Fallback for execution outside of strict Canvas bounds
-            try { await signInAnonymously(auth); } catch(e) {}
-        }
-    };
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            currentUser = user;
-            const displayName = user.displayName || "مستخدم (زائر)";
-            document.getElementById('userName').innerHTML = displayName;
-            document.getElementById('userAvatar').innerHTML = displayName.substring(0,2).toUpperCase();
-            document.getElementById('settingsName').value = user.displayName || '';
-            document.getElementById('settingsEmail').value = user.email || 'حساب مجهول/زائر';
-            
-            showToast('👋 مرحباً', `تم تسجيل الدخول بنجاح!`, 'success');
-            subscribeToData();
-        }
-    });
-
-    // ==================== EVENT LISTENERS SETUP ====================
-    document.addEventListener('DOMContentLoaded', () => {
-        // Start Auth Flow
-        initializeAppFlow();
-
-        // Forms
-        document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
-        document.getElementById('transporterForm')?.addEventListener('submit', addTransporter);
-        document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
-        
-        // Buttons
-        document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
-        document.getElementById('updateCommissionBtn')?.addEventListener('click', updateCommissionSettings);
-        document.getElementById('updateProfileBtn')?.addEventListener('click', updateUserProfileSettings);
-        
-        // Modals
-        document.getElementById('showNewOrderModal')?.addEventListener('click', () => { 
-            document.getElementById('newOrderModal').style.display = 'flex'; 
-        });
-        document.getElementById('showNewTransporterModal')?.addEventListener('click', () => { 
-            document.getElementById('newTransporterModal').style.display = 'flex'; 
-        });
-        document.getElementById('confirmYesBtn')?.addEventListener('click', () => {
-            if(confirmActionCallback) confirmActionCallback();
-            window.closeModal('confirmModal');
-        });
-
-        // Sidebar
-        document.getElementById('toggleSidebar')?.addEventListener('click', () => { 
-            document.getElementById('sidebar').classList.toggle('collapsed'); 
-            // Also invalidate map if on tracking page to resize it correctly
-            if (document.getElementById('trackingPage').classList.contains('active') && map) {
-                setTimeout(() => map.invalidateSize(), 350);
-            }
-        });
-        
-        // Dynamic Inputs
-        document.getElementById('paymentAmount')?.addEventListener('input', updateCommissionDisplay);
-        
-        // Navigation items
-        document.querySelectorAll('.nav-item-modern').forEach(nav => {
-            if (nav.dataset.page) {
-                nav.addEventListener('click', (e) => {
-                    const page = e.currentTarget.dataset.page;
-                    window.switchPage(page);
-                });
-            }
-        });
-
-        // Logout
-        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                showToast('👋 إلى اللقاء', 'تم تسجيل الخروج بنجاح', 'info');
-                setTimeout(() => window.location.reload(), 1500);
-            } catch (err) {
-                console.error("Logout Error", err);
-            }
-        });
-
-        // Add initial QR Code
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        // Génération du QR Code
         const qrDiv = document.getElementById('qrcode');
-        if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique", width: 150, height: 150, colorDark : "#0a0a0a", colorLight : "#ffffff" });
-        updateCommissionDisplay();
-    });
-</script>
+        if (qrDiv) {
+            new QRCode(qrDiv, { 
+                text: "OB Logistique", 
+                width: 150, 
+                height: 150, 
+                colorDark : "#0a0a0a", 
+                colorLight : "#ffffff" 
+            });
+        }
+
+        // ==================== PWA IMPLEMENTATION (APP INSTALL) ====================
+        const setupPWA = () => {
+            // 1. Génération du Manifest dynamiquement
+            const manifest = {
+                name: "OB Logistique",
+                short_name: "OB Log",
+                description: "منصة النقل الذكية",
+                start_url: ".",
+                display: "standalone",
+                background_color: "#0a0a0a",
+                theme_color: "#ffb703",
+                icons: [{
+                    src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='%23ffb703' d='M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm336-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/%3E%3C/svg%3E",
+                    sizes: "512x512",
+                    type: "image/svg+xml"
+                }]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(manifestBlob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+
+            // 2. Génération du Service Worker
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    self.addEventListener('install', (e) => self.skipWaiting());
+                    self.addEventListener('activate', (e) => self.clients.claim());
+                    self.addEventListener('fetch', (e) => {});
+                `;
+                const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swURL).catch(err => console.log('SW setup skipped'));
+            }
+        };
+
+        setupPWA();
+
+        // Gestion du bouton d'installation
+        let deferredPrompt;
+        const installBtn = document.getElementById('installAppBtn');
+        const toast = document.getElementById('toast');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) installBtn.style.display = 'flex'; // Affiche le bouton
+        });
+
+        installBtn?.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                    toast.style.display = 'block';
+                    setTimeout(() => toast.style.display = 'none', 3000);
+                }
+                deferredPrompt = null;
+            }
+        });
+    </script>
 </body>
 </html>
-
-```
