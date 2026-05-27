@@ -141,7 +141,7 @@
             .sidebar-modern { width: 80px; } 
             .sidebar-modern .sidebar-text, .sidebar-modern .nav-label { display: none; } 
             .grid-2-modern { grid-template-columns: 1fr; } 
-            .app-layout { flex-direction: column-reverse; } /* Bottom nav for mobile */
+            .app-layout { flex-direction: column-reverse; }
             .sidebar-modern { width: 100%; height: 70px; border-right: none; border-top: 1px solid var(--border); flex-direction: row; justify-content: space-around; overflow-x: auto; padding: 0;}
             .sidebar-header, .user-profile, .toggle-btn { display: none; }
             .nav-modern { display: flex; flex-direction: row; width: 100%; padding: 0; margin: 0 !important; }
@@ -161,7 +161,7 @@
                 <div class="logo-icon"><i class="fas fa-truck-fast"></i></div>
                 <div class="logo-text sidebar-text"><h2>OB <span>Log</span></h2></div>
             </div>
-            <button class="toggle-btn" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+            <button class="toggle-btn" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button>
         </div>
         <div class="user-profile">
             <div class="user-avatar" id="userAvatar">OB</div>
@@ -171,20 +171,20 @@
             </div>
         </div>
         <div class="nav-modern">
-            <div class="nav-item-modern active" data-page="dashboard"><i class="fas fa-chart-line"></i><span class="nav-label sidebar-text">Accueil</span></div>
-            <div class="nav-item-modern" data-page="orders"><i class="fas fa-box"></i><span class="nav-label sidebar-text">Commandes</span></div>
-            <div class="nav-item-modern" data-page="transporters"><i class="fas fa-truck"></i><span class="nav-label sidebar-text">Livreurs</span></div>
-            <div class="nav-item-modern" data-page="shipments"><i class="fas fa-ship"></i><span class="nav-label sidebar-text">Expéditions</span></div>
-            <div class="nav-item-modern" data-page="payments"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">Paiements</span></div>
-            <div class="nav-item-modern" data-page="tracking"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">Suivi GPS</span></div>
-            <div class="nav-item-modern" data-page="settings"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">Paramètres</span></div>
+            <div class="nav-item-modern active" data-page="dashboard" onclick="window.switchPage('dashboard')"><i class="fas fa-chart-line"></i><span class="nav-label sidebar-text">Accueil</span></div>
+            <div class="nav-item-modern" data-page="orders" onclick="window.switchPage('orders')"><i class="fas fa-box"></i><span class="nav-label sidebar-text">Commandes</span></div>
+            <div class="nav-item-modern" data-page="transporters" onclick="window.switchPage('transporters')"><i class="fas fa-truck"></i><span class="nav-label sidebar-text">Livreurs</span></div>
+            <div class="nav-item-modern" data-page="shipments" onclick="window.switchPage('shipments')"><i class="fas fa-ship"></i><span class="nav-label sidebar-text">Expéditions</span></div>
+            <div class="nav-item-modern" data-page="payments" onclick="window.switchPage('payments')"><i class="fas fa-credit-card"></i><span class="nav-label sidebar-text">Paiements</span></div>
+            <div class="nav-item-modern" data-page="tracking" onclick="window.switchPage('tracking')"><i class="fas fa-map-marker-alt"></i><span class="nav-label sidebar-text">Suivi GPS</span></div>
+            <div class="nav-item-modern" data-page="settings" onclick="window.switchPage('settings')"><i class="fas fa-cog"></i><span class="nav-label sidebar-text">Paramètres</span></div>
         </div>
         <div class="nav-modern" style="margin-top: auto;">
             <!-- Bouton PWA -->
             <div class="nav-item-modern" id="installAppBtn" style="display: none; background: rgba(255, 183, 3, 0.1); color: var(--accent);">
                 <i class="fas fa-download"></i><span class="nav-label sidebar-text">Installer l'App</span>
             </div>
-            <div class="nav-item-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span class="nav-label sidebar-text">Déconnexion</span></div>
+            <div class="nav-item-modern" onclick="window.logoutUser()"><i class="fas fa-sign-out-alt"></i><span class="nav-label sidebar-text">Déconnexion</span></div>
         </div>
     </div>
 
@@ -219,7 +219,7 @@
         <div id="ordersPage" class="page-modern">
             <div class="top-bar-modern">
                 <h1 class="page-title">Commandes</h1>
-                <button class="btn-modern" id="showNewOrderModal"><i class="fas fa-plus"></i> Nouvelle Commande</button>
+                <button class="btn-modern" onclick="window.openModal('newOrderModal')"><i class="fas fa-plus"></i> Nouvelle Commande</button>
             </div>
             <div class="card-modern"><div class="card-header"><h3><i class="fas fa-list"></i> Liste des commandes</h3></div><div id="ordersList" class="data-list-modern"></div></div>
         </div>
@@ -228,7 +228,7 @@
         <div id="transportersPage" class="page-modern">
             <div class="top-bar-modern">
                 <h1 class="page-title">Transporteurs</h1>
-                <button class="btn-modern" id="showNewTransporterModal"><i class="fas fa-user-plus"></i> Nouveau Livreur</button>
+                <button class="btn-modern" onclick="window.openModal('newTransporterModal')"><i class="fas fa-user-plus"></i> Nouveau Livreur</button>
             </div>
             <div class="card-modern"><div class="card-header"><h3><i class="fas fa-list"></i> Liste des livreurs</h3></div><div id="transportersList" class="data-list-modern"></div></div>
         </div>
@@ -249,9 +249,10 @@
             <div class="grid-2-modern">
                 <div class="card-modern">
                     <div class="card-header"><h3><i class="fas fa-credit-card"></i> Valider un paiement</h3></div>
-                    <form id="paymentForm">
+                    <!-- AJOUT ONSUBMIT ICI POUR GARANTIR LE BLOCAGE DU RAFRAICHISSEMENT -->
+                    <form id="paymentForm" onsubmit="window.processPayment(event)">
                         <div class="form-group-modern"><label>ID Commande</label><input type="text" id="paymentOrderId" required></div>
-                        <div class="form-group-modern"><label>Montant Total (TND)</label><input type="number" id="paymentAmount" required></div>
+                        <div class="form-group-modern"><label>Montant Total (TND)</label><input type="number" id="paymentAmount" required oninput="window.updateCommissionDisplay()"></div>
                         <div class="form-group-modern"><label>Nom du payeur</label><input type="text" id="payerName" required></div>
                         <div class="form-group-modern"><label>CIN (Carte d'identité)</label><input type="text" id="payerCin" required></div>
                         <div class="form-group-modern" style="background: var(--bg-hover); padding: 12px; border-radius: 12px;"><div id="commissionDetails">Montant: 0 | Commission: 0 | Net Livreur: 0</div></div>
@@ -272,7 +273,7 @@
             <div class="card-modern">
                 <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                     <input type="text" id="trackingOrderId" placeholder="Entrez le numéro de commande" style="flex:1; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: white;">
-                    <button id="trackBtn" class="btn-modern"><i class="fas fa-search"></i> Localiser</button>
+                    <button class="btn-modern" onclick="window.trackOrder()"><i class="fas fa-search"></i> Localiser</button>
                 </div>
                 <div id="map"></div>
                 <div id="trackingDetails" style="display: none; margin-top: 16px;"></div>
@@ -287,12 +288,12 @@
                     <div class="card-header"><h3><i class="fas fa-user-cog"></i> Profil</h3></div>
                     <div class="form-group-modern"><label>Nom Complet</label><input type="text" id="settingsName"></div>
                     <div class="form-group-modern"><label>Email</label><input type="email" id="settingsEmail" readonly></div>
-                    <button id="updateProfileBtn" class="btn-modern"><i class="fas fa-save"></i> Mettre à jour</button>
+                    <button class="btn-modern" onclick="window.updateUserProfileSettings()"><i class="fas fa-save"></i> Mettre à jour</button>
                 </div>
                 <div class="card-modern">
                     <div class="card-header"><h3><i class="fas fa-sliders-h"></i> Configuration Application</h3></div>
                     <div class="form-group-modern"><label>Taux de Commission (%)</label><input type="number" id="adminCommissionRate" value="8" step="0.5"></div>
-                    <button id="updateCommissionBtn" class="btn-modern"><i class="fas fa-save"></i> Sauvegarder</button>
+                    <button class="btn-modern" onclick="window.updateCommissionSettings()"><i class="fas fa-save"></i> Sauvegarder</button>
                 </div>
             </div>
         </div>
@@ -303,7 +304,8 @@
 <div id="newOrderModal" class="modal-modern">
     <div class="modal-content-modern">
         <h3 style="margin-bottom: 20px;"><i class="fas fa-plus-circle"></i> Créer une commande</h3>
-        <form id="orderForm">
+        <!-- AJOUT ONSUBMIT ICI POUR GARANTIR LE BLOCAGE DU RAFRAICHISSEMENT -->
+        <form id="orderForm" onsubmit="window.publishOrder(event)">
             <div class="form-group-modern"><label>Itinéraire (De → À)</label><input type="text" id="route" required placeholder="Ex: Tunis → Sfax"></div>
             <div class="form-group-modern"><label>Poids (kg)</label><input type="number" id="weight" required></div>
             <div class="form-group-modern"><label>Type de marchandise</label><select id="goodsType"><option>Alimentaire</option><option>Matériaux</option><option>Électronique</option><option>Autre</option></select></div>
@@ -320,10 +322,11 @@
 <div id="newTransporterModal" class="modal-modern">
     <div class="modal-content-modern">
         <h3 style="margin-bottom: 20px;"><i class="fas fa-user-plus"></i> Inscrire un Livreur</h3>
-        <form id="transporterForm">
+        <!-- AJOUT ONSUBMIT ICI POUR GARANTIR LE BLOCAGE DU RAFRAICHISSEMENT -->
+        <form id="transporterForm" onsubmit="window.addTransporter(event)">
             <div class="form-group-modern"><label>Nom Complet</label><input type="text" id="transporterName" required></div>
             <div class="form-group-modern"><label>Téléphone</label><input type="tel" id="transporterPhone" required></div>
-            <div class="form-group-modern"><label>Type de Véhicule</label><select id="truckType"><option>Camionnette</option><option>Camion Moyen</option><option>Poids Lourd</option></select></div>
+            <div class="form-group-modern"><label>Type de Véhicule</label><select id="truckType"><option value="Camionnette">Camionnette</option><option value="Camion Moyen">Camion Moyen</option><option value="Poids Lourd">Poids Lourd</option></select></div>
             <div class="form-group-modern"><label>Région (Gouvernorat)</label><input type="text" id="transporterRegion" required></div>
             <div style="display: flex; gap: 10px;">
                 <button type="submit" class="btn-modern" style="flex:1" id="saveTransporterBtn"><i class="fas fa-save"></i> Enregistrer</button>
@@ -338,7 +341,7 @@
         <h3 style="margin-bottom: 20px;"><i class="fas fa-exclamation-triangle" style="color: var(--warning); font-size: 32px;"></i><br><br>Confirmation</h3>
         <p style="margin-bottom: 24px; color: var(--text-secondary);">Êtes-vous sûr de vouloir continuer ? Cette action est irréversible.</p>
         <div style="display: flex; gap: 10px; justify-content: center;">
-            <button id="confirmYesBtn" class="btn-modern btn-danger"><i class="fas fa-check"></i> Oui, je confirme</button>
+            <button id="confirmYesBtn" class="btn-modern btn-danger" onclick="window.executeConfirm()"><i class="fas fa-check"></i> Oui, je confirme</button>
             <button class="btn-modern" style="background:#404040;" onclick="window.closeModal('confirmModal')"><i class="fas fa-times"></i> Annuler</button>
         </div>
     </div>
@@ -346,13 +349,12 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- SCIPT D'APPLICATION & FIREBASE -->
+<!-- SCRIPT D'APPLICATION & FIREBASE -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
     import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, updateDoc, query, orderBy, Timestamp, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // Utilise EXACTEMENT votre configuration d'origine pour GitHub
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
         apiKey: "AIzaSyDSZI1Bvsq-KxJJZjmuj5kjyE1xicBbNUI",
         authDomain: "ob-logistique.firebaseapp.com",
@@ -366,12 +368,11 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Résolution sécurisée du chemin pour fonctionner parfaitement sur GitHub
     const getPath = (colName) => {
         if (typeof __firebase_config !== 'undefined' && typeof __app_id !== 'undefined') {
             return `artifacts/${__app_id}/public/data/${colName}`;
         }
-        return colName; // Important: Retourne le chemin racine (ex: 'transporters') sur GitHub
+        return colName;
     };
 
     let currentUser = null;
@@ -382,11 +383,26 @@
     let confirmActionCallback = null;
     let unsubscribes = [];
 
+    // ==================== FONCTIONS GLOBALES (Accessibles depuis l'HTML) ====================
+    
+    window.openModal = function(modalId) { document.getElementById(modalId).style.display = 'flex'; };
     window.closeModal = function(modalId) { document.getElementById(modalId).style.display = 'none'; };
+    
     window.showConfirm = function(action) {
         confirmActionCallback = action;
         document.getElementById('confirmModal').style.display = 'flex';
     };
+    
+    window.executeConfirm = function() {
+        if(confirmActionCallback) confirmActionCallback(); 
+        window.closeModal('confirmModal');
+    };
+
+    window.toggleSidebar = function() {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+        if (document.getElementById('trackingPage').classList.contains('active') && map) setTimeout(() => map.invalidateSize(), 350);
+    };
+
     window.switchPage = function(pageId) {
         document.querySelectorAll('.page-modern').forEach(p => p.classList.remove('active'));
         document.getElementById(`${pageId}Page`).classList.add('active');
@@ -402,6 +418,10 @@
                 } else { map.invalidateSize(); }
             }, 100);
         }
+    };
+
+    window.logoutUser = async function() {
+        try { await signOut(auth); setTimeout(() => window.location.reload(), 1000); } catch (err) {}
     };
 
     function showToast(title, message, type = 'success') {
@@ -429,8 +449,189 @@
         }, 5000);
     }
 
-    function calculatePrice(weight) { return Math.floor(45 + (weight * 0.11)); }
-    function calculateCommission(amount) { return (amount * commissionRate) / 100; }
+    // ==================== ACTIONS FORMULAIRES ANTI-ÉCHEC ====================
+    // Ajout direct sur l'objet window pour garantir que le onsubmit HTML le trouve toujours
+
+    window.addTransporter = async function(e) {
+        e.preventDefault(); // Bloque le rechargement de page
+        const btn = document.getElementById('saveTransporterBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+        btn.disabled = true;
+
+        try {
+            const nameVal = document.getElementById('transporterName').value.trim();
+            const phoneVal = document.getElementById('transporterPhone').value.trim();
+            const truckVal = document.getElementById('truckType').value;
+            const regionVal = document.getElementById('transporterRegion').value.trim();
+
+            if(!nameVal || !phoneVal || !regionVal) throw new Error("Veuillez remplir tous les champs");
+
+            const nouveauLivreur = { 
+                name: nameVal, 
+                phone: phoneVal, 
+                truckType: truckVal, 
+                region: regionVal, 
+                available: true,
+                rating: 0,
+                createdAt: Timestamp.now() 
+            };
+
+            await addDoc(collection(db, getPath('transporters')), nouveauLivreur);
+            
+            showToast('✅ Inscrit', `Le livreur ${nameVal} a été ajouté`, 'success');
+            window.closeModal('newTransporterModal');
+            document.getElementById('transporterForm').reset();
+        } catch (error) { 
+            console.error("Erreur Firebase Livreur: ", error);
+            showToast('❌ Erreur', error.message, 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    };
+
+    window.publishOrder = async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('publishOrderBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
+        btn.disabled = true;
+
+        const weight = parseFloat(document.getElementById('weight').value);
+        let priceVal = document.getElementById('proposedPrice').value;
+        const price = priceVal ? parseFloat(priceVal) : Math.floor(45 + (weight * 0.11));
+        
+        try {
+            await addDoc(collection(db, getPath('orders')), { route: document.getElementById('route').value, weight: weight, goodsType: document.getElementById('goodsType').value, phone: document.getElementById('phone').value, price: price, status: 'pending', createdAt: Timestamp.now(), userId: currentUser?.uid || 'anonymous' });
+            showToast('✅ Publiée', 'Commande publiée avec succès !', 'success');
+            window.closeModal('newOrderModal');
+            document.getElementById('orderForm').reset();
+        } catch (error) { 
+            console.error(error);
+            showToast('❌ Erreur', 'Impossible de publier', 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    };
+
+    window.processPayment = async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('paymentSubmitBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validation...';
+        btn.disabled = true;
+
+        const amount = parseFloat(document.getElementById('paymentAmount').value);
+        const commission = (amount * commissionRate) / 100;
+        try {
+            await addDoc(collection(db, getPath('payments')), { orderId: document.getElementById('paymentOrderId').value, amount: amount, commission: commission, payerName: document.getElementById('payerName').value, payerCin: document.getElementById('payerCin').value, date: Timestamp.now() });
+            showToast('💰 Paiement Valide', `Paiement confirmé: ${amount} TND`, 'success');
+            document.getElementById('paymentForm').reset();
+            window.updateCommissionDisplay();
+            const qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = '';
+            new QRCode(qrDiv, { text: `OB-PAY-${Date.now()}-TND${amount}`, width: 150, height: 150, colorDark : "#0a0a0a", colorLight : "#ffffff" });
+        } catch (error) { 
+            console.error(error);
+            showToast('❌ Erreur', 'Échec de la validation', 'error'); 
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    };
+
+    window.trackOrder = async function() {
+        const orderId = document.getElementById('trackingOrderId').value.trim();
+        if (!orderId) { showToast('⚠️ Attention', 'Veuillez saisir un numéro', 'warning'); return; }
+        try {
+            const orderDoc = await getDoc(doc(db, getPath('orders'), orderId));
+            if (!orderDoc.exists()) { showToast('❌ Erreur', 'Commande introuvable.', 'error'); return; }
+            const order = orderDoc.data();
+            
+            if (!map) {
+                map = L.map('map').setView([36.8065, 10.1815], 7);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+            }
+            
+            const lat = 36.8065 + (Math.random() - 0.5) * 1.5;
+            const lng = 10.1815 + (Math.random() - 0.5) * 1.5;
+            if (window.currentMarker) map.removeLayer(window.currentMarker);
+            
+            const truckIcon = L.divIcon({ html: '<div style="background:var(--accent); color:#000; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 0 5px rgba(0,0,0,0.5);"><i class="fas fa-truck"></i></div>', className: 'custom-div-icon', iconSize: [30, 30], iconAnchor: [15, 15] });
+            window.currentMarker = L.marker([lat, lng], {icon: truckIcon}).addTo(map).bindPopup(`<b style="color:black;">Itinéraire: ${order.route}</b><br><span style="color:gray">Statut: ${order.status}</span>`).openPopup();
+            map.setView([lat, lng], 10);
+            setTimeout(() => map.invalidateSize(), 200);
+            
+            document.getElementById('trackingDetails').style.display = 'block';
+            document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern" style="background:var(--bg-card); border: 1px solid var(--border);"><div><strong style="color:var(--accent)">Détails du colis</strong><br><br><strong>N° Commande:</strong> ${orderId}<br><strong>Itinéraire:</strong> ${order.route}<br><strong>Prix:</strong> ${order.price} TND</div><div style="text-align:left;"><strong>Statut:</strong><br><span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}" style="font-size:14px; margin-top:8px; display:inline-block;">${order.status === 'pending' ? '⏳ En attente' : order.status === 'accepted' ? '✅ Acceptée' : order.status === 'transit' ? '🚚 En transit' : '📦 Livrée'}</span></div></div>`;
+            showToast('📍 Localisé', 'Position mise à jour', 'success');
+        } catch (error) { showToast('❌ Erreur', 'Impossible de localiser le colis', 'error'); }
+    };
+
+    window.updateCommissionSettings = async function() {
+        const newRate = parseFloat(document.getElementById('adminCommissionRate').value);
+        if (!isNaN(newRate) && newRate >= 0) {
+            try {
+                await setDoc(doc(db, getPath('settings'), 'global'), { commissionRate: newRate }, { merge: true });
+                showToast('⚙️ Succès', `Commission fixée à ${newRate}%`, 'success');
+            } catch (err) {
+                commissionRate = newRate; document.getElementById('commissionRateDisplay').innerText = newRate; window.updateCommissionDisplay();
+                showToast('⚙️ Succès (Local)', `Commission modifiée localement`, 'info');
+            }
+        }
+    };
+
+    window.updateUserProfileSettings = async function() {
+        const newName = document.getElementById('settingsName').value.trim();
+        if (newName && currentUser) {
+            try {
+                await updateProfile(currentUser, { displayName: newName });
+                document.getElementById('userName').innerHTML = newName;
+                document.getElementById('userAvatar').innerHTML = newName.substring(0,2).toUpperCase();
+                showToast('✅ Mis à jour', 'Profil actualisé', 'success');
+            } catch (error) { showToast('❌ Erreur', 'Mise à jour impossible', 'error'); }
+        }
+    };
+
+    window.updateCommissionDisplay = function() {
+        const amount = parseFloat(document.getElementById('paymentAmount')?.value) || 0;
+        const commission = (amount * commissionRate) / 100;
+        const details = document.getElementById('commissionDetails');
+        if (details) details.innerHTML = `<span style="color:var(--text-primary)">💰 Montant: ${amount} TND</span> | <span style="color:var(--accent)">💸 Comm (${commissionRate}%): ${commission.toFixed(2)} TND</span> | <span style="color:var(--success)">🚚 Net Livreur: ${(amount - commission).toFixed(2)} TND</span>`;
+    };
+
+    window.assignTransporter = async function(btnElem) {
+        const pendingOrders = allOrders.filter(o => o.status === 'pending');
+        if (pendingOrders.length === 0) { showToast('⚠️ Attention', 'Aucune commande en attente', 'warning'); return; }
+        const order = pendingOrders[0];
+        try {
+            await updateDoc(doc(db, getPath('orders'), order.id), { status: 'accepted', transporterId: btnElem.dataset.id, transporterName: btnElem.dataset.name, acceptedAt: Timestamp.now() });
+            showToast('✅ Assignation réussie', `Livreur assigné à la commande ${order.route}`, 'success');
+        } catch (error) { showToast('❌ Erreur', 'Impossible d\'assigner le livreur', 'error'); }
+    };
+
+    window.deleteTransporter = function(btnElem) {
+        const idToDelete = btnElem.dataset.id;
+        window.showConfirm(async () => {
+            try {
+                await deleteDoc(doc(db, getPath('transporters'), idToDelete));
+                showToast('✅ Supprimé', 'Livreur supprimé avec succès', 'success');
+            } catch (error) { showToast('❌ Erreur', 'Erreur lors de la suppression', 'error'); }
+        });
+    };
+
+    window.updateOrderStatus = async function(selectElem) {
+        const orderId = selectElem.dataset.id;
+        const newStatus = selectElem.value;
+        try {
+            await updateDoc(doc(db, getPath('orders'), orderId), { status: newStatus });
+            showToast('✅ Mise à jour', `Statut mis à jour avec succès`, 'success');
+        } catch (error) { showToast('❌ Erreur', 'Échec de la mise à jour', 'error'); }
+    };
+
+    // ==================== RENDUS DE L'INTERFACE ====================
 
     function updateStats() {
         const pendingOrders = allOrders.filter(o => o.status === 'pending').length;
@@ -451,21 +652,21 @@
             const container = document.getElementById(containerId);
             if (!container) return;
             if (allOrders.length === 0) { 
-                container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">📭 Aucune commande pour le moment</div>'; 
+                container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">📭 Aucune commande</div>'; 
                 return; 
             }
             container.innerHTML = allOrders.map(order => `
                 <div class="data-item-modern">
                     <div>
-                        <strong>${order.route}</strong><br>
-                        <span style="color:var(--text-secondary); font-size: 13px;">${order.weight} kg | ${order.goodsType}</span><br>
+                        <strong>${order.route || '-'}</strong><br>
+                        <span style="color:var(--text-secondary); font-size: 13px;">${order.weight || 0} kg | ${order.goodsType || '-'}</span><br>
                         <span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}">
                             ${order.status === 'pending' ? '⏳ En attente' : order.status === 'accepted' ? '✅ Acceptée' : order.status === 'transit' ? '🚚 En transit' : '📦 Livrée'}
                         </span>
                     </div>
-                    <div style="font-weight:bold; color:var(--accent);">💰 ${order.price || calculatePrice(order.weight)} TND</div>
+                    <div style="font-weight:bold; color:var(--accent);">💰 ${order.price || 0} TND</div>
                     <div>
-                        <select class="update-status" data-id="${order.id}" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; padding: 6px; color: white;">
+                        <select onchange="window.updateOrderStatus(this)" data-id="${order.id}" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; padding: 6px; color: white;">
                             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ En attente</option>
                             <option value="accepted" ${order.status === 'accepted' ? 'selected' : ''}>✅ Acceptée</option>
                             <option value="transit" ${order.status === 'transit' ? 'selected' : ''}>🚚 En transit</option>
@@ -474,20 +675,6 @@
                     </div>
                 </div>
             `).join('');
-        });
-        
-        document.querySelectorAll('.update-status').forEach(select => {
-            select.addEventListener('change', async (e) => {
-                const orderId = e.target.dataset.id;
-                const newStatus = e.target.value;
-                try {
-                    await updateDoc(doc(db, getPath('orders'), orderId), { status: newStatus });
-                    showToast('✅ Mise à jour', `Statut mis à jour avec succès`, 'success');
-                } catch (error) { 
-                    console.error(error);
-                    showToast('❌ Erreur', 'Échec de la mise à jour', 'error'); 
-                }
-            });
         });
     }
 
@@ -498,46 +685,21 @@
             container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚛 Aucun livreur inscrit</div>'; 
             return; 
         }
-        container.innerHTML = allTransporters.map(t => `
+        
+        container.innerHTML = allTransporters.map(t => {
+            const safeName = (t.name || 'Inconnu').replace(/"/g, '&quot;');
+            return `
             <div class="data-item-modern">
                 <div>
-                    <strong>${t.name}</strong><br>
-                    <span style="color:var(--text-secondary); font-size: 13px;">📞 ${t.phone} | 🚛 ${t.truckType} | 📍 ${t.region}</span>
+                    <strong>${safeName}</strong><br>
+                    <span style="color:var(--text-secondary); font-size: 13px;">📞 ${t.phone || '-'} | 🚛 ${t.truckType || '-'} | 📍 ${t.region || '-'}</span>
                 </div>
                 <div style="display:flex; gap:8px;">
-                    <button class="assign-transporter" data-id="${t.id}" data-name="${t.name}" style="background: var(--accent); border: none; padding: 8px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer; font-weight:600;"><i class="fas fa-check"></i> Assigner à une cmd</button>
-                    <button class="delete-transporter" data-id="${t.id}" style="background: var(--bg-card); border: 1px solid var(--danger); padding: 8px 12px; border-radius: 8px; color: var(--danger); cursor: pointer;"><i class="fas fa-trash"></i></button>
+                    <button onclick="window.assignTransporter(this)" data-id="${t.id}" data-name="${safeName}" style="background: var(--accent); border: none; padding: 8px 12px; border-radius: 8px; color: var(--bg-primary); cursor: pointer; font-weight:600;"><i class="fas fa-check"></i> Assigner à une cmd</button>
+                    <button onclick="window.deleteTransporter(this)" data-id="${t.id}" style="background: var(--bg-card); border: 1px solid var(--danger); padding: 8px 12px; border-radius: 8px; color: var(--danger); cursor: pointer;"><i class="fas fa-trash"></i></button>
                 </div>
-            </div>
-        `).join('');
-        
-        document.querySelectorAll('.assign-transporter').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const btnElem = e.currentTarget;
-                const pendingOrders = allOrders.filter(o => o.status === 'pending');
-                if (pendingOrders.length === 0) { showToast('⚠️ Attention', 'Aucune commande en attente', 'warning'); return; }
-                const order = pendingOrders[0];
-                try {
-                    await updateDoc(doc(db, getPath('orders'), order.id), { status: 'accepted', transporterId: btnElem.dataset.id, transporterName: btnElem.dataset.name, acceptedAt: Timestamp.now() });
-                    showToast('✅ Assignation réussie', `Le livreur ${btnElem.dataset.name} a été assigné à la commande ${order.route}`, 'success');
-                } catch (error) { 
-                    console.error(error);
-                    showToast('❌ Erreur', 'Impossible d\'assigner le livreur', 'error'); 
-                }
-            });
-        });
-        
-        document.querySelectorAll('.delete-transporter').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idToDelete = e.currentTarget.dataset.id;
-                window.showConfirm(async () => {
-                    try {
-                        await deleteDoc(doc(db, getPath('transporters'), idToDelete));
-                        showToast('✅ Supprimé', 'Livreur supprimé avec succès', 'success');
-                    } catch (error) { showToast('❌ Erreur', 'Erreur lors de la suppression', 'error'); }
-                });
-            });
-        });
+            </div>`;
+        }).join('');
     }
 
     function renderActiveShipments() {
@@ -548,25 +710,17 @@
         const renderItem = (order, extraDetails = false) => `
             <div class="data-item-modern">
                 <div>
-                    <strong>${order.route}</strong><br>
-                    <span style="color:var(--text-secondary); font-size: 13px;">${order.weight} kg | ${order.goodsType}</span><br>
+                    <strong>${order.route || '-'}</strong><br>
+                    <span style="color:var(--text-secondary); font-size: 13px;">${order.weight || 0} kg | ${order.goodsType || '-'}</span><br>
                     <span class="badge badge-${order.status === 'accepted' ? 'accepted' : 'transit'}">${order.status === 'accepted' ? 'Acceptée' : 'En transit'}</span>
                 </div>
-                <div>${extraDetails ? `<div style="font-weight:bold; color:var(--accent); margin-bottom:4px;">💰 ${order.price || calculatePrice(order.weight)} TND</div>` : `<div>🚛 Livreur: ${order.transporterName || 'Non assigné'}</div>`}</div>
-                <div><button class="track-shipment" data-id="${order.id}" style="background: var(--info); border: none; padding: 8px 16px; border-radius: 8px; color: white; cursor: pointer; font-weight:600;"><i class="fas fa-map-marker-alt"></i> Suivi</button></div>
+                <div>${extraDetails ? `<div style="font-weight:bold; color:var(--accent); margin-bottom:4px;">💰 ${order.price || 0} TND</div>` : `<div>🚛 Livreur: ${order.transporterName || 'Non assigné'}</div>`}</div>
+                <div><button onclick="document.getElementById('trackingOrderId').value = '${order.id}'; window.switchPage('tracking'); setTimeout(() => window.trackOrder(), 500);" style="background: var(--info); border: none; padding: 8px 16px; border-radius: 8px; color: white; cursor: pointer; font-weight:600;"><i class="fas fa-map-marker-alt"></i> Suivi</button></div>
             </div>
         `;
 
         if (container) container.innerHTML = activeShipments.length === 0 ? '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚚 Aucune expédition en cours</div>' : activeShipments.map(o => renderItem(o, false)).join('');
         if (allContainer) allContainer.innerHTML = activeShipments.length === 0 ? '<div style="text-align:center; padding:40px; color: var(--text-secondary);">🚚 Aucune expédition en cours</div>' : activeShipments.map(o => renderItem(o, true)).join('');
-        
-        document.querySelectorAll('.track-shipment').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.getElementById('trackingOrderId').value = e.currentTarget.dataset.id;
-                window.switchPage('tracking');
-                setTimeout(() => document.getElementById('trackBtn').click(), 500);
-            });
-        });
     }
 
     function renderPayments() {
@@ -575,8 +729,8 @@
         if (allPayments.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px; color: var(--text-secondary);">💰 Aucun paiement enregistré</div>'; return; }
         container.innerHTML = allPayments.slice(0, 10).map(p => `
             <div class="data-item-modern">
-                <div><strong>Commande: ${p.orderId}</strong><br><span style="color:var(--text-secondary); font-size: 13px;"><i class="fas fa-user"></i> ${p.payerName} | CIN: ${p.payerCin}</span></div>
-                <div style="text-align: right;"><div style="font-weight:bold; color:var(--success);">💰 ${p.amount} TND</div><div style="font-size: 12px; color: var(--accent);">💸 Commission: ${p.commission.toFixed(2)} TND</div></div>
+                <div><strong>Commande: ${p.orderId || '-'}</strong><br><span style="color:var(--text-secondary); font-size: 13px;"><i class="fas fa-user"></i> ${p.payerName || '-'} | CIN: ${p.payerCin || '-'}</span></div>
+                <div style="text-align: right;"><div style="font-weight:bold; color:var(--success);">💰 ${p.amount || 0} TND</div><div style="font-size: 12px; color: var(--accent);">💸 Commission: ${p.commission ? p.commission.toFixed(2) : 0} TND</div></div>
             </div>
         `).join('');
     }
@@ -603,153 +757,10 @@
             type: 'line',
             data: { 
                 labels: last7Days, 
-                datasets: [{ label: 'Commandes publiées', data: counts, borderColor: '#ffb703', backgroundColor: 'rgba(255, 183, 3, 0.1)', tension: 0.4, fill: true, borderWidth: 2, pointBackgroundColor: '#fb8500' }] 
+                datasets: [{ label: 'Commandes', data: counts, borderColor: '#ffb703', backgroundColor: 'rgba(255, 183, 3, 0.1)', tension: 0.4, fill: true, borderWidth: 2, pointBackgroundColor: '#fb8500' }] 
             },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#404040' }, ticks: { stepSize: 1, color: '#a3a3a3' } }, x: { grid: { display: false }, ticks: { color: '#a3a3a3' } } } }
         });
-    }
-
-    function updateCommissionDisplay() {
-        const amount = parseFloat(document.getElementById('paymentAmount')?.value) || 0;
-        const commission = calculateCommission(amount);
-        const details = document.getElementById('commissionDetails');
-        if (details) details.innerHTML = `<span style="color:var(--text-primary)">💰 Montant: ${amount} TND</span> | <span style="color:var(--accent)">💸 Comm (${commissionRate}%): ${commission.toFixed(2)} TND</span> | <span style="color:var(--success)">🚚 Net Livreur: ${(amount - commission).toFixed(2)} TND</span>`;
-    }
-
-    // ==================== ACTIONS ====================
-    async function publishOrder(e) {
-        e.preventDefault();
-        const btn = document.getElementById('publishOrderBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
-        btn.disabled = true;
-
-        const weight = parseFloat(document.getElementById('weight').value);
-        let priceVal = document.getElementById('proposedPrice').value;
-        const price = priceVal ? parseFloat(priceVal) : calculatePrice(weight);
-        
-        try {
-            await addDoc(collection(db, getPath('orders')), { route: document.getElementById('route').value, weight: weight, goodsType: document.getElementById('goodsType').value, phone: document.getElementById('phone').value, price: price, status: 'pending', createdAt: Timestamp.now(), userId: currentUser?.uid || 'anonymous' });
-            showToast('✅ Publiée', 'Commande publiée avec succès !', 'success');
-            window.closeModal('newOrderModal');
-            document.getElementById('orderForm').reset();
-        } catch (error) { 
-            console.error(error);
-            showToast('❌ Erreur', 'Impossible de publier : ' + error.message, 'error'); 
-        } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
-
-    async function addTransporter(e) {
-        e.preventDefault(); // Empêche le rafraîchissement de la page
-        const btn = document.getElementById('saveTransporterBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
-        btn.disabled = true;
-
-        try {
-            const nouveauLivreur = { 
-                name: document.getElementById('transporterName').value, 
-                phone: document.getElementById('transporterPhone').value, 
-                truckType: document.getElementById('truckType').value, 
-                region: document.getElementById('transporterRegion').value, 
-                available: true,
-                rating: 0, // Correction: Ajouté pour respecter d'éventuelles règles strictes Firebase
-                createdAt: Timestamp.now() 
-            };
-            await addDoc(collection(db, getPath('transporters')), nouveauLivreur);
-            
-            showToast('✅ Inscrit', `Le livreur a été inscrit avec succès`, 'success');
-            window.closeModal('newTransporterModal');
-            document.getElementById('transporterForm').reset();
-        } catch (error) { 
-            console.error("Firebase Error: ", error);
-            showToast('❌ Erreur Firebase', 'Vérifiez vos permissions : ' + error.message, 'error'); 
-        } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
-
-    async function processPayment(e) {
-        e.preventDefault();
-        const btn = document.getElementById('paymentSubmitBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validation...';
-        btn.disabled = true;
-
-        const amount = parseFloat(document.getElementById('paymentAmount').value);
-        const commission = calculateCommission(amount);
-        try {
-            await addDoc(collection(db, getPath('payments')), { orderId: document.getElementById('paymentOrderId').value, amount: amount, commission: commission, payerName: document.getElementById('payerName').value, payerCin: document.getElementById('payerCin').value, date: Timestamp.now() });
-            showToast('💰 Paiement Valide', `Paiement confirmé: ${amount} TND`, 'success');
-            document.getElementById('paymentForm').reset();
-            updateCommissionDisplay();
-            const qrDiv = document.getElementById('qrcode');
-            qrDiv.innerHTML = '';
-            new QRCode(qrDiv, { text: `OB-PAY-${Date.now()}-TND${amount}`, width: 150, height: 150, colorDark : "#0a0a0a", colorLight : "#ffffff" });
-        } catch (error) { 
-            console.error(error);
-            showToast('❌ Erreur', 'Échec de la validation', 'error'); 
-        } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
-
-    async function trackOrder() {
-        const orderId = document.getElementById('trackingOrderId').value.trim();
-        if (!orderId) { showToast('⚠️ Attention', 'Veuillez saisir un numéro', 'warning'); return; }
-        try {
-            const orderDoc = await getDoc(doc(db, getPath('orders'), orderId));
-            if (!orderDoc.exists()) { showToast('❌ Erreur', 'Commande introuvable.', 'error'); return; }
-            const order = orderDoc.data();
-            
-            if (!map) {
-                map = L.map('map').setView([36.8065, 10.1815], 7);
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-            }
-            
-            const lat = 36.8065 + (Math.random() - 0.5) * 1.5;
-            const lng = 10.1815 + (Math.random() - 0.5) * 1.5;
-            if (window.currentMarker) map.removeLayer(window.currentMarker);
-            
-            const truckIcon = L.divIcon({ html: '<div style="background:var(--accent); color:#000; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid #fff; box-shadow:0 0 5px rgba(0,0,0,0.5);"><i class="fas fa-truck"></i></div>', className: 'custom-div-icon', iconSize: [30, 30], iconAnchor: [15, 15] });
-            window.currentMarker = L.marker([lat, lng], {icon: truckIcon}).addTo(map).bindPopup(`<b style="color:black;">Itinéraire: ${order.route}</b><br><span style="color:gray">Statut: ${order.status}</span>`).openPopup();
-            map.setView([lat, lng], 10);
-            setTimeout(() => map.invalidateSize(), 200);
-            
-            document.getElementById('trackingDetails').style.display = 'block';
-            document.getElementById('trackingDetails').innerHTML = `<div class="data-item-modern" style="background:var(--bg-card); border: 1px solid var(--border);"><div><strong style="color:var(--accent)">Détails du colis</strong><br><br><strong>N° Commande:</strong> ${orderId}<br><strong>Itinéraire:</strong> ${order.route}<br><strong>Prix:</strong> ${order.price} TND</div><div style="text-align:left;"><strong>Statut:</strong><br><span class="badge badge-${order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : order.status === 'transit' ? 'transit' : 'delivered'}" style="font-size:14px; margin-top:8px; display:inline-block;">${order.status === 'pending' ? '⏳ En attente' : order.status === 'accepted' ? '✅ Acceptée' : order.status === 'transit' ? '🚚 En transit' : '📦 Livrée'}</span></div></div>`;
-            showToast('📍 Localisé', 'Position mise à jour', 'success');
-        } catch (error) { showToast('❌ Erreur', 'Impossible de localiser le colis', 'error'); }
-    }
-
-    async function updateCommissionSettings() {
-        const newRate = parseFloat(document.getElementById('adminCommissionRate').value);
-        if (!isNaN(newRate) && newRate >= 0) {
-            try {
-                await setDoc(doc(db, getPath('settings'), 'global'), { commissionRate: newRate }, { merge: true });
-                showToast('⚙️ Succès', `Commission fixée à ${newRate}%`, 'success');
-            } catch (err) {
-                commissionRate = newRate; document.getElementById('commissionRateDisplay').innerText = newRate; updateCommissionDisplay();
-                showToast('⚙️ Succès (Local)', `Commission modifiée localement`, 'info');
-            }
-        }
-    }
-
-    async function updateUserProfileSettings() {
-        const newName = document.getElementById('settingsName').value.trim();
-        if (newName && currentUser) {
-            try {
-                await updateProfile(currentUser, { displayName: newName });
-                document.getElementById('userName').innerHTML = newName;
-                document.getElementById('userAvatar').innerHTML = newName.substring(0,2).toUpperCase();
-                showToast('✅ Mis à jour', 'Profil actualisé', 'success');
-            } catch (error) { showToast('❌ Erreur', 'Mise à jour impossible', 'error'); }
-        }
     }
 
     function subscribeToData() {
@@ -759,7 +770,7 @@
             unsubscribes.push(onSnapshot(query(collection(db, getPath('orders')), orderBy('createdAt', 'desc')), (snapshot) => { allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderOrders(); renderActiveShipments(); updateStats(); updateChart(); }, (error) => { console.error(error); } ));
             unsubscribes.push(onSnapshot(collection(db, getPath('transporters')), (snapshot) => { allTransporters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderTransporters(); updateStats(); }, (error) => { console.error("Firebase read error for transporters", error); } ));
             unsubscribes.push(onSnapshot(query(collection(db, getPath('payments')), orderBy('date', 'desc')), (snapshot) => { allPayments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); renderPayments(); updateStats(); }, (error) => { console.error(error); } ));
-            unsubscribes.push(onSnapshot(doc(db, getPath('settings'), 'global'), (docSnap) => { if (docSnap.exists() && docSnap.data().commissionRate !== undefined) { commissionRate = docSnap.data().commissionRate; document.getElementById('commissionRateDisplay').innerText = commissionRate; document.getElementById('adminCommissionRate').value = commissionRate; updateCommissionDisplay(); } }, (error) => {} ));
+            unsubscribes.push(onSnapshot(doc(db, getPath('settings'), 'global'), (docSnap) => { if (docSnap.exists() && docSnap.data().commissionRate !== undefined) { commissionRate = docSnap.data().commissionRate; document.getElementById('commissionRateDisplay').innerText = commissionRate; document.getElementById('adminCommissionRate').value = commissionRate; window.updateCommissionDisplay(); } }, (error) => {} ));
         } catch (err) {
             console.error("Subscription Error:", err);
         }
@@ -767,34 +778,14 @@
 
     // ==================== APP INIT & PWA ====================
     document.addEventListener('DOMContentLoaded', async () => {
-        try {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-            else await signInAnonymously(auth);
-        } catch (e) { try { await signInAnonymously(auth); } catch(err){} }
-
-        // Ajout sécurisé des événements de formulaires (Prévient le rechargement forcé de la page)
-        document.getElementById('orderForm')?.addEventListener('submit', publishOrder);
-        document.getElementById('transporterForm')?.addEventListener('submit', addTransporter);
-        document.getElementById('paymentForm')?.addEventListener('submit', processPayment);
-        
-        document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
-        document.getElementById('updateCommissionBtn')?.addEventListener('click', updateCommissionSettings);
-        document.getElementById('updateProfileBtn')?.addEventListener('click', updateUserProfileSettings);
-        document.getElementById('showNewOrderModal')?.addEventListener('click', () => document.getElementById('newOrderModal').style.display = 'flex');
-        document.getElementById('showNewTransporterModal')?.addEventListener('click', () => document.getElementById('newTransporterModal').style.display = 'flex');
-        document.getElementById('confirmYesBtn')?.addEventListener('click', () => { if(confirmActionCallback) confirmActionCallback(); window.closeModal('confirmModal'); });
-        
-        document.getElementById('toggleSidebar')?.addEventListener('click', () => { 
-            document.getElementById('sidebar').classList.toggle('collapsed'); 
-            if (document.getElementById('trackingPage').classList.contains('active') && map) setTimeout(() => map.invalidateSize(), 350);
-        });
-        document.getElementById('paymentAmount')?.addEventListener('input', updateCommissionDisplay);
-        document.querySelectorAll('.nav-item-modern').forEach(nav => { if (nav.dataset.page) nav.addEventListener('click', (e) => window.switchPage(e.currentTarget.dataset.page)); });
-        
-        document.getElementById('logoutBtn')?.addEventListener('click', async () => { try { await signOut(auth); setTimeout(() => window.location.reload(), 1000); } catch (err) {} });
-        const qrDiv = document.getElementById('qrcode');
-        if (qrDiv) new QRCode(qrDiv, { text: "OB Logistique", width: 150, height: 150, colorDark : "#0a0a0a", colorLight : "#ffffff" });
-        updateCommissionDisplay();
+        // Initialisation silencieuse de l'authentification en arrière-plan
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                else await signInAnonymously(auth);
+            } catch (e) { try { await signInAnonymously(auth); } catch(err){} }
+        };
+        initAuth();
 
         // ------------------ SYSTEME PWA (INSTALLATION) ------------------
         const setupPWA = () => {
@@ -828,6 +819,8 @@
                 deferredPrompt = null;
             }
         });
+        
+        window.updateCommissionDisplay();
     });
 
     onAuthStateChanged(auth, (user) => {
